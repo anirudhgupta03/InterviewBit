@@ -7,6 +7,18 @@
  *     Interval(int s, int e) : start(s), end(e) {}
  * };
  */
+/*
+Cases
+
+start = newInterval.start
+end = newInterval.end
+
+1) if end point of an interval is lesser than start then we have to just push.
+2) if start point of an interval is greater than end then we have to push that interval but only after newInterval is pushed
+3) else start = min(intervals[i].start, start)
+        end = max(intervals[i].end, end)
+4) Consider the case in which newInterval is completely out of all the intervals.
+*/
 vector<Interval> Solution::insert(vector<Interval> &intervals, Interval newInterval) {
     
     vector<Interval> v;
@@ -31,7 +43,7 @@ vector<Interval> Solution::insert(vector<Interval> &intervals, Interval newInter
             finish = max(finish,intervals[i].end);
         }
     }
-    if(flag == 0){
+    if(flag == 0){                      //If newInterval is completely out of the intervals of the array
         v.push_back({begin,finish});    
     }
     return v;
