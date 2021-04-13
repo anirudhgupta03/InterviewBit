@@ -1,3 +1,4 @@
+//Use the same approach as that of finding the size of subtree 
 #define ll long long
 int dfs(int node, vector<int> &vis, vector<ll> &subw, vector<int> al[]){
     
