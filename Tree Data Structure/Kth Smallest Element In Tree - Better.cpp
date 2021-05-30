@@ -1,4 +1,5 @@
 //Using Max Heap + Preorder Traversal
+//Time Complexity: O(NlogK)
 /**
  * Definition for binary tree
  * struct TreeNode {
