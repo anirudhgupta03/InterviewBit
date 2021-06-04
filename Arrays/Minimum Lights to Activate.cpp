@@ -1,3 +1,4 @@
+//Ref: https://www.youtube.com/watch?v=Oop18EH4T28
 int Solution::solve(vector<int> &A, int B) {
     
     int curr=0,count=0;
