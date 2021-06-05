@@ -1,3 +1,11 @@
+//Time Complexity - O(N)
+//Space Complexity - O(1)
+//Ref: https://www.youtube.com/watch?v=LuLCLgMElus
+//Approach 
+// 1) A[i] < A[i+1] ind1 = i (R-L)
+// 2) A[ind1] < A[i] ind2 = i (L-R)
+// 3) swap(A[ind1],A[ind2])
+// 4) reverse(ind1 + 1,last)
 vector<int> Solution::nextPermutation(vector<int> &A) {
     
     int ind1 = A.size()-2;
@@ -28,15 +36,12 @@ vector<int> Solution::nextPermutation(vector<int> &A) {
             break;
         }
     }
-    
     swap(A[ind1],A[ind2]);
-    
     int l = ind1+1 , r=A.size()-1;
     while(l<r){
         swap(A[l],A[r]);
         l++;
         r--;
     }
-    
     return A;
 }
