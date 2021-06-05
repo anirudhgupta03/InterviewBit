@@ -1,3 +1,6 @@
+//Time Complexity - O(N)
+//Space Complexity - O(N)
+//Ref: https://www.youtube.com/watch?v=-hOKIfAcwzk
 int Solution::solve(int A, vector<int> &B) {
     
     int n = B.size();
@@ -19,19 +22,13 @@ int Solution::solve(int A, vector<int> &B) {
     for(int i=0; i < n-1;i++){
         
         if(3*prefix[i] == 2*sum){         //After we have got the first partition
-                                          //now we calculate the number of second partitions
-                                          //corresponding to each first partition
-                ans = ans + count;      
-        }                                
-
-        
+             ans = ans + count;           //now we calculate the number of second partitions
+        }                                 //corresponding to each first partition
+                                              
         if(3*prefix[i] == sum ){          //Using this condition we are keeping the
-                                          //record of the number of first partitions
-            count++;
+                count++;                  //record of the number of first partitions
+            
         }
-        
-                   
     }
-    
     return ans;
 }
