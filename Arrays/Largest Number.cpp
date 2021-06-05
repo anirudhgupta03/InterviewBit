@@ -1,4 +1,5 @@
-//Time Complexity - O(N)
+//Time Complexity - O(NlogN) 
+//If strings are large then Time Complexity - O(len(longest String)*NlogN)
 //Space Complexity - O(N)
 bool cmp(int a, int b){
     string s1,s2,s3,s4;
