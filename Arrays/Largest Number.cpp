@@ -1,3 +1,5 @@
+//Time Complexity - O(N)
+//Space Complexity - O(N)
 bool cmp(int a, int b){
     string s1,s2,s3,s4;
     s1 = to_string(a);
