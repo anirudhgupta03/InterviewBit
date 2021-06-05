@@ -1,3 +1,6 @@
+//Method - 1
+//Time Complexity - O(N)
+//Space Complexity - O(N)
 vector<int> Solution::plusOne(vector<int> &A) {
     int n=A.size();
     vector<int> v(n);
@@ -30,3 +33,32 @@ vector<int> Solution::plusOne(vector<int> &A) {
         return v1;
     }
 }
+
+//Method - 2
+//Time Complexity - O(N)
+//Space Complexity - O(1)
+vector<int> Solution::plusOne(vector<int> &A) {
+    
+    int carry = 1, sum = 0;
+    
+    for(int i = A.size() - 1; i >= 0; i--){
+        sum = A[i] + carry;
+        A[i] = sum % 10;
+        carry = sum/10;
+        
+        if(carry == 0){                         //Break if we get 0
+            break;
+        }
+    }
+    
+    if(carry != 0){
+        A.insert(A.begin(),carry);
+    }
+
+    while(A[0] == 0){
+        A.erase(A.begin());
+    }
+    
+    return A;
+}
+
