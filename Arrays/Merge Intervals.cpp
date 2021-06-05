@@ -1,3 +1,7 @@
+//Optimal Approach
+//Time Complexity - O(N)
+//Space Complexity - O(1)
+//Ref: https://www.youtube.com/watch?v=DMeCURTi-iw
 /**
  * Definition for an interval.
  * struct Interval {
@@ -34,9 +38,10 @@ vector<Interval> Solution::insert(vector<Interval> &intervals, Interval newInter
             
             if(flag == 0){
                 v.push_back({begin,finish});
+                flag = 1;
             }
             v.push_back(intervals[i]);
-            flag = 1;
+            
         }
         else{
             begin = min(begin,intervals[i].start);
