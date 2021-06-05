@@ -25,6 +25,16 @@ int Solution::repeatedNumber(const vector<int> &A) {
 }
 
 //Method - 2
+//Using Hashmap
+//Time Complexity - O(N)
+//Space Complexity - O(N)
+
+//Method - 3
+//Using sorting
+//Time Complexity - O(NlogN)
+//Space Complexity - O(N)
+
+//Method - 4
 //Ref: https://www.youtube.com/watch?v=32Ll35mhWg0
 //Time Complexity - O(N)
 //Space Complexity - O(1)
