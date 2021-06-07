@@ -1,3 +1,4 @@
+//Method - 1
 string Solution::countAndSay(int A) {
     
     string s = "1";
@@ -23,4 +24,40 @@ string Solution::countAndSay(int A) {
         }
     }
     return s;
+}
+//Method - 2
+//Using Two Pointer 
+//Time Complexity - O(N)
+//Space Complexity - O(1)
+string Solution::countAndSay(int A) {
+    
+    if(A == 0){
+        return "";
+    }
+    string prev = "1";
+    
+    for(int i = 1; i < A; i++){
+        
+        int n = prev.size(), l = 0, r = 0, count = 0;
+        
+        string res;
+        
+        while(r < n){
+            
+            if(prev[r] == prev[l]){
+                count++;
+                r++;
+            }
+            else{
+                res.push_back(count+'0');
+                res.push_back(prev[l]);
+                l = r;
+                count = 0;
+            }
+        }
+        res.push_back(count+'0');
+        res.push_back(prev[l]);
+        prev = res;
+    }
+    return prev;
 }
