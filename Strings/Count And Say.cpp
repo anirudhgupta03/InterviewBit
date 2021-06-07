@@ -27,8 +27,6 @@ string Solution::countAndSay(int A) {
 }
 //Method - 2
 //Using Two Pointer 
-//Time Complexity - O(N)
-//Space Complexity - O(1)
 string Solution::countAndSay(int A) {
     
     if(A == 0){
