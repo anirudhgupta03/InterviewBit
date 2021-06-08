@@ -29,3 +29,46 @@ string Solution::longestPalindrome(string s) {
         }
         return best_s;
 }
+//DP Approach
+//Time Complexity - O(N^2)
+//Space Complexity - O(N^2)
+string Solution::longestPalindrome(string A) {
+    
+    int len = A.size();
+    
+    bool dp[len][len];
+    
+    memset(dp,0,sizeof(dp));
+    
+    int max_len = 1, l = 0;
+    
+    for(int i = 0; i < len; i++){
+        dp[i][i] = 1;
+    }
+    
+    for(int i = 0; i < len - 1; i++){
+        if(A[i] == A[i+1]){
+            dp[i][i+1] = 1;
+            if(2 > max_len){
+                max_len = 2;
+                l = i;
+            }
+        }
+    }
+    
+    int j;
+    for(int k = 3; k <= len; k++){
+        for(int i = 0; i <= len - k; i++){
+            
+            j = i + k - 1;
+            if(A[i] == A[j] && dp[i+1][j-1]){
+                dp[i][j] = 1;
+                if(max_len < k){
+                    max_len = k;
+                    l = i;
+                }
+            }
+        }
+    }
+    return A.substr(l,max_len);
+}
