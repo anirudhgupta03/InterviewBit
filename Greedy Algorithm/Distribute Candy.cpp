@@ -1,3 +1,5 @@
+//Time Complexity - O(N)
+//Space Complexity - O(N)
 int Solution::candy(vector<int> &A) {
     
     int n = A.size();
