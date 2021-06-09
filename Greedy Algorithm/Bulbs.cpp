@@ -1,3 +1,5 @@
+//Time Complexity - O(N)
+//Space Complexity - O(1)
 int Solution::bulbs(vector<int> &A) {
     
     int n = A.size();
