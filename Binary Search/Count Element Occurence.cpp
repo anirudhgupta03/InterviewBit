@@ -1,3 +1,6 @@
+//Method - 1
+//Time Complexity - O(logN)
+//Space Complexity - O(1)
 int Solution::findCount(const vector<int> &A, int B) {
     
     int start = -1, n = A.size();
@@ -44,4 +47,12 @@ int Solution::findCount(const vector<int> &A, int B) {
     }
     
     return end - start + 1;
+}
+
+//Method - 2
+//Time Complexity - O(logN)
+//Space Complexity - O(1)
+int Solution::findCount(const vector<int> &A, int B) {
+    
+    return upper_bound(A.begin(),A.end(),B) - lower_bound(A.begin(),A.end(),B);
 }
