@@ -1,3 +1,9 @@
+// If the number of students is lesser or equal than the number of students then return true in numberofbooks
+// function else return false
+
+// Also if the number of students is greater than the number of books then return -1
+
+//Method - 1
 long long numberofstudents(vector<int> A,long long pages){
     
     long long count = 1, sum = 0;
@@ -43,5 +49,55 @@ int Solution::books(vector<int> &A, int B) {
         }
     }
     
+    return ans;
+}
+
+//Method - 2
+bool isPossible(int pages, vector<int> &A, int B){
+    
+    int count = 1;
+    
+    int sum = 0;
+    
+    for(int i = 0; i < A.size(); i++){
+        
+        sum += A[i];
+        
+        if(sum > pages){
+            count++;
+            sum = A[i];
+        }
+    }
+    
+    if(count > B){
+        return false;
+    }
+    return true;
+}
+int Solution::books(vector<int> &A, int B) {
+    
+    if(B > A.size()){
+        return -1;
+    }
+    int lo = INT_MIN, hi = 0;
+    
+    for(int i = 0; i < A.size(); i++){
+        lo = max(lo,A[i]);
+        hi += A[i];
+    }
+    
+    int ans;
+    while(lo <= hi){
+        
+        int mid = (lo + hi)/2;
+        
+        if(isPossible(mid,A,B)){
+            ans = mid;
+            hi = mid - 1;
+        }
+        else{
+            lo = mid + 1;
+        }
+    }
     return ans;
 }
