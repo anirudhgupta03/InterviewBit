@@ -1,4 +1,6 @@
 //Method - 1
+//Time Complexity - O(logN)
+//Space Complexity - O(1)
 int Solution::search(const vector<int> &A, int B) {
     
     int n = A.size();
@@ -63,6 +65,9 @@ int Solution::search(const vector<int> &A, int B) {
 
 //Method - 2
 //Optimal Approach
+//Ref: https://www.youtube.com/watch?v=r3pMQ8-Ad5s
+//Time Complexity - O(logN)
+//Space Complexity - O(1)
 int Solution::search(const vector<int> &A, int B) {
     
     int l = 0, r = A.size() - 1;
