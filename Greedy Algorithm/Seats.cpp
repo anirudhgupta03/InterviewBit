@@ -1,3 +1,6 @@
+//Ref: https://www.youtube.com/watch?v=SK2ypa7poKg
+//Time Complexity - O(N)
+//Space Complexity - O(N)
 int Solution::seats(string A) {
     
     int n = 0;
