@@ -23,7 +23,7 @@ vector<vector<int> > Solution::subsets(vector<int> &A) {
     
     solve(s,v,A,0);
     
-    sort(v.begin(),v.end());
+    //sort(v.begin(),v.end());     Not Required    
     
     return v;
 }
