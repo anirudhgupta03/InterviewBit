@@ -1,49 +1,39 @@
-void solve(int ind, vector<int> &temp, set<vector<int>> &s, vector<int> &A, int B){
+void solve(int ind, vector<int> &A, int B, vector<int> &v, set<vector<int>> &res){
     
-    if(ind == A.size()){
-        if(B == 0){
-            s.insert(temp);
-        }
+    if(B == 0){
+        res.insert(v);
         return;
     }
-    else if(B == 0){
-        s.insert(temp);
+    if(ind == A.size()){
         return;
     }
     
     if(A[ind] <= B){
-        
-        solve(ind+1,temp,s,A,B);
-        
-        temp.push_back(A[ind]);
-        
-        solve(ind+1,temp,s,A,B-A[ind]);
-        
-        temp.pop_back();
+        v.push_back(A[ind]);
+        solve(ind+1,A,B-A[ind],v,res);
+        v.pop_back();
+        solve(ind+1,A,B,v,res);
     }
-    else{
-        
-        solve(ind+1,temp,s,A,B);
-    }
+//     else{
+//         solve(ind+1,A,B,v,res);         Not required as A is sorted
+//     }
 }
 vector<vector<int> > Solution::combinationSum(vector<int> &A, int B) {
     
     sort(A.begin(),A.end());
     
-    set<vector<int>> s;
+    set<vector<int>> res;
+    vector<int> v;
     
-    vector<int> temp;
+    solve(0,A,B,v,res);
     
-    vector<vector<int>> v;
-    
-    solve(0,temp,s,A,B);
+    vector<vector<int>> ans;
     
     set<vector<int>> :: iterator it;
     
-    for(it = s.begin(); it!=s.end(); it++){
-        v.push_back(*it);
+    for(it = res.begin(); it!=res.end(); it++){
+        ans.push_back(*it);
     }
-    sort(v.begin(),v.end());
     
-    return v;
+    return ans;
 }
