@@ -1,3 +1,6 @@
+//Method - 1
+//Time Complexity - O(N^2)
+//Space Complexity - O(N)
 vector<int> Solution::maxset(vector<int> &A) {
     
     vector<int> v1,v2;
@@ -33,4 +36,53 @@ vector<int> Solution::maxset(vector<int> &A) {
     }
     
     return v1;
+}
+
+//Method - 2
+//Time Complexity - O(N)
+//Space Complexity - O(1)
+//Kadane's Algorithm
+#define ll long long
+vector<int> Solution::maxset(vector<int> &A) {
+    
+    ll l = 0, r = 0;
+    
+    ll start = 0, maxLen = 0, currSum = 0, maxSum = 0;
+    
+    while(r < A.size()){
+        
+        if(A[r] >= 0){
+            currSum += A[r];
+        }
+        else{
+            if(currSum > maxSum){
+                maxSum = currSum;
+                start = l;
+                maxLen = r - l;
+            }
+            else if(currSum == maxSum && (r-l) > maxLen){
+                maxLen = r - l;
+                start = l;
+            }
+            currSum = 0;
+            l = r + 1;
+        }
+        r++;
+    }
+    if(currSum > maxSum){
+        maxSum = currSum;
+        start = l;
+        maxLen = r - l;
+    }
+    else if(currSum == maxSum && (r-l) > maxLen){
+        maxLen = (r-l);
+        start = l;
+    }
+    
+    vector<int> res;
+    for(int i = start; i < start + maxLen; i++){
+        res.push_back(A[i]);
+    }
+    
+    return res;
 }
