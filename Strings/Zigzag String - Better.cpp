@@ -38,3 +38,43 @@ string Solution::convert(string A, int B) {
     
     return p;
 }
+
+//Method - 2
+string Solution::convert(string A, int B) {
+    
+    if(B == 1){
+        return A;
+    }
+    vector<string> v(B);
+    int flag = -1;
+    
+    int count = 0;
+    
+    for(int i = 0; i < A.size(); i++){
+        
+        if(flag == -1){
+            v[count].push_back(A[i]);
+            count++;
+            
+            if(count == B){
+                flag = 1;
+                count -= 2;
+            }
+        }
+        else{
+            v[count].push_back(A[i]);
+            count--;
+            
+            if(count == -1){
+                flag = -1;
+                count += 2;
+            }
+        }
+    }
+    
+    string res;
+    for(int i = 0; i < B; i++){
+        res += v[i];
+    }
+    return res;
+}
