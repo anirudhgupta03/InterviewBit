@@ -85,5 +85,6 @@ int Solution::solve(vector<int> &A, int B) {
             }
         }
     }
+    
     return dp[n][B];
 }
