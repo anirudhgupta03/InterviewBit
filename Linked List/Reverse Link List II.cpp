@@ -1,3 +1,4 @@
+//Method - 1
 /**
  * Definition for singly-linked list.
  * struct ListNode {
@@ -41,4 +42,52 @@ ListNode* Solution::reverseBetween(ListNode* A, int B, int C) {
         A -> next = temp3;
         return temp2;
     }
+}
+
+//Method - 2
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+ListNode* Solution::reverseBetween(ListNode* A, int B, int C) {
+    
+    if(A == NULL || A -> next == NULL || B == C){
+        return A;
+    }
+    
+    int pos = 0, len = C - B + 1;
+    
+    ListNode* temp1 = NULL, *temp2 = A, *temp3 = A -> next;
+    
+    while(pos != B - 1){
+        temp1 = temp2;
+        temp2 = temp3;
+        temp3 = temp3 -> next;
+        pos++;
+    }
+    
+    ListNode *start = temp1, *end = temp2;
+    
+    temp1 = NULL;
+    while(len != 1){
+        temp2 -> next = temp1;
+        temp1 = temp2;
+        temp2 = temp3;
+        temp3 = temp3 -> next;
+        len--;
+    }
+    
+    temp2 -> next = temp1;
+    if(start == NULL){
+        A = temp2;
+    }
+    else{
+        start -> next = temp2;
+    }
+    end -> next = temp3;
+    return A;
 }
