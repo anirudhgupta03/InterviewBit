@@ -1,3 +1,4 @@
+//Method - 1
 /**
  * Definition for singly-linked list.
  * struct ListNode {
@@ -56,5 +57,44 @@ ListNode* Solution::swapPairs(ListNode* A) {
         sum++;
     }
     temp4-> next = temp5; //To handle the case when the number of elements in the list are not even
+    return A;
+}
+
+//Method - 2
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+ListNode* Solution::swapPairs(ListNode* A) {
+    
+    if(A == NULL || A -> next == NULL){
+        return A;
+    }
+    
+    ListNode* start = NULL, end = NULL;
+    
+    ListNode* temp = A, *ptr1, *ptr2;
+    
+    while(temp){
+        if(temp -> next != NULL){
+            ptr2 = temp -> next -> next;
+            ptr1 = temp -> next;
+            ptr1 -> next = temp;
+            temp -> next = ptr2;
+            
+            if(start == NULL) A = ptr1;
+            else start -> next = ptr1;
+            
+            start = temp;
+        }
+        else{
+            break;
+        }
+        temp = temp -> next;
+    }
     return A;
 }
