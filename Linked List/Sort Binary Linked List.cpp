@@ -1,3 +1,4 @@
+//Method - 1
 /**
  * Definition for singly-linked list.
  * struct ListNode {
@@ -31,4 +32,63 @@ ListNode* Solution::solve(ListNode* A) {
        temp = temp -> next;
    }
    return A;
+}
+
+//Method - 2
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+ListNode* Solution::solve(ListNode* A) {
+    
+    if(A == NULL || A -> next == NULL){
+        return A;
+    }
+    
+    ListNode* temp = A;
+    int count = 0;
+    
+    while(temp){
+        if(temp -> val == 0){
+            count++;
+        }
+        temp = temp -> next;
+    }
+    
+    ListNode* p1 = A, *p2 = A, *prev = NULL;
+    
+    while(p2 -> next){
+        p2 = p2 -> next;
+    }
+    
+    while(p1){
+        if(p1 -> val == 1){
+            temp = p1;
+            p1 = p1 -> next;
+            
+            if(prev == NULL){
+                A = p1;
+            }
+            else{
+                prev -> next = p1;
+            }
+            temp -> next = NULL;
+            p2 -> next = temp;
+            p2 = p2 -> next;
+        }
+        else{
+            prev = p1;
+            p1 = p1 -> next;
+            count--;
+        }
+        
+        if(count == 0){
+            break;
+        }
+    }
+    return A;
 }
