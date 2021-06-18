@@ -78,3 +78,64 @@ ListNode* Solution::addTwoNumbers(ListNode* A, ListNode* B) {
         return B;
     }
 }
+
+//Method - 2
+//Optimal Approach
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+ListNode* Solution::addTwoNumbers(ListNode* A, ListNode* B) {
+    
+    ListNode* temp1 = A, *temp2 = B, *prev = NULL;
+    
+    int carry = 0;
+    
+    while(temp1 && temp2){
+        
+        int t = (temp1 -> val + temp2 -> val + carry);
+        temp1 -> val = t%10;
+        carry = t/10;
+        prev = temp1;
+        temp1 = temp1 -> next;
+        temp2 = temp2 -> next;
+    }
+    
+    if(temp1 != NULL){
+        while(temp1){
+            int t = (temp1 -> val + carry);
+            temp1 -> val = t%10;
+            carry = t/10;
+            prev = temp1;
+            temp1 = temp1 -> next;
+        }
+        if(carry != 0){
+            prev -> next = new ListNode(carry);
+        }
+        return A;
+    }
+    
+    if(temp2 != NULL){
+        prev -> next = temp2;
+        while(temp2){
+            int t = (temp2 -> val + carry);
+            temp2 -> val = t % 10;
+            carry = t/10;
+            prev = temp2;
+            temp2 = temp2 -> next;
+        }
+        if(carry != 0){
+            prev -> next = new ListNode(carry);
+        }
+        return A;
+    }
+    
+    if(carry != 0){
+        prev -> next = new ListNode(carry);
+    }
+    return A;
+}
