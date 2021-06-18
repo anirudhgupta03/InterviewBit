@@ -70,3 +70,57 @@ ListNode* Solution::partition(ListNode* A, int B) {
     }
     return A;
 }
+
+//Method - 2
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+ListNode* Solution::partition(ListNode* A, int B) {
+    
+    if(A == NULL || A -> next == NULL){
+        return A;
+    }
+    
+    ListNode* ptr1 = A, *ptr2 = A, *prev1 = NULL, *prev2 = NULL, *temp;
+    
+    bool flag = false;
+    
+    while(ptr1){
+        
+        if(ptr1 -> val >= B && !flag){
+            prev2 = prev1;
+            ptr2 = ptr1;
+            flag = true;
+            prev1 = ptr1;
+            ptr1 = ptr1 -> next;
+        }
+        else if(ptr1 -> val < B && flag){
+            if(prev2 == NULL){
+                temp = ptr1;
+                ptr1 = ptr1 -> next;
+                prev1 -> next = ptr1;
+                A = temp;
+                temp -> next = ptr2;
+            }
+            else{
+                temp = ptr1;
+                ptr1 = ptr1 -> next;
+                prev1 -> next = ptr1;
+                temp -> next = ptr2;
+                prev2 -> next = temp;
+            }
+            prev2 = temp;
+        }
+        else{
+            prev1 = ptr1;
+            ptr1 = ptr1 -> next;
+        }
+    }
+    
+    return A;
+}
