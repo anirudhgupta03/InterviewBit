@@ -1,3 +1,4 @@
+//Method - 1
 int Solution::removeDuplicates(vector<int> &A) {
     
    int n = A.size();
@@ -15,4 +16,45 @@ int Solution::removeDuplicates(vector<int> &A) {
    }
    
    return left;
+}
+
+//Method - 2
+int Solution::removeDuplicates(vector<int> &A) {
+    
+    if(A.size() == 1){
+        return 1;
+    }
+    int l = 0, r = 1, ele = A[0], count = 1;
+    
+    while(r < A.size()){
+        
+        if(A[r] == ele){
+            r++;
+            count++;
+        }
+        else{
+            if(count >= 2){
+                A[l] = ele;
+                A[l+1] = ele;
+                l = l + 2;
+            }
+            else{
+                A[l] = ele;
+                l++;
+            }
+            count = 1;
+            ele = A[r];
+            r++;
+        }
+    }
+    if(count >= 2){
+        A[l] = ele;
+        A[l+1] = ele;
+        l = l + 2;
+    }
+    else{
+        A[l] = ele;
+        l++;
+    }
+    return l;
 }
