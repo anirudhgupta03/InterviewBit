@@ -1,3 +1,6 @@
+//Method - 1
+//Time Complexity - O(min(m,n))
+//Space Complexity - O(m+n)
 void Solution::merge(vector<int> &A, vector<int> &B) {
     vector<int> C = A;
     A.clear();
@@ -30,5 +33,31 @@ void Solution::merge(vector<int> &A, vector<int> &B) {
             A.push_back(C[p1]);
             p1++;
         }
+    }
+}
+
+//Method - 2
+//Time Complexity - O(NlogN + MlogM)
+//Space Complexity - O(1)
+void Solution::merge(vector<int> &A, vector<int> &B) {
+    
+    int n = A.size(), m = B.size();
+    
+    int p1 = n - 1, p2 = 0;
+    
+    while(p1 >= 0 && p2 < m){
+        
+        if(A[p1] > B[p2]){
+            swap(A[p1],B[p2]);
+        }
+        p1--;
+        p2++;
+    }
+    
+    sort(A.begin(),A.end());
+    sort(B.begin(),B.end());
+    
+    for(int i = 0; i < m; i++){
+        A.push_back(B[i]);
     }
 }
