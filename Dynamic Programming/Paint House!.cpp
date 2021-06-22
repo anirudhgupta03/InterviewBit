@@ -1,3 +1,4 @@
+//Ref: https://www.youtube.com/watch?v=kh48JLieeW8
 int paint(int n,int adj, vector<vector<int>> &A, vector<vector<int>> &dp){
     
     if(n == 0){
