@@ -32,6 +32,7 @@ int Solution::maxProfit(const vector<int> &A) {
 }
 
 //Method - 2
+//Ref: https://www.youtube.com/watch?v=4YjEHmw1MX0
 //Time Complexity - O(N)
 //Space Complexity - O(1)
 int Solution::maxProfit(const vector<int> &A) {
