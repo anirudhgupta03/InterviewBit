@@ -1,3 +1,4 @@
+//Method - 1
 vector<vector<int> > Solution::anagrams(const vector<string> &A) {
     
     map<vector<int>,vector<int>> m;
@@ -20,5 +21,27 @@ vector<vector<int> > Solution::anagrams(const vector<string> &A) {
     for(it = m.begin(); it != m.end(); it++){
         res.push_back(it->second);
     }
+    return res;
+}
+
+//Method - 2
+vector<vector<int> > Solution::anagrams(const vector<string> &A) {
+    
+    unordered_map<string,vector<int>> umap;
+    
+    vector<vector<int>> res;
+    
+    for(int i = 0; i < A.size(); i++){
+        
+        string s = A[i];
+        sort(s.begin(),s.end());
+        
+        umap[s].push_back(i + 1);
+    }
+    
+    for(auto it: umap){
+        res.push_back(it.second);
+    }
+    
     return res;
 }
