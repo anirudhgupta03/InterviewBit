@@ -100,8 +100,8 @@ vector<vector<int> > Solution::fourSum(vector<int> &A, int B) {
                     vector<int> temp = {A[i],A[j],A[lo],A[hi]};
                     res.push_back(temp);
                     while(lo < hi && A[lo] == A[lo+1]) lo++;
-                    lo++;
                     while(lo < hi && A[hi] == A[hi-1]) hi--;
+                    lo++;
                     hi--;
                 }
             }
