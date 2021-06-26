@@ -1,3 +1,4 @@
+//Method - 1
 bool cmp(pair<int,int> p1, pair<int,int> p2){
     return p1.first < p2.first;
 }
@@ -52,5 +53,72 @@ vector<int> Solution::twoSum(const vector<int> &A, int B) {
     
     res.push_back(p1+1);
     res.push_back(p2+1);
+    return res;
+}
+
+//Method - 2
+//Time Complexity - O(N^2)
+//Space Complexity - O(N)
+vector<int> Solution::twoSum(const vector<int> &A, int B) {
+    
+    unordered_map<int,vector<int>> umap;
+    
+    for(int i = 0; i < A.size(); i++){
+        umap[A[i]].push_back(i);
+    }
+    
+    int ind1 = INT_MAX, ind2 = INT_MAX;
+    
+    for(int i = 0; i < A.size(); i++){
+        
+        if(umap.find(B-A[i]) != umap.end()){
+            
+            for(int j = 0; j < umap[B-A[i]].size(); j++){
+                
+                if(i == umap[B-A[i]][j]){
+                    continue;
+                }
+                int i1 = min(i,umap[B-A[i]][j]);
+                int i2 = max(i,umap[B-A[i]][j]);
+                
+                if(i2 < ind2){
+                    ind2 = i2;
+                    ind1 = i1;
+                }
+                else if(i2 == ind2){
+                    if(i1 < ind1){
+                        ind1 = i1;
+                    }
+                }
+            }
+        }
+    }
+    
+    vector<int> res;
+    if(ind1 != INT_MAX){
+        res.push_back(ind1+1);
+        res.push_back(ind2+1);
+    }
+    return res;
+}
+
+//Method - 3
+//Optimal Approach
+vector<int> Solution::twoSum(const vector<int> &A, int B) {
+    
+    unordered_map<int,int> umap;
+    vector<int> res;
+    
+    for(int i = 0; i < A.size(); i++){
+        
+        if(umap.find(B-A[i]) != umap.end()){
+            res.push_back(umap[B-A[i]]);
+            res.push_back(i+1);
+            return res;
+        }
+        if(umap.find(A[i]) == umap.end()){
+            umap[A[i]] = i + 1;
+        }
+    }
     return res;
 }
