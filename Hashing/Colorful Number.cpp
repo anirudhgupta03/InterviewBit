@@ -1,3 +1,5 @@
+//Time Complexity - O(N^2)
+//Space Complexity - O(N)
 int Solution::colorful(int A) {
     
     string s = to_string(A);
