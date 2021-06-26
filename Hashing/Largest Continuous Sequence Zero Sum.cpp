@@ -1,3 +1,6 @@
+//Method - 1
+//Time Complexity - O(N)
+//Space Complexity - O(N)
 vector<int> Solution::lszero(vector<int> &A) {
     
     int n = A.size();
@@ -37,6 +40,42 @@ vector<int> Solution::lszero(vector<int> &A) {
     }
     for(int j = start; j <= end; j++){
         res.push_back(A[j]);
+    }
+    return res;
+}
+
+//Method - 2
+//Time Complexity - O(N)
+//Space Complexity - O(1)
+vector<int> Solution::lszero(vector<int> &A) {
+    
+    int sum = 0;
+    
+    unordered_map<int,int> umap;
+    
+    int start = 0, maxLen = 0;
+    
+    umap[0] = -1;
+    
+    for(int i = 0; i < A.size(); i++){
+        
+        sum += A[i];
+        
+        if(umap.find(sum) != umap.end()){
+            if(i - umap[sum] > maxLen){
+                start = umap[sum];
+                maxLen = i - umap[sum];
+            }
+        }
+        else{
+            umap[sum] = i;
+        }
+    }
+    
+    vector<int> res;
+    
+    for(int i = start + 1; i <= start + maxLen; i++){
+        res.push_back(A[i]);
     }
     return res;
 }
