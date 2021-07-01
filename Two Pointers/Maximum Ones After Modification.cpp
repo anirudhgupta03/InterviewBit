@@ -23,5 +23,6 @@ int Solution::solve(vector<int> &A, int B) {
         }
         hi++;
     }
+    maxLen = max(maxLen,hi-lo);
     return maxLen;
 }
