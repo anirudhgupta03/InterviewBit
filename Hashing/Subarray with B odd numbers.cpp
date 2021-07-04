@@ -1,3 +1,4 @@
+//Method - 1
 int Solution::solve(vector<int> &A, int B) {
 
     if(B == 0){
@@ -99,4 +100,30 @@ int Solution::solve(vector<int> &A, int B) {
       return ans;
     }
     return 0;
+}
+
+//Method - 2
+int Solution::solve(vector<int> &A, int B) {
+    
+    int currsum = 0, count = 0;
+    
+    unordered_map<int,int> umap;
+    
+    for(int i = 0; i < A.size(); i++){
+        
+        if(A[i] % 2 != 0){
+            currsum += 1;
+        }
+        
+        if(currsum == B){
+            count++;
+        }
+        
+        if(umap.find(currsum-B) != umap.end()){
+            count += umap[currsum-B];
+        }
+        
+        umap[currsum]++;
+    }
+    return count;
 }
