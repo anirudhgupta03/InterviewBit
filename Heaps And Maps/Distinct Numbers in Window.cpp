@@ -1,3 +1,4 @@
+//Method - 1
 vector<int> Solution::dNums(vector<int> &A, int B) {
     
     vector<int> res;
@@ -35,5 +36,42 @@ vector<int> Solution::dNums(vector<int> &A, int B) {
         res.push_back(count);
     }
     
+    return res;
+}
+
+//Method - 2
+vector<int> Solution::dNums(vector<int> &A, int B) {
+    
+    vector<int> res;
+    
+    int n = A.size();
+    
+    if(B > n){
+        return res;
+    }
+    
+    int l = 0, r = 0;
+    
+    unordered_map<int,int> umap;
+    
+    while(r < n){
+        
+        if(r - l + 1 < B){
+            umap[A[r]]++;
+        }
+        else{
+            umap[A[r]]++;
+            
+            res.push_back(umap.size());
+            
+            umap[A[l]]--;
+            
+            if(umap[A[l]] == 0){
+                umap.erase(A[l]);
+            }
+            l++;
+        }
+        r++;
+    }
     return res;
 }
