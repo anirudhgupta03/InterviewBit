@@ -83,10 +83,6 @@ string Solution::fractionToDecimal(int A, int B) {
     
     a %= b;
     
-    if(a == 0){
-        return res;
-    }
-    
     unordered_map<int,int> umap;
     
     res.push_back('.');
