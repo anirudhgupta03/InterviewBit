@@ -1,4 +1,5 @@
 //Ref: https://www.youtube.com/watch?v=fpjfjNh658c
+//Method - 1
 struct TrieNode{  
   int freq;
   TrieNode* child[26];
@@ -51,4 +52,63 @@ vector<string> Solution::prefix(vector<string> &A) {
         ans.push_back(s);
     }
     return ans;
+}
+
+//Method - 2
+struct TrieNode{
+
+    int count;
+    TrieNode* child[26];
+
+    TrieNode(){
+        for(int i = 0; i < 26; i++){
+            child[i] = NULL;
+        }
+        count = 0;
+    }
+};
+void add(TrieNode* root, string s){
+
+    for(int i = 0; i < s.size(); i++){
+
+        if(root -> child[s[i]-'a'] == NULL){
+            root -> child[s[i]-'a'] = new TrieNode();
+        }
+        root = root -> child[s[i]-'a'];
+        root -> count++;
+    }
+    root -> count++;
+}
+string findSUP(TrieNode* root, string s){
+
+    string temp;
+
+    for(int i = 0; i < s.size(); i++){
+
+        if(root -> child[s[i]-'a'] -> count != 1){
+            temp.push_back(s[i]);
+        }
+        else{
+            temp.push_back(s[i]);
+            break;
+        }
+        root = root -> child[s[i]-'a'];
+    }
+    return temp;
+}
+vector<string> Solution::prefix(vector<string> &A) {
+
+    vector<string> res;
+
+    TrieNode* root = new TrieNode();
+
+    for(int i = 0; i < A.size(); i++){
+        add(root,A[i]);
+    }
+
+    for(int i = 0; i < A.size(); i++){
+        res.push_back(findSUP(root,A[i]));
+    }
+
+    return res;
 }
