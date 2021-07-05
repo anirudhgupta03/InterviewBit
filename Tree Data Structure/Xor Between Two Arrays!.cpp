@@ -1,3 +1,4 @@
+//Method - 1
 //Ref: https://www.youtube.com/watch?v=jCu-Pd0IjIA&t=110s
 struct TrieNode{
   
@@ -75,4 +76,58 @@ int Solution::solve(vector<int> &A, vector<int> &B) {
     }
     
     return max_XOR;
+}
+
+//Method - 2
+struct TrieNode{
+
+    TrieNode* child[2];
+    TrieNode(){
+        for(int i = 0; i < 2; i++){
+            child[i] = NULL;
+        }
+    }
+};
+void add(TrieNode* root, int num){
+
+    for(int i = 31; i >= 0; i--){
+        
+        int bit = (num & (1 << i)) ? 1 : 0;
+        if(root -> child[bit] == NULL){
+            root -> child[bit] = new TrieNode();
+        }
+        root = root -> child[bit];
+    }
+}
+int findMaxXOR(TrieNode* root, int num){
+
+    int xorsum = 0;
+
+    for(int i = 31; i >= 0; i--){
+        
+        int bit = (num & (1 << i)) ? 1 : 0;
+
+        if(root -> child[1-bit] != NULL){
+            root = root -> child[1-bit];
+            xorsum += pow(2,i);
+        }
+        else{
+            root = root -> child[bit];
+        }
+    }
+    return xorsum;
+}
+int Solution::solve(vector<int> &A, vector<int> &B) {
+
+    TrieNode* root = new TrieNode();
+
+    for(int i = 0; i < A.size(); i++){
+        add(root,A[i]);
+    }
+    int maxXOR = 0;
+    for(int i = 0; i < B.size(); i++){
+        maxXOR = max(maxXOR,findMaxXOR(root,B[i]));
+    }
+
+    return maxXOR;
 }
