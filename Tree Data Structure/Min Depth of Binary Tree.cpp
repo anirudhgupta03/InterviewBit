@@ -1,3 +1,4 @@
+//Method - 1
 /**
  * Definition for binary tree
  * struct TreeNode {
@@ -31,4 +32,34 @@ int Solution::minDepth(TreeNode* A) {
     solve(A,ans,count);
     
     return ans;
+}
+
+//Method - 2
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+int Solution::minDepth(TreeNode* A) {
+
+    if(A == NULL){
+        return 0;
+    }
+
+    int ldepth = minDepth(A -> left);
+    int rdepth = minDepth(A -> right);
+
+    if(ldepth == 0){
+        return rdepth + 1;
+    }
+    else if(rdepth == 0){
+        return ldepth + 1;
+    }
+    else{
+        return min(ldepth,rdepth) + 1;
+    }
 }
