@@ -1,3 +1,4 @@
+//Method - 1
 struct TrieNode{
   
   int wordend;
@@ -85,4 +86,97 @@ vector<int> Solution::solve(string A, vector<string> &B) {
         ans.push_back(v[i].first.first);
     }
     return ans;
+}
+
+//Method - 2
+struct TrieNode{
+
+    TrieNode* child[26];
+    bool isLeaf;
+
+    TrieNode(){
+        for(int i = 0; i < 26; i++){
+            child[i] = NULL;
+        }
+        isLeaf = false;
+    }
+};
+void add(TrieNode* root, string s){
+
+    for(int i = 0; i < s.size(); i++){
+
+        if(root -> child[s[i]-'a'] == NULL){
+            root -> child[s[i]-'a'] = new TrieNode();
+        }
+        root = root -> child[s[i]-'a'];
+    }
+
+    root -> isLeaf = true;
+}
+bool find(TrieNode* root, string s){
+
+    for(int i = 0; i < s.size(); i++){
+
+        if(root -> child[s[i]-'a'] == NULL){
+            return false;
+        }
+        root = root -> child[s[i]-'a'];
+    }
+    if(root->isLeaf == true){
+        return true;
+    }
+    return false;
+}
+bool cmp(pair<int,int> p1, pair<int,int> p2){
+    if(p1.first == p2.first){
+        return p1.second < p2.second;
+    }
+    return p1.first > p2.first;
+
+}
+vector<int> Solution::solve(string A, vector<string> &B) {
+
+    for(int i = 0; i < A.size(); i++){
+        if(A[i] == '_'){
+            A[i] = ' ';
+        }
+    }
+
+    stringstream X(A);
+    string temp;
+
+    TrieNode* root = new TrieNode();
+
+    while(X >> temp){
+        add(root,temp);
+    }
+    vector<pair<int,int>> v;
+
+    vector<int> res;
+
+    for(int i = 0; i < B.size(); i++){
+
+        int k = 0,count = 0;
+        string temp = B[i];
+
+        for(int j = 0; j < temp.size(); j++){
+            
+            if(temp[j] == '_'){
+                if(find(root,temp.substr(k,j-k))){
+                    count++;
+                }
+                k = j + 1;
+            }
+        }
+        if(find(root,temp.substr(k,temp.size()-k))){
+            count++;
+        }
+        v.push_back({count,i});
+    }
+    sort(v.begin(),v.end(),cmp);
+
+    for(int i = 0; i < v.size(); i++){
+        res.push_back(v[i].second);
+    }
+    return res;
 }
