@@ -111,3 +111,60 @@ vector<int> Solution::solve(TreeNode* A, int B) {
     }
     return res;
 }
+
+//Method - 3
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+vector<int> Solution::solve(TreeNode* A, int B) {
+
+    unordered_map<int,vector<pair<TreeNode*,TreeNode*>>> umap;
+
+    queue<pair<TreeNode*,TreeNode*>> q;
+
+    q.push({NULL,A});
+
+    int level = 0;
+
+    int reql;
+    TreeNode* reqp;
+
+    while(!q.empty()){
+
+        int sz = q.size();
+        while(sz--){
+
+            TreeNode* par = q.front().first, *curr = q.front().second;
+            q.pop();
+
+            if(curr->val == B){
+                reql = level;
+                reqp = par;
+            }
+            umap[level].push_back({par,curr});
+
+            if(curr -> left) q.push({curr,curr->left});
+            if(curr -> right) q.push({curr,curr->right});
+        }
+        level++;
+    }
+
+    vector<pair<TreeNode*,TreeNode*>> v = umap[reql];
+
+    vector<int> res;
+
+    for(int i = 0; i < v.size(); i++){
+        TreeNode* par = v[i].first;
+        if(par != reqp){
+            res.push_back(v[i].second -> val);
+        }
+    }
+
+    return res;
+}
