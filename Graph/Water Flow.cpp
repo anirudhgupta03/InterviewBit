@@ -4,6 +4,7 @@ Mark the visited cell and count the cell which are visited in both bfs.
 Maintain a queue, initially append all the co-ordinates adjacent to blue lake. After that append all the cells adjacent to the current cell 
 and have height >= height of current cell. Mark the cell blue. Do similar with cells adjacent to red lake.
 Count the cells with both red and blue visited.
+Ref: https://www.youtube.com/watch?v=krL3r7MY7Dc
 */
 
 int dx[4] = {-1,1,0,0};
