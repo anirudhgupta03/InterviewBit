@@ -61,3 +61,22 @@ int Solution::solve(vector<vector<int> > &A) {
     }
     return minCost;
 }
+
+//Bottom-Up
+int Solution::solve(vector<vector<int> > &A) {
+
+    int n = A.size();
+    
+    int dp[3][n];
+
+    dp[0][0] = A[0][0], dp[1][0] = A[0][1], dp[2][0] = A[0][2];
+
+    for(int i = 1; i < n; i++){
+
+        dp[0][i] = min(dp[1][i-1],dp[2][i-1]) + A[i][0];
+        dp[1][i] = min(dp[0][i-1],dp[2][i-1]) + A[i][1];
+        dp[2][i] = min(dp[0][i-1],dp[1][i-1]) + A[i][2];
+    }
+
+    return min({dp[0][n-1],dp[1][n-1],dp[2][n-1]});
+}
