@@ -1,4 +1,5 @@
 //Ref: https://www.youtube.com/watch?v=elADMOC_hDI
+//Method - 1
 int Solution::solve(vector<vector<int> > &A) {
     
     int n = A.size(), m = A[0].size();
@@ -30,5 +31,61 @@ int Solution::solve(vector<vector<int> > &A) {
         }
     }
     
+    return count;
+}
+
+//Method - 2
+void countSubarrays(vector<int> &v, int &count){
+
+    int sum = 0;
+    unordered_map<int,int> umap;
+
+    for(int i = 0; i < v.size(); i++){
+
+        sum += v[i];
+
+        if(sum == 0){
+            count++;
+        }
+        
+        if(umap.find(sum) != umap.end()){
+            count += umap[sum];
+        }
+        umap[sum]++;
+    }
+}
+int Solution::solve(vector<vector<int> > &A) {
+    
+    int n = A.size();
+    
+    if(n == 0){
+        return 0;
+    }
+    
+    int m = A[0].size();
+    int prefix[n+1][m];
+
+    for(int j = 0; j < m; j++){
+        prefix[0][j] = 0;
+    }
+
+    for(int i = 1; i <= n; i++){
+        for(int j = 0; j < m; j++){
+            prefix[i][j] = A[i-1][j] + prefix[i-1][j];
+        }
+    }
+
+    int count = 0;
+    
+    for(int i = 1; i <= n; i++){
+        for(int j = i; j <= n; j++){
+            vector<int> temp;
+            for(int k = 0; k < m; k++){
+                temp.push_back(prefix[j][k] - prefix[i-1][k]);
+            }
+            countSubarrays(temp,count);
+        }
+    }
+
     return count;
 }
