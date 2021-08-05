@@ -37,3 +37,26 @@ int Solution::lengthOfLongestSubstring(string A) {
     max_len = max(max_len,r-l);
     return max_len;
 }
+
+int Solution::lengthOfLongestSubstring(string A) {
+    
+    unordered_map<char,int> umap;
+    
+    int l = 0, r = 0;
+    
+    int maxLen = 1;
+    
+    while(r < A.size()){
+        
+        if(umap.find(A[r]) != umap.end()){
+            if(umap[A[r]] >= l){
+                maxLen = max(maxLen, r - l);
+                l = umap[A[r]] + 1;
+            }
+        }
+        umap[A[r]] = r;
+        r++;
+    }
+    maxLen = max(maxLen, r - l);
+    return maxLen;
+}
