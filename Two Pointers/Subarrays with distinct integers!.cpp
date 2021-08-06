@@ -39,3 +39,45 @@ int Solution::solve(vector<int> &A, int B) {
     }
     return subarray(A,B) - subarray(A,B-1);
 }
+
+//Alter
+int subarray(vector<int> &A, int B){
+
+    unordered_map<int,int> umap;
+    
+    int count = 0;
+
+    int lo = 0, hi = 0, n;
+
+    while(hi < A.size()){
+        
+        umap[A[hi]]++;
+        
+        if(umap.size() > B){
+            
+            n = hi - lo;
+            count += (n*(n+1))/2;
+            
+            while(umap.size() > B && lo < hi){
+                umap[A[lo]]--;
+                if(umap[A[lo]] == 0){
+                    umap.erase(A[lo]);
+                }
+                lo++;
+            }
+            n = hi - lo;
+            count -= (n*(n+1))/2;
+        }
+        hi++;
+    }
+    n = hi - lo;
+    count += (n*(n+1))/2;
+    return count;
+}
+int Solution::solve(vector<int> &A, int B) {
+
+    if(B == 1){
+        return subarray(A,B);
+    }    
+    return subarray(A,B) - subarray(A,B-1);
+}
