@@ -36,3 +36,40 @@ vector<int> Solution::maxone(vector<int> &A, int B) {
     }
     return res;
 }
+
+//Alter
+vector<int> Solution::maxone(vector<int> &A, int B) {
+
+    int l = 0, r = 0, start = 0, maxLen = 0;
+
+    while(r < A.size()){
+
+        if(A[r] == 0){
+            B--;
+
+            if(B < 0){
+                
+                if(r - l > maxLen){
+                    maxLen = r - l;
+                    start = l;
+                }
+                while(l < r && A[l] == 1){
+                    l++;
+                }
+                l++;
+            }
+        }
+        r++;
+    }
+    if(r - l > maxLen){
+        maxLen = r - l;
+        start = l;
+    }
+
+    vector<int> res;
+    for(int i = start; i < start + maxLen; i++){
+        res.push_back(i);
+    }
+
+    return res;
+}
