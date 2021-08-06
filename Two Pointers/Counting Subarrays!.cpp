@@ -57,3 +57,37 @@ int Solution::solve(vector<int> &A, int B) {
     }
     return count;
 }
+
+//Method - 3
+//Very Good
+int Solution::solve(vector<int> &A, int B) {
+
+    int sum = 0;
+
+    int lo = 0, hi = 0, count = 0, n;
+
+    while(hi < A.size()){
+
+        sum += A[hi];
+
+        if(sum >= B){
+            n = hi - lo;
+            count += (n*(n+1))/2;
+
+            while(lo <= hi && sum >= B){
+                sum -= A[lo];
+                lo++;
+            }
+            
+            if(lo < hi){
+                n = hi - lo;
+                count -= (n*(n+1))/2;
+            }
+            
+        }
+        hi++;
+    }
+    n = A.size() - lo;
+    count += (n*(n+1))/2;    
+    return count;
+}
