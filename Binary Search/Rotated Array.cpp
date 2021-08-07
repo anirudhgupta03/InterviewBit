@@ -84,3 +84,31 @@ int Solution::findMin(const vector<int> &A) {
         }
     }
 }
+
+//Method - 4
+int Solution::findMin(const vector<int> &A) {
+    
+    int n = A.size();
+
+    if(n == 1){
+        return A[0];
+    }
+    int lo = 0, hi = A.size() - 1;
+
+    while(lo <= hi){
+
+        int mid = (lo + hi)/2;
+        int next = (mid + 1)%n;
+        int prev = (mid - 1 + n)%n;
+
+        if(A[mid] < A[prev] && A[mid] < A[next]){
+            return A[mid];
+        }
+        else if(A[mid] < A[hi]){
+            hi = mid - 1;
+        }
+        else{
+            lo = mid + 1;
+        }
+    }
+}
