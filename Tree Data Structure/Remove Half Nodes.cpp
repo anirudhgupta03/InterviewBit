@@ -29,3 +29,37 @@ TreeNode* Solution::solve(TreeNode* A) {
     A->right = solve(A->right);
     return A;
 }
+//Alter
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+TreeNode* Solution::solve(TreeNode* A) {
+
+    if(A == NULL){
+        return NULL;
+    }
+
+    if(A -> left == NULL && A -> right == NULL){
+        return A;
+    }
+
+    if(A -> left != NULL && A -> right != NULL){
+        A -> left = solve(A -> left);
+        A -> right = solve(A -> right);
+        return A;
+    }
+
+    if(A -> left){
+        return solve(A -> left);
+    }
+
+    if(A -> right){
+        return solve(A -> right);
+    }
+}
