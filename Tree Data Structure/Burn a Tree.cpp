@@ -1,3 +1,4 @@
+//Using BFS + DFS
 /**
  * Definition for binary tree
  * struct TreeNode {
@@ -55,4 +56,70 @@ int Solution::solve(TreeNode* A, int B) {
         }
     }
     return ans;
+}
+
+//Using BFS
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+int Solution::solve(TreeNode* A, int B) {
+
+    unordered_map<TreeNode*, TreeNode*> parent;
+
+    queue<TreeNode*> q;
+    parent[A] = NULL;
+    q.push(A);
+
+    TreeNode* start;
+
+    while(!q.empty()){
+
+        TreeNode* curr = q.front();
+        if(curr -> val == B){
+            start = curr;
+        }
+        q.pop();
+
+        if(curr -> left){
+            parent[curr -> left] = curr;
+            q.push(curr -> left);
+        }
+        if(curr -> right){
+            parent[curr -> right] = curr;
+            q.push(curr -> right);
+        }
+    }
+
+    q.push(start);
+    unordered_map<TreeNode*, int> burn;
+    burn[start] = 0;
+
+    int burnTime = 0;
+
+    while(!q.empty()){
+
+        TreeNode* curr = q.front();
+        burnTime = max(burnTime, burn[curr]);
+        q.pop();
+
+        if(curr -> left && burn.find(curr -> left) == burn.end()){
+            q.push(curr -> left);
+            burn[curr -> left] = burn[curr] + 1;
+        }
+        if(curr -> right && burn.find(curr -> right) == burn.end()){
+            q.push(curr -> right);
+            burn[curr -> right] = burn[curr] + 1; 
+        }
+        if(parent[curr] && burn.find(parent[curr]) == burn.end()){
+            q.push(parent[curr]);
+            burn[parent[curr]] = burn[curr] + 1;
+        }
+    }
+    return burnTime;
 }
