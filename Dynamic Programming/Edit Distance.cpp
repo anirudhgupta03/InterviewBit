@@ -1,3 +1,6 @@
+//Bottom-Up
+//TC - O(m*n)
+//SC - O(m*n)
 int Solution::minDistance(string A, string B) {
     
     int m = A.size(), n = B.size();
