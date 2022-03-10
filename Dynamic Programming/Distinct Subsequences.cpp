@@ -1,4 +1,7 @@
-https://www.youtube.com/watch?v=-RDzMJ33nx8
+//Ref: https:www.youtube.com/watch?v=-RDzMJ33nx8
+//Bottom-Up
+//TC - O(n1*n2)
+//SC - O(n1*n2)
 int Solution::numDistinct(string A, string B) {
     
     int n1 = A.size(), n2 = B.size();
