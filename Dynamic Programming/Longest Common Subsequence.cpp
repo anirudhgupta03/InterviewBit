@@ -1,4 +1,6 @@
 //Bottom-Up
+//TC - O(len1*len2)
+//SC - O(len1*len2)
 int Solution::solve(string A, string B) {
 
     int len1 = A.size(), len2 = B.size();
@@ -22,6 +24,8 @@ int Solution::solve(string A, string B) {
 }
 
 //Recursion + Memoization(Top-Down)
+//TC - O(len1*len2)
+//SC - O(1005*1005)
 int dp[1005][1005];
 int tsolve(int ind1, int ind2, string A, string B){
 
