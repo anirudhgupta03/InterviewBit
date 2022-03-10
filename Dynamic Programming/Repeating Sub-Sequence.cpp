@@ -1,3 +1,6 @@
+//Bottom-Up
+//TC - O(n*n)
+//SC - O(n*n)
 int Solution::anytwo(string A) {
 
     string B = A;
