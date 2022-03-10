@@ -1,4 +1,7 @@
 //Ref: https://www.youtube.com/watch?v=NbgUZAoIz3g
+//TC - O(len1*len2)
+//SC - O(len1*len2)
+//Bottom-Up
 int Solution::isMatch(const string A, const string B) {
     
     int len1 = A.size(), len2 = B.size();
