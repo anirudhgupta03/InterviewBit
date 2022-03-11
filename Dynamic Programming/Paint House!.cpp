@@ -1,4 +1,7 @@
 //Ref: https://www.youtube.com/watch?v=kh48JLieeW8
+//Method - 1
+//TC - O(n*3)
+//SC - O(n*3)
 int paint(int n,int adj, vector<vector<int>> &A, vector<vector<int>> &dp){
     
     if(n == 0){
@@ -27,8 +30,10 @@ int Solution::solve(vector<vector<int> > &A) {
     
     return min(paint(n,0,A,dp), min(paint(n,1,A,dp), paint(n,2,A,dp)));
 }
-
+//Method - 2
 //Top-Down
+//TC - O(n*3)
+//SC - O(n*3)
 int paint(int ind, int col, vector<vector<int>> &A,  vector<vector<int>> &dp){
 
     if(ind == A.size() - 1){
@@ -62,7 +67,10 @@ int Solution::solve(vector<vector<int> > &A) {
     return minCost;
 }
 
+//Method - 3
 //Bottom-Up
+//TC - O(n*3)
+//SC - O(n*3)
 int Solution::solve(vector<vector<int> > &A) {
 
     int n = A.size();
@@ -79,4 +87,28 @@ int Solution::solve(vector<vector<int> > &A) {
     }
 
     return min({dp[0][n-1],dp[1][n-1],dp[2][n-1]});
+}
+
+//Method - 4
+//Optimal
+//TC - O(n*3)
+//SC - O(1)
+int Solution::solve(vector<vector<int> > &A) {
+
+    int n = A.size();
+    int dp[3][n];
+
+    int r = A[0][0];
+    int b = A[0][1];
+    int g = A[0][2];
+
+    for(int j = 1; j < n; j++){
+        int tr = A[j][0] + min(b, g);
+        int tb = A[j][1] + min(r, g);
+        int tg = A[j][2] + min(r, b);
+        r = tr;
+        b = tb;
+        g = tg;
+    }
+    return min({r, b, g});
 }
