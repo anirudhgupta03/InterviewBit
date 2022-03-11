@@ -1,5 +1,7 @@
 //Catalan Number
 //Ref: https://www.youtube.com/watch?v=qgQg1BcCWBA
+//TC - O(A*A)
+//SC - O(A)
 #define ll long long
 int Solution::chordCnt(int A) {
     
