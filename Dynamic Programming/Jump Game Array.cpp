@@ -1,4 +1,6 @@
 //Method - 1
+//TC - O(n)
+//SC - O(n)
 int Solution::canJump(vector<int> &A) {
     
     int n = A.size();
@@ -31,6 +33,8 @@ int Solution::canJump(vector<int> &A) {
 
 //Method - 2
 //Better Approach
+//TC - O(n)
+//SC - O(1)
 int Solution::canJump(vector<int> &A) {
 
     int n = A.size();
@@ -55,4 +59,21 @@ int Solution::canJump(vector<int> &A) {
             return 1;
         }
     }
+}
+
+//Method - 3
+//TC - O(N)
+//SC - O(1)
+int Solution::canJump(vector<int> &A) {
+    int n = A.size();
+    int jump = 0;
+    
+    for(int i = 0; i < A.size() - 1; i++){
+        jump = max(jump, A[i]);
+        if(jump == 0){
+            return false;
+        }
+        jump--;
+    }
+    return true;
 }
