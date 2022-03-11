@@ -74,3 +74,34 @@ int Solution::jump(vector<int> &A) {
         }
     }
 }
+
+//Method - 3(Simpler Version of Method - 2)
+//TC - O(n)
+//SC - O(1)
+int Solution::jump(vector<int> &A) {
+
+    int n = A.size();
+
+    int count = 0, jump = A[0], step = 0;
+    int i = 0;
+
+    while(i < n - 1){
+        count++;
+        i++;
+        step = jump;
+        while(i < n && step){
+            if(i == n - 1){
+                return count;
+            }
+            jump--;
+            step--;
+            jump = max(jump, A[i]);
+            i++;
+        }
+        i--;
+        if(jump == 0){
+            return -1;
+        }
+    }
+    return count;
+}
