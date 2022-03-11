@@ -1,45 +1,18 @@
 //Ref: https://www.youtube.com/watch?v=rRn1vBH-L-8
-#define ll long long
+//TC - O(D)
+//SC - O(D)
 vector<int> Solution::solve(int A, int B, int C, int D) {
-    
-    int arr[3] = {A,B,C};
-    
-    sort(arr,arr+3);
-    
-    vector<int> dp;
-    
-    if(D == 0){
-        return dp;
+    vector<int> dp(D + 1);
+    dp[0] = 1;
+    int ind1 = 0, ind2 = 0, ind3 = 0;
+    int ind = 1;
+    while(ind <= D){
+        dp[ind] = min({dp[ind1]*A, dp[ind2]*B, dp[ind3]*C});
+        if(dp[ind1]*A == dp[ind]) ind1++;
+        if(dp[ind2]*B == dp[ind]) ind2++;
+        if(dp[ind3]*C == dp[ind]) ind3++; 
+        ind++;
     }
-    dp.push_back(1);
-    
-    int i = 0, j = 0, k = 0;
-    
-    while(1){
-        
-        int a = dp[i]*A;
-        int b = dp[j]*B;
-        int c = dp[k]*C;
-        
-        int mine = min(a,min(b,c));
-        
-        dp.push_back(mine);
-        
-        if(mine == a){
-            i++;
-        }
-        if(mine == b){
-            j++;
-        }
-        if(mine == c){
-            k++;
-        }
-        
-        if(dp.size() == D + 1){
-            break;
-        }
-    }
-    
     dp.erase(dp.begin());
     return dp;
 }
