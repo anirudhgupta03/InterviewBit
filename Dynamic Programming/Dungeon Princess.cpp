@@ -68,3 +68,48 @@ int Solution::calculateMinimumHP(vector<vector<int> > &A) {
     vector<vector<int>> dp(m,vector<int>(n,-1));
     return solve(0,0,dp,A);
 }
+
+//Method - 3
+//TC - O(m*n)
+//SC - O(m*n)
+int dx[2] = {1,0};
+int dy[2] = {0,1};
+int solve(int x, int y, int m, int n, vector<vector<int>> &A, vector<vector<int>> &dp){
+
+    if(x == m - 1 && y == n - 1){
+        return 1;
+    }
+
+    if(dp[x][y] != -1){
+        return dp[x][y];
+    }
+    
+    int minHealth = INT_MAX;
+    for(int i = 0; i < 2; i++){
+        int xo = x + dx[i], yo = y + dy[i];
+        if(xo < m && yo < n){
+            int temp = solve(xo, yo, m, n, A, dp);
+            if(temp == INT_MAX) continue;
+            if(temp + A[xo][yo] > 0){
+                minHealth = min(minHealth, max(1, temp - A[xo][yo]));
+            }
+            else{
+                minHealth = min(minHealth, (temp - A[xo][yo]));
+            }
+        }
+    }
+    return dp[x][y] = minHealth;
+}
+int Solution::calculateMinimumHP(vector<vector<int> > &A) {
+    int m = A.size(), n = A[0].size();
+    vector<vector<int>> dp(m, vector<int>(n, - 1));
+
+    int temp = solve(0,0,m,n,A,dp);
+
+    if(temp + A[0][0] > 0){
+        return max(1, temp - A[0][0]);
+    }
+    else{
+        return temp - A[0][0];      
+    }
+}
