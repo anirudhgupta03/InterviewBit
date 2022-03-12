@@ -1,3 +1,6 @@
+//Method - 1
+//TC - O(n*n)
+//SC - O(n*n)
 int maxPathTriangle(int x, int y, vector<vector<int>> &A, vector<vector<int>> &dp){
 
     if(x == A.size()){
@@ -19,7 +22,26 @@ int Solution::solve(vector<vector<int> > &A) {
     return maxPathTriangle(0,0,A,dp);
 }
 
-//Alter
+//Method - 2
+//TC - O(n*n)
+//SC - O(n)
+int Solution::solve(vector<vector<int> > &A) {
+    int n = A.size();
+
+    vector<int> dp(n);
+    dp = A[n - 1];
+
+    for(int i = n - 2; i >= 0; i--){
+        for(int j = 0; j <= i; j++){
+            dp[j] = A[i][j] + max(dp[j], dp[j + 1]);
+        }
+    }
+    return dp[0];
+}
+
+//Method - 3
+//TC - O(n*n)
+//SC - O(1)
 int Solution::solve(vector<vector<int> > &A) {
 
     int n = A.size();
@@ -29,6 +51,5 @@ int Solution::solve(vector<vector<int> > &A) {
             A[i][j] += max(A[i+1][j], A[i+1][j+1]);
         }
     }
-
     return A[0][0];
 }
