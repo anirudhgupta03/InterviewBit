@@ -32,6 +32,9 @@ int Solution::solve(int A, int B) {
 }
 
 //Method - 2
+//Top-Down Approach
+//TC - 
+//SC - O(A*B)
 #define ll long long
 ll recur(int A, int B, vector<vector<ll>> &dp, int mod){
  
@@ -59,16 +62,12 @@ int Solution::solve(int A, int B) {
     if(B > 9*A){
         return 0;
     }
- 
     if(B == 0){
         return 0;
     }
- 
     int mod = 1e9 + 7;
- 
     ll count = 0;
     vector<vector<ll>> dp(A+1,vector<ll>(B+1,-1));
- 
     for(int i = 1; i <= 9; i++){
         if(i <= B){
             count = (count + recur(A-1,B-i,dp,mod))%mod;
