@@ -1,5 +1,7 @@
 //Top-Down Approach
 //Best of the worst
+//TC - O(n*n)
+//SC - O(n*n)
 #define ll long long
 int solve(int lo, int hi, vector<int> &A, vector<vector<ll>> &dp){
     
