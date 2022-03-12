@@ -1,4 +1,6 @@
 //Method - 1
+//TC - O(3*n)
+//SC - O(3*n)
 int Solution::maxProfit(const vector<int> &A) {
 
     int n = A.size();
@@ -27,6 +29,8 @@ int Solution::maxProfit(const vector<int> &A) {
 
 //Method - 2
 //Ref: https://www.youtube.com/watch?v=wuzTpONbd-0
+//TC - O(n)
+//SC - O(n)
 int Solution::maxProfit(const vector<int> &A) {
     
     int n = A.size();
@@ -42,43 +46,29 @@ int Solution::maxProfit(const vector<int> &A) {
     dp1[0] = 0;
     
     for(int i = 1; i < n; i++){
-        
         if(A[i] < minEle){
             minEle = A[i];
         }
-        
         maxProfit = max(A[i] - minEle, maxProfit);
         dp1[i] = maxProfit;
-        
-        //cout << dp1[i] << " ";
     }
-    //cout << endl;
     
     int dp2[n];
-    
     int maxEle = A[n-1];
     maxProfit = 0;
     
     dp2[n - 1] = 0;
-    
     for(int i = n - 2; i >= 0; i--){
-        
         if(A[i] > maxEle){
             maxEle = A[i];
         }
-        
         maxProfit = max(maxEle - A[i], maxProfit);
-        
         dp2[i] = maxProfit;
-        //cout << dp2[i] << " ";
     }
-    //cout << endl;
     
     maxProfit = 0;
-    
     for(int i = 0; i < n; i++){
         maxProfit = max(maxProfit, dp1[i] + dp2[i]);
     }
-    
     return maxProfit;
 }
