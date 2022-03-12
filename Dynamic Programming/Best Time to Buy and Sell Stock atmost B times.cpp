@@ -45,7 +45,9 @@ int Solution::solve(vector<int> &A, int B) {
 }
 
 //Ref: https://www.youtube.com/watch?v=3YILP-PdEJA&t=71s
-//Time Complexity - O(N^2)
+//Bottom-Up
+//TC - O(B*n)
+//SC - O(B*n)
 int Solution::solve(vector<int> &A, int B) {
 
     int n = A.size();
