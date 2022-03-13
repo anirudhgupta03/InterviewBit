@@ -1,4 +1,6 @@
 //Stack Based Approach
+//TC - O(n*n)
+//SC - O(n*n)
 //Maximum Area Histogram
 int maxAreaHistogram(vector<int> v){
    
@@ -83,6 +85,5 @@ int Solution::maximalRectangle(vector<vector<int> > &A) {
     for(int i = 0; i < B.size(); i++){
         maxArea = max(maxArea,maxAreaHistogram(B[i]));
     }
-
     return maxArea;
 }
