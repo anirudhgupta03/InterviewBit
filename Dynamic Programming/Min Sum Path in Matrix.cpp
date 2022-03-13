@@ -1,4 +1,6 @@
 //Top-Down Approach
+//TC - O(n*m)
+//SC - O(n*m)
 int dx[2] = {0,1};
 int dy[2] = {1,0};
 int solve(int x, int y, vector<vector<int>> &A, vector<vector<int>> &dp){
@@ -44,25 +46,20 @@ int dy[2] = {0,1};
 int Solution::minPathSum(vector<vector<int> > &A) {
 
     int m = A.size(), n = A[0].size();
-
     priority_queue<pipii,vector<pipii>,greater<pipii>> pq;
     pq.push({A[0][0],{0,0}});
 
     vector<vector<int>> dist(m,vector<int>(n,INT_MAX));
-    
     dist[0][0] = A[0][0];
     vector<vector<int>> vis(m,vector<int>(n,0));
 
     while(!pq.empty()){
-
         int d = pq.top().first, x = pq.top().second.first, y = pq.top().second.second;
         pq.pop();
-
         if(vis[x][y]){
             continue;
         }
         vis[x][y] = 1;
-
         for(int i = 0; i < 2; i++){
             int xo = x + dx[i], yo = y + dy[i];
             if(xo < m && yo < n && vis[xo][yo] == 0){
