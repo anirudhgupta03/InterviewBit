@@ -1,4 +1,6 @@
 //Ref: https://www.youtube.com/watch?v=vtJvbRlHqTA
+//TC - O(n)
+//SC - O(1)
 int Solution::maxProduct(const vector<int> &A) {
 
     int prev_max_prod = A[0], prev_min_prod = A[0];
