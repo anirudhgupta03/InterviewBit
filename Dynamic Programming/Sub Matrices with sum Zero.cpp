@@ -35,6 +35,8 @@ int Solution::solve(vector<vector<int> > &A) {
 }
 
 //Method - 2
+//TC - O(n*n*m)
+//SC - O(n*m)
 void countSubarrays(vector<int> &v, int &count){
 
     int sum = 0;
@@ -61,14 +63,12 @@ int Solution::solve(vector<vector<int> > &A) {
     if(n == 0){
         return 0;
     }
-    
     int m = A[0].size();
     int prefix[n+1][m];
 
     for(int j = 0; j < m; j++){
         prefix[0][j] = 0;
     }
-
     for(int i = 1; i <= n; i++){
         for(int j = 0; j < m; j++){
             prefix[i][j] = A[i-1][j] + prefix[i-1][j];
@@ -76,7 +76,6 @@ int Solution::solve(vector<vector<int> > &A) {
     }
 
     int count = 0;
-    
     for(int i = 1; i <= n; i++){
         for(int j = i; j <= n; j++){
             vector<int> temp;
@@ -86,6 +85,5 @@ int Solution::solve(vector<vector<int> > &A) {
             countSubarrays(temp,count);
         }
     }
-
     return count;
 }
