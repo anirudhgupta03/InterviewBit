@@ -70,3 +70,35 @@ int Solution::isScramble(const string A, const string B) {
     
     return solve(A,B,umap);
 }
+
+//Alter
+unordered_map<string,bool> dp;
+bool solve(string A, string B){
+    if(A == B){
+        return true;
+    }
+    if(A.size() <= 1){
+        return false;
+    }
+    int len = A.size();
+    string s = A + " " + B;
+    if(dp.find(s) != dp.end()){
+        return dp[s];
+    }
+    for(int i = 0; i < len - 1; i++){
+        if(solve(A.substr(0,i + 1), B.substr(len - i - 1,i + 1)) && solve(A.substr(i + 1, len - i - 1), B.substr(0, len - i  - 1))){
+            return dp[s] = true;
+        }
+        if(solve(A.substr(0,i + 1), B.substr(0,i + 1)) && solve(A.substr(i + 1, len - i - 1), B.substr(i + 1, len - i  - 1))){
+            return dp[s] = true;
+        }
+    }
+    return dp[s] = false;
+}
+int Solution::isScramble(const string A, const string B) {
+    dp.clear();
+    if(A.size() != B.size()){
+        return false;
+    }
+    return solve(A, B);
+}
