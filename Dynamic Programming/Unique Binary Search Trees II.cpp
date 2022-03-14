@@ -1,4 +1,6 @@
 //Application of Catalan Number
+//TC - O(A*A)
+//SC - O(A)
 int Solution::numTrees(int A) {
 
     if(A == 1 || A == 2){
