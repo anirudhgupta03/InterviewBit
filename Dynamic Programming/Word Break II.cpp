@@ -47,10 +47,12 @@ vector<string> Solution::wordBreak(string A, vector<string> &B) {
 }
 
 //Method - 2
+//TC - (n*n*m*len(s))
+//SC - O(n + m)
 vector<string> Solution::wordBreak(string A, vector<string> &B) {
 
     unordered_map<string,int> dict;
-
+    int m = B.size();
     for(int i = 0; i < B.size(); i++){
         dict[B[i]]++;
     }
