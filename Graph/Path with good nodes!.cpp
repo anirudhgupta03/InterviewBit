@@ -86,3 +86,32 @@ int Solution::solve(vector<int> &A, vector<vector<int> > &B, int C) {
 
     return tcount;
 }
+
+//Method - 3
+void rec(int node, int count, vector<int> al[], int &paths, vector<int> &A, int C, vector<int> &vis){
+    vis[node] = 1;
+    if(al[node].size() == 1){
+        if(count + A[node - 1] <= C){
+            paths++;
+        }
+        return;
+    }
+    for(int i = 0; i < al[node].size(); i++){
+        int child = al[node][i];
+        if(vis[child] == 0)
+        rec(child, count + A[node - 1], al, paths, A, C, vis);
+    }
+}
+int Solution::solve(vector<int> &A, vector<vector<int> > &B, int C) {
+    int n = A.size();
+    vector<int> al[n + 1];
+    for(int i = 0; i < n - 1; i++){
+        int u = B[i][0], v = B[i][1];
+        al[u].push_back(v);
+        al[v].push_back(u);
+    }
+    vector<int> vis(n + 1, 0);
+    int paths = 0;
+    rec(1, 0, al, paths, A, C, vis);
+    return paths;
+}
