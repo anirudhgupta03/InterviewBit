@@ -64,3 +64,35 @@ vector<int> Solution::stepnum(int A, int B) {
     sort(res.begin(),res.end());
     return res;
 }
+
+//Alter
+vector<int> res;
+void solve(int val, int A, int B){
+
+    if(val > B){
+        return;
+    }
+    if(val >= A && val <= B){
+        res.push_back(val);
+    }
+
+    int last = val % 10;
+
+    if(last != 0){
+        solve(10*val + (last - 1), A, B);
+    }
+    if(last != 9){
+        solve(10*val + (last + 1), A, B);
+    }
+}
+vector<int> Solution::stepnum(int A, int B) {
+    res.clear();
+    for(int i = 1; i <= 9; i++){
+        solve(i, A, B);
+    }
+    if(A == 0){
+        res.push_back(0);
+    }
+    sort(res.begin(),res.end());
+    return res;
+}
