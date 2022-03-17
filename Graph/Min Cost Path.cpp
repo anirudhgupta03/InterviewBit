@@ -55,3 +55,49 @@ int Solution::solve(int A, int B, vector<string> &C) {
     
     return dijkstra(A,B,C);
 }
+
+//Alter
+#define ppiii pair<pair<int,int>,int>
+int dx[4] = {-1,1,0,0};
+int dy[4] = {0,0,-1,1};
+char dc[4] = {'U','D','L','R'};
+struct cmp{
+    bool operator()(ppiii &p1, ppiii &p2){
+        return p1.second > p2.second;
+    }
+};
+int Solution::solve(int A, int B, vector<string> &C) {
+
+    vector<vector<int>> vis(A, vector<int>(B,0));
+
+    priority_queue<ppiii,vector<ppiii>,cmp> pq;
+    pq.push({{0,0},0});
+
+    while(!pq.empty()){
+
+        int x = pq.top().first.first, y = pq.top().first.second;
+        int cost = pq.top().second;
+        pq.pop();
+
+        if(x == A - 1 && y == B - 1){
+            return cost;
+        }
+
+        if(vis[x][y]) continue;
+        vis[x][y] = 1;
+        
+        for(int i = 0; i < 4; i++){
+            int xo = x + dx[i], yo = y + dy[i];
+            if(xo >= 0 && yo >= 0 && xo < A && yo < B){
+                if(vis[xo][yo] == 0){
+                    if(dc[i] == C[x][y]){
+                        pq.push({{xo, yo},cost});
+                    }
+                    else{
+                        pq.push({{xo,yo},cost + 1});
+                    }
+                }
+            }
+        }
+    }
+}
