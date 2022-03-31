@@ -31,3 +31,80 @@ string Solution::multiple(int A) {
 }
 
 //Method - 2
+//TLE
+string Solution::multiple(int A) {
+
+    if(A == 1){
+        return "1";
+    }
+    queue<int> q;
+    q.push(1);
+    
+    vector<string> v(A);    //r = 0 to A - 1
+    v[1] = "1";
+
+    while(!q.empty()){
+        int r = q.front();
+        q.pop();
+
+        if(r == 0){
+            break;
+        }
+
+        int r0 = (r*10)%A;
+        int r1 = (r*10 + 1)%A;
+        if(v[r0].size() == 0){
+            v[r0] = v[r] + "0";
+            q.push(r0);
+        }
+        if(v[r1].size() == 0){
+            v[r1] = v[r] + "1";
+            q.push(r1);
+        }
+    }
+    return v[0];
+}
+
+//Method - 3
+string Solution::multiple(int A) {
+
+    if(A == 1){
+        return "1";
+    }
+    queue<int> q;
+    q.push(1);
+    
+    vector<char> v(A, '2');    //r = 0 to A - 1
+    v[1] = '1';
+    vector<int> par(A);
+    par[1] = -1;
+    
+    while(!q.empty()){
+        int r = q.front();
+        q.pop();
+        if(r == 0){
+            break;
+        }
+        int r0 = (r*10)%A;
+        int r1 = (r*10 + 1)%A;
+        if(v[r0] == '2'){
+            v[r0] = '0';
+            par[r0] = r;
+            q.push(r0);
+        }
+        if(v[r1] == '2'){
+            v[r1] = '1';
+            par[r1] = r;
+            q.push(r1);
+        }
+    }
+    string res;
+    int rem = 0;
+    while(rem != 1){
+        res.push_back(v[rem]);
+        rem = par[rem];
+    }
+    res.push_back('1');
+    reverse(res.begin(),res.end());
+    return res;
+}
