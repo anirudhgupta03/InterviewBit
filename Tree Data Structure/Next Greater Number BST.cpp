@@ -100,3 +100,35 @@ TreeNode* Solution::getSuccessor(TreeNode* A, int B) {
         return successor;
     }
 }
+
+//Simple & Straight
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */ 
+TreeNode* Solution::getSuccessor(TreeNode* A, int B) {
+
+   TreeNode* successor = NULL;
+   while(A -> val != B){
+       if(A -> val > B){
+         successor = A;
+         A = A -> left;
+       }
+       else if(A -> val < B){
+         A = A -> right;
+       }
+   }
+ 
+   if(A -> right){
+       successor = A -> right;
+       while(successor -> left){
+           successor = successor -> left;
+       }
+   }
+   return successor;
+}
