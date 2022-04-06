@@ -1,25 +1,29 @@
-int helper(int node, vector<int> al[], int A, vector<int> &subSize){
-    
+int rec(int node, vector<int> al[], vector<int> &subSize, vector<int> &vis){
+
+    vis[node] = 1;
     for(int i = 0; i < al[node].size(); i++){
-        subSize[node] += helper(al[node][i],al,A,subSize);
+        int child = al[node][i];
+        if(vis[child]) continue;
+        subSize[node] += rec(child, al, subSize, vis);
     }
     return subSize[node];
 }
 int Solution::solve(int A, vector<vector<int> > &B) {
-    
-    vector<int> al[A+1];
-    
+
+    vector<int> al[A + 1];
+
     for(int i = 0; i < B.size(); i++){
         int u = B[i][0], v = B[i][1];
         al[u].push_back(v);
+        al[v].push_back(u);
     }
+
+    vector<int> subSize(A + 1, 1);
+    vector<int> vis(A + 1, 0);
     
-    vector<int> subSize(A+1,1);
-    
-    helper(1,al,A,subSize);
-    
+    rec(1, al, subSize, vis);
+
     int count = 0;
-    
     for(int i = 2; i <= A; i++){
         if(subSize[i] % 2 == 0){
             count++;
