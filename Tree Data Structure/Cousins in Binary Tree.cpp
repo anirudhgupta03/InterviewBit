@@ -168,3 +168,60 @@ vector<int> Solution::solve(TreeNode* A, int B) {
 
     return res;
 }
+
+//Method - 4
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+bool findPar(TreeNode* parent, TreeNode* A, int B, TreeNode* &par){
+    if(A == NULL){
+        return false;
+    }
+    if(A -> val == B){
+        par = parent;
+        return true;
+    }
+    bool flag = false;
+    flag = findPar(A, A -> left, B, par);
+    if(flag) return true;
+    flag = findPar(A, A -> right, B, par);
+    return flag;
+}
+vector<int> Solution::solve(TreeNode* A, int B) {
+     
+     TreeNode* par;
+     findPar(NULL, A, B, par);
+
+     queue<TreeNode*> q;
+     q.push(A);
+
+     while(!q.empty()){
+         int sz = q.size();
+         bool flag = false;
+         while(sz--){
+             TreeNode* curr = q.front();
+             q.pop();
+             if(curr == par){
+                 flag = true;
+                 continue;
+             }
+             if(curr -> left) q.push(curr -> left);
+             if(curr -> right) q.push(curr -> right);
+         }
+         if(flag) break;
+     }
+     vector<int> cousins;
+     int sz = q.size();
+     while(sz--){
+        TreeNode* curr = q.front();
+        q.pop();
+        cousins.push_back(curr -> val);
+     }
+     return cousins;
+}
