@@ -1,3 +1,4 @@
+//Method - 1
 //Using BFS + DFS
 /**
  * Definition for binary tree
@@ -58,6 +59,7 @@ int Solution::solve(TreeNode* A, int B) {
     return ans;
 }
 
+//Method - 2
 //Using BFS
 /**
  * Definition for binary tree
@@ -122,4 +124,69 @@ int Solution::solve(TreeNode* A, int B) {
         }
     }
     return burnTime;
+}
+
+//Method - 3
+//BFS + DFS
+//Ref: https://www.youtube.com/watch?v=XLdpy0_6MR4
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+void rec(TreeNode* parent, TreeNode* A, int B, TreeNode* &start, unordered_map<TreeNode*, TreeNode*> &par){
+
+    if(A == NULL){
+        return;
+    }
+    if(A -> val == B){
+        start = A;
+    }
+    par[A] = parent;
+    rec(A, A -> left, B, start, par);
+    rec(A, A -> right, B, start, par);
+}
+int Solution::solve(TreeNode* A, int B) {
+    TreeNode* start;
+    unordered_map<TreeNode*,TreeNode*> par;
+    rec(NULL,A,B,start, par);
+
+    queue<TreeNode*> q;
+    q.push(start);
+
+    int steps = 0;
+    unordered_set<TreeNode*> vis;
+
+    while(!q.empty()){
+        int sz = q.size();
+        while(sz--){
+            TreeNode* curr = q.front();
+            q.pop();
+
+            if(vis.find(curr) != vis.end()) continue;
+            vis.insert(curr);
+
+            if(par[curr]){
+                if(vis.find(par[curr]) == vis.end()){
+                    q.push(par[curr]);
+                }
+            }
+            if(curr -> left){
+                if(vis.find(curr -> left) == vis.end()){
+                    q.push(curr -> left);
+                }
+            }
+            if(curr -> right){
+                if(vis.find(curr -> right) == vis.end()){
+                    q.push(curr -> right);
+                }
+            }
+        }
+        steps++;
+    }
+    return steps - 1;
 }
