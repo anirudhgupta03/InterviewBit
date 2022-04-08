@@ -1,5 +1,54 @@
-//Ref: https://www.youtube.com/watch?v=T6Jr-Q6bvSU
 //Method - 1
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+bool findPath(TreeNode* A, int value, vector<int> &temp){
+    if(A == NULL){
+        return false;
+    }
+    temp.push_back(A -> val);
+    if(A -> val == value){
+        return true;
+    }
+    bool flag = false;
+    flag = findPath(A -> left, value, temp);
+    if(flag) return true;
+    
+    flag = findPath(A -> right, value, temp);
+    if(flag) return true;
+    temp.pop_back();
+    
+    return false;
+}
+int Solution::lca(TreeNode* A, int B, int C) {
+
+    vector<int> path1, path2;
+    findPath(A, B, path1);
+    findPath(A, C, path2);
+
+    if(path1.back() != B || path2.back() != C){
+        return -1;
+    }
+    int common = -1;
+    for(int i = 0; i < min(path1.size(), path2.size()); i++){
+        if(path1[i] != path2[i]){
+            break;
+        }
+        else{
+            common = path1[i];
+        }
+    }
+    return common;
+}
+
+//Ref: https://www.youtube.com/watch?v=T6Jr-Q6bvSU
+//Method - 2
 /**
  * Definition for binary tree
  * struct TreeNode {
@@ -53,7 +102,7 @@ int Solution::lca(TreeNode* A, int B, int C) {
     return -1;
 }
 
-//Method - 2
+//Method - 3
 //Optimal
 /**
  * Definition for binary tree
