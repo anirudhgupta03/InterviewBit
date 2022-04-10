@@ -111,3 +111,43 @@ ListNode* Solution::mergeKLists(vector<ListNode*> &A) {
     }
     return root;
 }
+
+//Method - 3
+//Best
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+struct cmp{
+    bool operator()(ListNode* &list1, ListNode* &list2){
+        return list1 -> val > list2 -> val;
+    }
+};
+ListNode* Solution::mergeKLists(vector<ListNode*> &A) {
+    
+    priority_queue<ListNode*, vector<ListNode*>, cmp> pq;
+
+    for(int i = 0; i < A.size(); i++){
+        pq.push(A[i]);
+    }
+
+    ListNode* root = NULL, *pre = NULL;
+
+    while(!pq.empty()){
+        ListNode* curr = pq.top();
+        pq.pop();
+
+        if(root == NULL) root = curr;
+        else pre -> next = curr;
+        pre = curr;
+
+        if(curr -> next){
+            pq.push(curr -> next);
+        }
+    }
+    return root;
+}
