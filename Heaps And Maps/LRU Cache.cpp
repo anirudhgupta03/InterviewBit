@@ -1,4 +1,5 @@
 //Ref: https://www.youtube.com/watch?v=Xc4sICC8m4M&list=PLgUwDviBIf0p4ozDR_kJJkONnb1wdx2Ma&t=0s
+//Method - 1
 struct node{
     int mykey;
     int myval;
@@ -64,4 +65,82 @@ void LRUCache::set(int key, int value) {
     
     addnode(new node(key, value));
     mymap[key] = head -> next;
+}
+
+//Method - 2
+//Ref: https://www.youtube.com/watch?v=JxtmaAFfVBo
+struct Node{
+    int key, value;
+    Node* prev, *next;
+    Node(){
+        prev = NULL;
+        next = NULL;
+    }
+};
+
+Node* head, *tail;
+int cap;
+unordered_map<int,Node*> cache;
+
+void add(Node* node){
+    Node* nbr = head -> next;
+    node -> next = nbr;
+    node -> prev = head;
+    nbr -> prev = node;
+    head -> next = node;
+}
+
+void remove(Node* node){
+    Node* prevnbr = node -> prev;
+    Node* nextnbr = node -> next;
+    prevnbr -> next = nextnbr;
+    nextnbr -> prev = prevnbr;
+    node -> next = NULL;
+    node -> prev = NULL;
+}
+
+void moveToFront(Node* node){
+    remove(node);
+    add(node);
+}
+
+LRUCache::LRUCache(int capacity) {
+    cache.clear();
+    head = new Node();
+    tail = new Node();
+    head -> next = tail;
+    tail -> prev = head;
+    cap = capacity;
+}
+
+int LRUCache::get(int key) {
+    if(cache.find(key) == cache.end()){
+        return -1;
+    }
+    else{
+        Node* node = cache[key];
+        int val = node -> value;
+        moveToFront(node);
+        return val;
+    }
+}
+
+void LRUCache::set(int key, int value) {
+    if(cache.find(key) == cache.end()){
+        Node* curr = new Node();
+        curr -> key = key;
+        curr -> value = value;
+        if(cache.size() == cap){
+            Node* LRU_Node = tail -> prev;
+            cache.erase(LRU_Node -> key);
+            remove(LRU_Node);
+        }
+        cache[key] = curr;
+        add(curr);
+    }
+    else{
+        Node* node = cache[key];
+        node -> value = value;
+        moveToFront(node); 
+    }
 }
