@@ -75,3 +75,30 @@ vector<int> Solution::dNums(vector<int> &A, int B) {
     }
     return res;
 }
+
+//Method - 3
+vector<int> Solution::dNums(vector<int> &A, int B) {
+
+    int n = A.size();
+    vector<int> res;
+
+    if(B > n){
+        return res;
+    }
+
+    vector<int> ans;
+    unordered_map<int,int> umap;
+    for(int i = 0; i < B - 1; i++){
+        umap[A[i]]++;
+    }
+    
+    for(int i = B - 1; i < n; i++){
+        umap[A[i]]++;
+        ans.push_back(umap.size());
+        umap[A[i - B + 1]]--;
+        if(umap[A[i - B + 1]] == 0){
+            umap.erase(A[i - B + 1]);
+        }
+    }
+    return ans;
+}
