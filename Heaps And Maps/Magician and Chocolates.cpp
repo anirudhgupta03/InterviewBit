@@ -1,26 +1,22 @@
-//Using Max Heap
 #define ll long long
 int Solution::nchoc(int A, vector<int> &B) {
-    
-    priority_queue<int> pq;
-    
+
+    priority_queue<int> bag;
+
     for(int i = 0; i < B.size(); i++){
-        pq.push(B[i]);
+        bag.push(B[i]);
     }
-    
-    ll count = 0, ans = 0;
-    
-    while(count != A && pq.size()){
-        
-        ll temp = pq.top();
-        
-        ans =  (ans + temp)%1000000007;
-        
-        count++;
-        
-        pq.pop();
-        
-        pq.push(floor(temp/2));
+    int mod = 1e9 + 7;
+    ll sum = 0;
+
+    while(!bag.empty() && A--){
+        int curr = bag.top();
+        bag.pop();
+
+        sum = (sum + curr)%mod;
+
+        curr /= 2;
+        if(curr) bag.push(curr);
     }
-    return ans;
+    return sum;
 }
