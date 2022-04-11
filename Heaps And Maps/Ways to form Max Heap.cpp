@@ -1,7 +1,10 @@
+/*Ref: 
+https://www.youtube.com/watch?v=cYhAdbnEq8I //Part1
+https://www.youtube.com/watch?v=IHfmJSaD9Uc //Part2
+*/
 #define ll long long
 #define M 1000000007
 vector<vector<ll int>>nCrdp(101,vector<ll int>(101,-1));
-
 
 ll int choose(ll int n, ll int r){
     if(r > n){
