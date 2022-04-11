@@ -126,3 +126,52 @@ string Solution::fractionToDecimal(int A, int B) {
     }
     return res;
 }
+
+//Method - 3
+#define ll long long
+string Solution::fractionToDecimal(int A, int B) {
+
+    bool flag = false;
+    ll a = A;
+    ll b = B;
+
+    if(a > 0 && b < 0 || a < 0 && b > 0){
+        flag = true;
+    }
+
+    a = abs(a);
+    b = abs(b);
+
+    if(a % b == 0){
+        return to_string((ll)a/b);
+    }
+
+    ll integerPart = a/b;
+    
+    string res;
+    res += to_string(integerPart);
+    res.push_back('.');
+    
+    unordered_map<int,int> umap;
+    a %= b;
+
+    int ind = res.size();
+    while(a){
+        a *= 10;
+        if(umap.find(a) != umap.end()){
+            res.insert(res.begin() + umap[a], '(');
+            res.push_back(')');
+            break;
+        }
+        else{
+            umap[a] = ind;
+            ind++;
+            res.push_back(a/b + '0');
+            a %= b;
+        }
+    }
+    if(flag){
+        res.insert(res.begin(), '-');
+    }
+    return res;
+}
