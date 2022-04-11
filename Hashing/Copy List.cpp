@@ -1,3 +1,6 @@
+//Method - 1
+//TC - O(N)
+//SC - O(1)
 /**
  * Definition for singly-linked list.
  * struct RandomListNode {
@@ -49,4 +52,44 @@ RandomListNode* Solution::copyRandomList(RandomListNode* A) {
     }
 
     return head;
+}
+
+//Method - 2
+//TC - O(N)
+//SC - O(N)
+/**
+ * Definition for singly-linked list.
+ * struct RandomListNode {
+ *     int label;
+ *     RandomListNode *next, *random;
+ *     RandomListNode(int x) : label(x), next(NULL), random(NULL) {}
+ * };
+ */
+RandomListNode* Solution::copyRandomList(RandomListNode* A) {
+
+    unordered_map<RandomListNode*, RandomListNode*> umap;
+
+    RandomListNode* temp = A;
+
+    while(temp){
+        RandomListNode* node = new RandomListNode(temp -> label);
+        node -> next = temp -> next;
+        temp -> next = node;
+        umap[temp] = node;
+        temp = node -> next;
+    }
+
+    temp = A;
+    while(temp){
+        temp -> next -> random = umap[temp -> random];
+        temp = temp -> next -> next;
+    }
+
+    RandomListNode* root = A -> next;
+    temp = A -> next;
+    while(temp -> next){
+        temp -> next = temp -> next -> next;
+        temp = temp -> next;
+    }
+    return root;
 }
