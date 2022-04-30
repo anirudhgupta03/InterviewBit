@@ -1,3 +1,4 @@
+//Method - 1
 vector<int> Solution::solve(vector<int> &A, vector<int> &B, vector<int> &C) {
     
     vector<int> res;
@@ -29,5 +30,45 @@ vector<int> Solution::solve(vector<int> &A, vector<int> &B, vector<int> &C) {
         }
     }
     sort(res.begin(),res.end());
+    return res;
+}
+
+//Method - 2
+vector<int> Solution::solve(vector<int> &A, vector<int> &B, vector<int> &C) {
+
+    int n1 = A.size(), n2 = B.size(), n3 = C.size();
+
+    unordered_map<int,int> umap;
+
+    unordered_set<int> temp;
+
+    for(int i = 0; i < n1; i++){
+        if(temp.find(A[i]) == temp.end()){
+            temp.insert(A[i]);
+            umap[A[i]]++;
+        }
+    }
+    temp.clear();
+    for(int i = 0; i < n2; i++){
+        if(temp.find(B[i]) == temp.end()){
+            temp.insert(B[i]);
+            umap[B[i]]++;
+        }
+    }
+    temp.clear();
+    for(int i = 0; i < n3; i++){
+        if(temp.find(C[i]) == temp.end()){
+            temp.insert(C[i]);
+            umap[C[i]]++;
+        }
+    }
+
+    vector<int> res;
+    for(auto x: umap){
+        if(x.second >= 2){
+            res.push_back(x.first);
+        }
+    }
+    sort(res.begin(), res.end());
     return res;
 }
