@@ -1,3 +1,4 @@
+//Method - 1
 vector<int> Solution::solve(vector<int> &A) {
     
     unordered_map<int,vector<int>> umap;  //Unordered Map to store the indexes where an element is present
@@ -35,3 +36,27 @@ vector<int> Solution::solve(vector<int> &A) {
     }
     return res;
 }
+
+//Method - 2
+//Optimal
+vector<int> Solution::solve(vector<int> &A) {
+
+    unordered_map<int,int> umap;
+    int n = A.size();
+    vector<int> res(n);
+
+    for(int i = 0; i < n; i++){
+        if(umap.find(A[i]) == umap.end()){
+            umap[A[i]] = i;
+            res[i] = A[i];
+        }
+        else{
+            int ind = umap[A[i]];
+            res[ind]++;
+            res[i] = A[i];
+            umap[A[i] + 1] = ind;
+            umap[A[i]] = i; 
+        }
+    }  
+    return res;
+}   
