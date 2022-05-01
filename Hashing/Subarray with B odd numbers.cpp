@@ -127,3 +127,30 @@ int Solution::solve(vector<int> &A, int B) {
     }
     return count;
 }
+
+//Method - 3
+int Solution::solve(vector<int> &A, int B) {
+
+    vector<int> v;
+
+    for(int i = 0; i < A.size(); i++){
+        if(A[i] % 2 == 0){
+            v.push_back(0);
+        }
+        else{
+            v.push_back(1);
+        }
+    }
+    unordered_map<int,int> umap;
+    umap[0] = 1;
+    int sum = 0, count = 0;
+
+    for(int i = 0; i < v.size(); i++){
+        sum += v[i];
+        if(umap.find(sum - B) != umap.end()){
+            count += umap[sum - B];
+        }
+        umap[sum]++;
+    }
+    return count;
+}
