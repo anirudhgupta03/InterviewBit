@@ -72,3 +72,25 @@ string Solution::solve(string A, int B) {
     
     return ans;
 }
+
+//Method - 3
+void rec(int ind, string &A, string &res, int B){
+    if(ind == A.size() || B == 0){
+        res = max(res, A);
+        return;
+    }
+    for(int i = ind; i < A.size(); i++){
+        if(i == ind){
+            rec(ind + 1, A, res, B);
+            continue;
+        }
+        swap(A[ind], A[i]);
+        rec(ind + 1, A, res, B - 1);
+        swap(A[ind], A[i]);
+    }
+}
+string Solution::solve(string A, int B) {
+    string res = A;
+    rec(0, A, res, B);
+    return res;
+}
