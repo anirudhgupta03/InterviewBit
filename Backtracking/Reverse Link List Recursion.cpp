@@ -93,3 +93,36 @@ ListNode* Solution::reverseList(ListNode* A) {
     
     return head;
 }
+
+//Method - 4
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+ListNode* reverse(ListNode* &head, ListNode* A){
+
+    if(A -> next == NULL){
+        head = A;
+        return A;
+    }
+    ListNode* temp = reverse(head, A -> next);
+    if(head == NULL){
+        head = temp;
+    }
+    A -> next = NULL;
+    temp -> next = A;
+    return A;
+}
+ListNode* Solution::reverseList(ListNode* A) {
+
+    if(A == NULL){
+        return A;
+    }
+    ListNode* head;
+    reverse(head, A);
+    return head;
+}
