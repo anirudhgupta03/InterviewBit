@@ -1,3 +1,4 @@
+//Method - 1
 bool isSafe(int num, vector<vector<char> > &A, int row, int col, int block){
     
     for(int j = 0; j < block*block; j++){
@@ -61,4 +62,54 @@ void Solution::solveSudoku(vector<vector<char> > &A) {
     solve(0,0,A,n,ans);
     
     A = ans;
+}
+
+//Method - 2
+bool isValid(char ch, int row, int col, vector<vector<char>> &A){
+    for(int j = 0; j < A[0].size(); j++){
+        if(A[row][j] == ch){
+            return false;
+        }
+    }
+    for(int i = 0; i < A.size(); i++){
+        if(A[i][col] == ch){
+            return false;
+        }
+    }
+    int temp = sqrt(A.size());
+    for(int i = (row/temp)*temp; i < (row/temp)*temp + temp; i++){
+        for(int j = (col/temp)*temp; j < (col/temp)*temp + temp; j++){
+            if(A[i][j] == ch){
+                return false;
+            }
+        }
+    }
+    return true;
+}
+bool solve(int row, int col, vector<vector<char>> &A){
+    if(row == A.size()){
+        return true;
+    }
+    if(col == A[0].size()){
+        bool flag = solve(row + 1, 0, A);
+        return flag;
+    }
+    if(A[row][col] != '.'){
+        bool flag = solve(row, col + 1, A);
+        return flag;
+    }
+    for(char ch = '1'; ch <= '9'; ch++){
+        if(isValid(ch, row, col, A)){
+            A[row][col] = ch;
+            bool flag = solve(row, col + 1, A);
+            if(flag){
+                return true;
+            }
+            A[row][col] = '.';
+        }
+    }
+    return false;
+}
+void Solution::solveSudoku(vector<vector<char> > &A) {
+    solve(0,0,A);   
 }
