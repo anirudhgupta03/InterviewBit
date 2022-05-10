@@ -1,5 +1,6 @@
 //Method - 1
-//Space Complexity - O(N)
+//Space Complexity - O(2*N)
+//Time Complexity - O(1)
 stack<int> s;
 stack<int> ss;
 MinStack::MinStack() {
@@ -38,18 +39,17 @@ int MinStack::getMin() {
 } 
 
 //Optimal Approach
-//Space Complexity - O(1)
+//Space Complexity - O(N)
+//Time Complexity - O(1)
 stack<int> s;
 int minEle;
 MinStack::MinStack() {
-    
     minEle = INT_MAX;
     while(s.size()){
         s.pop();
     }
 }
 void MinStack::push(int x) {
-    
     if(s.empty()){
         s.push(x);
         minEle = x;
@@ -61,21 +61,16 @@ void MinStack::push(int x) {
     else{
         s.push(x);
     }
-    
 }
 void MinStack::pop() {
-    
     if(s.empty()) return;
-    
     if(s.top() < minEle){
         minEle = 2*minEle - s.top();
     }
     s.pop();
 }
 int MinStack::top() {
-    
     if(s.empty()) return -1;
-    
     if(s.top() >= minEle)
     return s.top();
     else{
