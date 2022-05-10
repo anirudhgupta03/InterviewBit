@@ -1,3 +1,4 @@
+//Method - 1
 vector<int> Solution::prevSmaller(vector<int> &A) {
     
     int n = A.size();
@@ -31,4 +32,35 @@ vector<int> Solution::prevSmaller(vector<int> &A) {
     }
     
     return v;
+}
+
+//Method - 2
+vector<int> Solution::prevSmaller(vector<int> &A) {
+
+    int n = A.size();
+    vector<int> nsl(n);
+
+    stack<int> st;
+    st.push(0);
+
+    nsl[0] = -1;
+
+    for(int i = 1; i < n; i++){
+        if(A[i] > A[st.top()]){
+            nsl[i] = A[st.top()];
+        }
+        else{
+            while(!st.empty() && A[st.top()] >= A[i]){
+                st.pop();
+            }
+            if(st.empty()){
+                nsl[i] = -1;
+            }
+            else{
+                nsl[i] = A[st.top()];
+            }
+        }
+        st.push(i);
+    }
+    return nsl;
 }
