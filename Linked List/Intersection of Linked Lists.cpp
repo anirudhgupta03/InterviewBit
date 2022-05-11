@@ -9,6 +9,33 @@
  */
 ListNode* Solution::getIntersectionNode(ListNode* A, ListNode* B) {
     
+    set<ListNode*> s;
+    
+    while(A != NULL){
+        s.insert(A);
+        A = A -> next;
+    }
+    
+    while(B != NULL){
+        if(s.find(B) != s.end()){
+            return B;
+        }
+        B = B -> next;
+    }
+    return NULL;
+}
+
+//Method - 2
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+ListNode* Solution::getIntersectionNode(ListNode* A, ListNode* B) {
+    
     ListNode* temp1 = A, *temp2 = B;
     int m = 0, n = 0;
     
@@ -64,7 +91,7 @@ ListNode* Solution::getIntersectionNode(ListNode* A, ListNode* B) {
     }
 }
 
-//Method - 2
+//Method - 3
 //Ref: https://www.youtube.com/watch?v=u4FWXfgS8jw
 /**
  * Definition for singly-linked list.
@@ -111,7 +138,7 @@ ListNode* Solution::getIntersectionNode(ListNode* A, ListNode* B) {
    return NULL;
 }
 
-//Method - 3
+//Method - 4
 /**
  * Definition for singly-linked list.
  * struct ListNode {
