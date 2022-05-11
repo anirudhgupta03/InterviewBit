@@ -1,4 +1,6 @@
 //Method - 1
+//TC - O(N)
+//SC - O(2*N)
 int Solution::trap(const vector<int> &A) {
     
     int n = A.size();
@@ -28,6 +30,8 @@ int Solution::trap(const vector<int> &A) {
 
 //Method - 2
 //Using Stack
+//TC - O(N)
+//SC - O(2*N)
 int Solution::trap(const vector<int> &A) {
 
     int n = A.size();
@@ -84,6 +88,42 @@ int Solution::trap(const vector<int> &A) {
     for(int i = 1; i < n - 1; i++){
         if(ngl[i] != -1 && ngr[i] != -1){
             totalWater += min(ngl[i], ngr[i]) - A[i];
+        }
+    }
+    return totalWater;
+}
+
+//Method - 3
+//Using Two Pointers
+//Ref: https://www.youtube.com/watch?v=m18Hntz4go8
+//TC - O(N)
+//SC - O(1)
+int Solution::trap(const vector<int> &A) {
+
+    int n = A.size();
+
+    int lo = 0, hi = n - 1, lmax = 0, rmax = 0;
+
+    int totalWater = 0;
+
+    while(lo <= hi){
+        if(A[lo] <= A[hi]){
+            if(A[lo] >= lmax){
+                lmax = A[lo];
+            }
+            else{
+                totalWater += lmax - A[lo];
+            }
+            lo++;
+        }
+        else{
+            if(A[hi] >= rmax){
+                rmax = A[hi];
+            }
+            else{
+                totalWater += rmax - A[hi];
+            }
+            hi--;
         }
     }
     return totalWater;
