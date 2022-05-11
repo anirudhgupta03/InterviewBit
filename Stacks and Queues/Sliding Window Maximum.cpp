@@ -78,3 +78,37 @@ vector<int> Solution::slidingMaximum(const vector<int> &nums, int k) {
         }
         return res;
 }
+
+//Method - 3
+vector<int> Solution::slidingMaximum(const vector<int> &A, int B) {
+
+    if(B >= A.size()){
+        int maxEle = INT_MIN;
+        for(int i = 0; i < A.size(); i++){
+            maxEle = max(maxEle, A[i]);
+        }
+        vector<int> res = {maxEle};
+        return res;
+    }
+    deque<int> dq;
+
+    for(int i = 0; i < B - 1; i++){
+        while(!dq.empty() && A[i] > dq.back()){
+            dq.pop_back();
+        }
+        dq.push_back(A[i]);
+    }
+    vector<int> res;
+
+    for(int i = B - 1; i < A.size(); i++){
+        while(!dq.empty() && A[i] > dq.back()){
+            dq.pop_back();
+        }
+        dq.push_back(A[i]);
+        res.push_back(dq.front());
+        if(dq.front() == A[i - B + 1]){
+            dq.pop_front();
+        }
+    }
+    return res;
+}
