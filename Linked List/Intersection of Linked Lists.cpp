@@ -110,3 +110,40 @@ ListNode* Solution::getIntersectionNode(ListNode* A, ListNode* B) {
    
    return NULL;
 }
+
+//Method - 3
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+ListNode* Solution::getIntersectionNode(ListNode* A, ListNode* B) {
+    
+    int len1 = 0, len2 = 0;
+    ListNode* temp = A;
+    while(temp){
+        len1++;
+        temp = temp -> next;
+    }
+    temp = B;
+    while(temp){
+        len2++;
+        temp = temp -> next;
+    }
+    while(len1 > len2){
+        A = A -> next;
+        len1--;
+    }
+    while(len2 > len1){
+        B = B -> next;
+        len2--;
+    }
+    while(A != B){
+        A = A -> next;
+        B = B -> next;
+    }
+    return A;
+}
