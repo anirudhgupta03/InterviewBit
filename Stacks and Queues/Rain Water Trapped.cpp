@@ -1,3 +1,4 @@
+//Method - 1
 int Solution::trap(const vector<int> &A) {
     
     int n = A.size();
@@ -23,4 +24,67 @@ int Solution::trap(const vector<int> &A) {
         }
     }
     return amt;
+}
+
+//Method - 2
+//Using Stack
+int Solution::trap(const vector<int> &A) {
+
+    int n = A.size();
+
+    vector<int> ngl(n), ngr(n);
+    stack<int> st;
+
+    st.push(A[0]);
+    ngl[0] = -1;
+
+    for(int i = 1; i < n; i++){
+        if(A[i] < st.top()){
+            ngl[i] = st.top();
+        }
+        else{
+            while(!st.empty() && A[i] >= st.top()){
+                st.pop();
+            }
+            if(st.empty()){
+                ngl[i] = -1;
+                st.push(A[i]);
+            }
+            else{
+                ngl[i] = st.top();
+            }
+        }
+    }
+    while(!st.empty()){
+        st.pop();
+    }
+
+    st.push(A[n - 1]);
+    ngr[n - 1] = -1;
+    
+    for(int i = n - 2; i >= 0; i--){
+        if(A[i] < st.top()){
+            ngr[i] = st.top();
+        }
+        else{
+            while(!st.empty() && A[i] >= st.top()){
+                st.pop();
+            }
+            if(st.empty()){
+                ngr[i] = -1;
+                st.push(A[i]);
+            }
+            else{
+                ngr[i] = st.top();
+            }
+        }
+    }
+    
+    int totalWater = 0;
+    for(int i = 1; i < n - 1; i++){
+        if(ngl[i] != -1 && ngr[i] != -1){
+            totalWater += min(ngl[i], ngr[i]) - A[i];
+        }
+    }
+    return totalWater;
 }
