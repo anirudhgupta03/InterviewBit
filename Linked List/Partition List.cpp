@@ -124,3 +124,40 @@ ListNode* Solution::partition(ListNode* A, int B) {
     
     return A;
 }
+
+//Method - 3
+//Using Dummy Node
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+ListNode* Solution::partition(ListNode* A, int B) {
+    ListNode* dummy = new ListNode(-1);
+    dummy -> next = A;
+    ListNode* temp = dummy, *pre = dummy;
+    while(A && A -> val < B){
+        pre = A;
+        temp = temp -> next;
+        A = A -> next;
+    }
+    while(A){
+        if(A -> val < B){
+            ListNode* t = A -> next;
+            pre -> next = A -> next;
+            A -> next = NULL;
+            A -> next = temp -> next;
+            temp -> next = A;
+            temp = temp -> next;
+            A = t;
+        }
+        else{
+            pre = A;
+            A = A -> next;
+        }
+    }
+    return dummy -> next;
+}
