@@ -92,3 +92,44 @@ ListNode* Solution::solve(ListNode* A) {
     }
     return A;
 }
+
+//Method - 3
+//Using Dummy Node
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+ListNode* Solution::solve(ListNode* A) {
+
+    ListNode* dummy = new ListNode(-1);
+    dummy -> next = A;
+
+    ListNode* temp = dummy, *pre = dummy;
+
+    while(A && A -> val == 0){
+        pre = A;
+        temp = temp -> next;
+        A = A -> next;
+    }
+
+    while(A){
+        if(A -> val == 0){
+            ListNode* t = A -> next;
+            A -> next = NULL;
+            pre -> next = t;
+            A -> next = temp -> next;
+            temp -> next = A;
+            temp = temp -> next;
+            A = t;
+        }
+        else{
+            pre = A;
+            A = A -> next;
+        }
+    }
+    return dummy -> next;
+}
