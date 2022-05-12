@@ -173,3 +173,56 @@ ListNode* Solution::sortList(ListNode* A) {
     prev -> next = NULL;
     return merge(sortList(A),sortList(slow));
 }
+
+//Method - 3
+//Using Dummy Node
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+ListNode* merge(ListNode* l1, ListNode* l2){
+    ListNode* dummy = new ListNode(-1);
+    ListNode* ptr = dummy;
+    while(l1 && l2){
+        if(l1 -> val < l2 -> val){
+            ptr -> next = l1;
+            ptr = l1;
+            l1 = l1 -> next;
+        }
+        else{
+            ptr -> next = l2;
+            ptr = l2;
+            l2 = l2 -> next;
+        }
+    }
+    while(l1){
+        ptr -> next = l1;
+        ptr = l1;
+        l1 = l1 -> next;
+    }
+    while(l2){
+        ptr -> next = l2;
+        ptr = l2;
+        l2 = l2 -> next;
+    }
+    return dummy -> next;
+}
+ListNode* Solution::sortList(ListNode* A) {
+    if(A == NULL || A -> next == NULL){
+        return A;
+    }
+    ListNode* slow = A, *fast = A, *pre = NULL;
+    while(slow && fast && fast -> next){
+        pre = slow;
+        slow = slow -> next;
+        fast = fast -> next -> next;
+    }
+    pre -> next = NULL;
+    ListNode* l1 = sortList(A);
+    ListNode* l2 = sortList(slow);
+    return merge(l1, l2);
+}
