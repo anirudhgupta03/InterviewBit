@@ -1,3 +1,4 @@
+//Method - 1
 /**
  * Definition for singly-linked list.
  * struct ListNode {
@@ -62,4 +63,51 @@ int Solution::lPalin(ListNode* A) {
         temp2 = temp2 -> next;
     }
     return 1;
+}
+
+//Method - 2
+//Using slow & fast pointers
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+ListNode* reverse(ListNode* slow){
+    if(slow == NULL || slow -> next == NULL){
+        return slow;
+    }
+    ListNode* temp1 = NULL, *temp2 = slow, *temp3 = slow -> next;
+    while(temp3){
+        temp2 -> next = temp1;
+        temp1 = temp2;
+        temp2 = temp3;
+        temp3 = temp3 -> next;
+    }
+    temp2 -> next = temp1;
+    return temp2;
+}
+int Solution::lPalin(ListNode* A) {
+    if(A == NULL || A -> next == NULL){
+        return 1;
+    }
+    ListNode* slow = A, *fast = A, *pre = NULL;
+    while(slow && fast && fast -> next){
+        pre = slow;
+        slow = slow -> next;
+        fast = fast -> next -> next;
+    }
+    ListNode* B = reverse(slow);
+    pre -> next = NULL;
+
+    while(A && B){
+        if(A -> val != B -> val){
+            return false;
+        }
+        A = A -> next;
+        B = B -> next;
+    }
+    return true;
 }
