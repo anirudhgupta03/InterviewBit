@@ -1,3 +1,4 @@
+//method - 1
 /**
  * Definition for singly-linked list.
  * struct ListNode {
@@ -94,4 +95,41 @@ ListNode* Solution::deleteDuplicates(ListNode* A) {
         count = 1;
     }
     return A;
+}
+
+//Method - 3
+//Using Dummy Node
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+ListNode* Solution::deleteDuplicates(ListNode* A) {
+    
+    if(A == NULL || A -> next == NULL){
+        return A;
+    }
+    
+    ListNode* dummy = new ListNode(-1);
+    dummy -> next = A;
+
+    ListNode* ptr = A, *pre = dummy;
+    int count, ele;
+    while(ptr){
+        count = 0, ele = ptr -> val;
+        while(ptr && ptr -> val == ele){
+            count++;
+            ptr = ptr -> next;
+        }
+        if(count > 1){
+            pre -> next = ptr;
+        }
+        else{
+            pre = pre -> next;
+        }
+    }
+    return dummy -> next;
 }
