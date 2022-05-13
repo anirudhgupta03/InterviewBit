@@ -90,3 +90,36 @@ ListNode* Solution::mergeTwoLists(ListNode* A, ListNode* B) {
     }
     return head;
 }
+
+//Method - 3
+//Using Dummy Node
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+ListNode* Solution::mergeTwoLists(ListNode* A, ListNode* B) {
+    if(!A) return B;
+    if(!B) return A;
+    
+    ListNode* dummy = new ListNode(-1);
+    ListNode* ptr = dummy;
+    while(A && B){
+        if(A -> val < B -> val){
+            ptr -> next = A;
+            ptr = A;
+            A = A -> next;
+        }
+        else{
+            ptr -> next = B;
+            ptr = B;
+            B = B -> next;
+        }
+    }
+    if(A) ptr -> next = A;
+    if(B) ptr -> next = B;
+    return dummy -> next;
+}
