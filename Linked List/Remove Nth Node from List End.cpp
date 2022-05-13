@@ -1,3 +1,6 @@
+//Method - 1
+//TC - O(2*N)
+//SC - O(1)
 /**
  * Definition for singly-linked list.
  * struct ListNode {
@@ -47,6 +50,9 @@ ListNode* Solution::removeNthFromEnd(ListNode* A, int B) {
 
 //Method - 2
 //Ref: https://www.youtube.com/watch?v=Lhu3MsXZy-Q&t=512s
+//TC - O(N)
+//SC - O(1)
+//Optimal Method
 /**
  * Definition for singly-linked list.
  * struct ListNode {
@@ -80,4 +86,74 @@ ListNode* Solution::removeNthFromEnd(ListNode* A, int B) {
     }
     p2 -> next = p2 -> next -> next;
     return A;
+}
+
+//Method - 3
+//TC - O(2*N)
+//SC - O(1)
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+ListNode* Solution::removeNthFromEnd(ListNode* A, int B) {
+
+    int len = 0;
+    ListNode* temp = A;
+
+    while(temp){
+        len++;
+        temp = temp -> next;
+    }
+
+    if(B >= len){
+        return A -> next;
+    }
+    int d = len - B;
+    temp = A;
+    ListNode* pre = NULL;
+
+    while(d--){
+        pre = temp;
+        temp = temp -> next;
+    }
+    pre -> next = temp -> next;
+    return A;
+}
+
+//Method - 4
+//Using Slow & fast pointers and dummy node
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+ListNode* Solution::removeNthFromEnd(ListNode* A, int B) {
+
+    ListNode* dummy = new ListNode(-1);
+    dummy -> next = A;
+
+    ListNode* slow = dummy, *fast = dummy;
+
+    while(fast && B--){
+        fast = fast -> next;
+    }
+
+    if(fast == NULL){
+        return A -> next;
+    }
+    else{
+        while(fast -> next){
+            slow = slow -> next;
+            fast = fast -> next;
+        }
+        slow -> next = slow -> next -> next;
+        return dummy -> next;
+    }
 }
