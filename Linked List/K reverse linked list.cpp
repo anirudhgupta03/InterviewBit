@@ -99,3 +99,39 @@ ListNode* Solution::reverseList(ListNode* A, int B) {
     }
     return A;
 }
+
+//Method - 3
+//Using Dummy Node
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+ListNode* Solution::reverseList(ListNode* A, int B) {
+
+    ListNode* dummy = new ListNode(-1);
+    dummy -> next = A;
+
+    ListNode* ptr = A, *pre = dummy;
+    int k;
+    
+    while(ptr){
+        k = B - 1;
+        ListNode* temp1 = NULL, *temp2 = ptr, *temp3 = ptr -> next;
+        while(k--){
+            temp2 -> next = temp1;
+            temp1 = temp2;
+            temp2 = temp3;
+            temp3 = temp3 -> next;
+        }
+        temp2 -> next = temp1;
+        pre -> next = temp2;
+        ptr -> next = temp3;
+        pre = ptr;
+        ptr = temp3;
+    }
+    return dummy -> next;
+}
