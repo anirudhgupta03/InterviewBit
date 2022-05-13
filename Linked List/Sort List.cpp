@@ -199,15 +199,11 @@ ListNode* merge(ListNode* l1, ListNode* l2){
             l2 = l2 -> next;
         }
     }
-    while(l1){
+    if(l1){
         ptr -> next = l1;
-        ptr = l1;
-        l1 = l1 -> next;
     }
-    while(l2){
+    if(l2){
         ptr -> next = l2;
-        ptr = l2;
-        l2 = l2 -> next;
     }
     return dummy -> next;
 }
