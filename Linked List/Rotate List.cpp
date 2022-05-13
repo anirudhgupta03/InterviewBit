@@ -1,3 +1,4 @@
+//Method - 1
 /**
  * Definition for singly-linked list.
  * struct ListNode {
@@ -42,4 +43,79 @@ ListNode* Solution::rotateRight(ListNode* A, int B) {
     }
     p1 -> next = NULL;
     return A;
+}
+
+//Method - 2
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+ListNode* Solution::rotateRight(ListNode* A, int B) {
+
+    if(A == NULL || A -> next == NULL){
+        return A;
+    }
+
+    int len = 0;
+    ListNode* temp = A;
+
+    while(temp){
+        len++;
+        temp = temp -> next;
+    }
+    ListNode* dummy = new ListNode(-1);
+    dummy -> next = A;
+
+    ListNode* slow = dummy, *fast = dummy;  
+
+    B %= len;
+    while(B--){
+        fast = fast -> next;
+    }
+    while(fast -> next){
+        slow = slow -> next;
+        fast = fast -> next;
+    }
+    fast -> next = dummy -> next;
+    dummy -> next = slow -> next;
+    slow -> next = NULL;
+    return dummy -> next;
+} 
+
+//Method - 3
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+ListNode* Solution::rotateRight(ListNode* A, int B) {
+
+    if(A == NULL || A -> next == NULL || B == 0){
+        return A;
+    }
+    int len = 0;
+    ListNode* temp = A, *pre = NULL;
+    while(temp){
+        len++;
+        pre = temp;
+        temp = temp -> next;
+    }
+    pre -> next = A;
+    B = B%len;
+    B = len - B;
+    B--;
+    temp = A;
+    while(B--){
+        temp = temp -> next;
+    }
+    ListNode* head = temp -> next;
+    temp -> next = NULL;
+    return head;
 }
