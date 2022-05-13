@@ -1,3 +1,4 @@
+//Method - 1
 /**
  * Definition for singly-linked list.
  * struct ListNode {
@@ -62,5 +63,95 @@ ListNode* Solution::solve(ListNode* A) {
     }
     temp2 -> next = temp1;                     
     prev -> next = temp2;                      //Merge both the halves
+    return A;
+}
+
+//Method - 2
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+ListNode* reverse(ListNode* list){
+    if(list == NULL || list -> next == NULL){
+        return list;
+    }
+    ListNode* temp1 = NULL, *temp2 = list, *temp3 = list -> next;
+    while(temp3){
+        temp2 -> next = temp1;
+        temp1 = temp2;
+        temp2 = temp3;
+        temp3 = temp3 -> next;
+    }
+    temp2 -> next = temp1;
+    return temp2;
+}
+ListNode* Solution::solve(ListNode* A) {
+
+    if(A == NULL || A -> next == NULL){
+        return A;
+    }
+    ListNode* temp = A;
+    int len = 0;
+
+    while(temp){
+        len++;
+        temp = temp -> next;
+    }
+
+    ListNode* pre = NULL, *slow = A, *fast = A;
+
+    while(fast && fast -> next){        
+        pre = slow;
+        slow = slow -> next;
+        fast = fast -> next -> next;
+    }
+    pre -> next = NULL;                         //Divide the linked list from the middle
+    slow = reverse(slow);                       //Reverse the second half
+
+    ListNode* temp1 = A, *temp2 = slow;
+    ListNode* pre1 = temp1, *pre2 = NULL;
+    temp1 = temp1 -> next;
+
+    if(len % 2 != 0){
+        pre2 = temp2;
+        temp2 = temp2 -> next;
+    }
+    
+    ListNode* t1, *t2;
+    while(temp1 && temp2){                      //Swapping the nodes
+        
+        t1 = temp1 -> next;
+        t2 = temp2 -> next;
+        pre1 -> next = temp2;
+        temp2 -> next = t1;
+        pre1 = t1;
+
+        if(pre2 == NULL){
+            slow = temp1;
+        }
+        else{
+            pre2 -> next = temp1;
+        }
+        temp1 -> next = t2;
+        pre2 = t2;
+
+        if(t1) temp1 = t1 -> next;
+        else break;
+        
+        if(t2) temp2 = t2 -> next;
+        else break;
+    }
+    slow = reverse(slow);                      //Again reverse the latter half of the linked list
+    pre = NULL, temp = A;
+
+    while(temp){
+        pre = temp;
+        temp = temp -> next;
+    }
+    pre -> next = slow;
     return A;
 }
