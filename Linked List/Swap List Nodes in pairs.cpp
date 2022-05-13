@@ -98,3 +98,32 @@ ListNode* Solution::swapPairs(ListNode* A) {
     }
     return A;
 }
+
+//Method - 3
+//Using Dummy Node
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+ListNode* Solution::swapPairs(ListNode* A) {
+    if(A == NULL || A -> next == NULL){
+        return A;
+    }
+    ListNode* dummy = new ListNode(-1);
+    dummy -> next = A;
+
+    ListNode* pre = dummy, *curr = A, *temp;
+    while(curr && curr -> next){
+        temp = curr -> next;
+        curr -> next = temp -> next;
+        pre -> next = temp;
+        temp -> next = curr;
+        pre = curr;
+        curr = curr -> next;
+    }
+    return dummy -> next;
+}
