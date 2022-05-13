@@ -55,3 +55,30 @@ ListNode* Solution::deleteDuplicates(ListNode* A) {
     start -> next = NULL;
     return A;
 }
+
+//Method - 3
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+ListNode* Solution::deleteDuplicates(ListNode* A) {
+    if(A == NULL || A -> next == NULL){
+        return A;
+    }
+    ListNode* pre = A, *curr = A -> next;
+    while(curr){
+        if(curr -> val == pre -> val){
+            pre -> next = curr -> next;
+            curr = pre -> next;
+        }
+        else{
+            pre = curr;
+            curr = curr -> next;
+        }
+    }
+    return A;
+}
