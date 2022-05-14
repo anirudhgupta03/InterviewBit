@@ -117,3 +117,54 @@ ListNode* Solution::reorderList(ListNode* A) {
     }
     return A;
 }
+
+//Method - 3
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+ListNode* reverseList(ListNode* list){
+
+    ListNode* temp1 = NULL, *temp2 = list, *temp3 = list -> next;
+    while(temp3){
+        temp2 -> next = temp1;
+        temp1 = temp2;
+        temp2 = temp3;
+        temp3 = temp3 -> next;
+    }
+    temp2 -> next = temp1;
+    return temp2;
+}
+ListNode* Solution::reorderList(ListNode* A) {
+    if(A == NULL || A -> next == NULL){
+        return A;
+    }
+    ListNode* slow = A, *fast = A, *pre = NULL;
+    
+    while(fast && fast -> next){
+        pre = slow;
+        slow = slow -> next;
+        fast = fast -> next -> next;
+    }
+    pre -> next = NULL;
+    slow = reverseList(slow);
+
+    ListNode* ptr1 = A, *ptr2 = slow;
+    ListNode* temp;
+    while(ptr1 && ptr2){
+        temp = ptr2 -> next;
+        ptr2 -> next = ptr1 -> next;
+        ptr1 -> next = ptr2;
+        pre = ptr2;
+        ptr1 = ptr2 -> next;
+        ptr2 = temp;
+    }
+    if(ptr2){
+        pre -> next = ptr2;
+    }
+    return A;
+}
