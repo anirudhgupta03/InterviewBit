@@ -67,7 +67,7 @@ vector<vector<int> > Solution::threeSum(vector<int> &A) {
                 lo++;
                 hi--;
                 while(lo < hi && A[lo] == A[lo - 1]) lo++;
-                while(lo < hi && A[hi] == A[hi + 1] && lo < hi) hi--;
+                while(lo < hi && A[hi] == A[hi + 1]) hi--;
             }
             else if(sum > 0){
                 hi--;
