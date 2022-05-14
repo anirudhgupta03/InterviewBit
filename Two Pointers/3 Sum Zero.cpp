@@ -53,42 +53,29 @@ vector<vector<int> > Solution::threeSum(vector<int> &A) {
 //Method - 2
 #define ll long long
 vector<vector<int> > Solution::threeSum(vector<int> &A) {
-    
+    sort(A.begin(), A.end());
     vector<vector<int>> res;
     
-    if(A.size() < 3){
-        return res;
-    }
-    sort(A.begin(),A.end());
-    
-    for(int i = 0; i <= A.size() - 3; i++){
+    for(int i = 0; i < A.size(); i++){
+        if(i && A[i] == A[i - 1]) continue;
         
-        if(i != 0 && A[i] == A[i-1]){
-            continue;
-        }
-        int l = i + 1, r = A.size() - 1;
-        
-        while(l < r){
-            
-            ll s = ((ll)A[i] + (ll)A[l] + (ll)A[r]);
-            
-            if(s == 0){
-                vector<int> temp = {A[i],A[l],A[r]};
-                res.push_back(temp);
-                
-                while(l < r && A[l] == A[l+1]) l++;
-                while(l < r && A[r] == A[r-1]) r--;
-                l++;
-                r--;
+        int lo = i + 1, hi = A.size() - 1;
+        while(lo < hi){
+            ll sum = (ll)A[i] + (ll)A[lo] + (ll)A[hi];
+            if(sum == 0){
+                res.push_back({A[i], A[lo], A[hi]});
+                lo++;
+                hi--;
+                while(lo < hi && A[lo] == A[lo - 1]) lo++;
+                while(lo < hi && A[hi] == A[hi + 1] && lo < hi) hi--;
             }
-            else if(s < 0){
-                l++;
+            else if(sum > 0){
+                hi--;
             }
             else{
-                r--;
+                lo++;
             }
         }
     }
-    
     return res;
 }
