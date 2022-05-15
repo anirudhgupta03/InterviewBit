@@ -73,3 +73,29 @@ vector<int> Solution::maxone(vector<int> &A, int B) {
 
     return res;
 }
+
+//Method - 3
+vector<int> Solution::maxone(vector<int> &A, int B) {
+    int l, r, maxLen = 0, lo = 0, hi = 0;
+    while(hi < A.size()){
+        if(A[hi] == 0){
+            B--;
+            if(B < 0){
+                while(lo < hi && A[lo] == 1) lo++;
+                lo++;
+                B++;
+            }
+        }
+        hi++;
+        if(hi - lo > maxLen){
+            maxLen = hi - lo;
+            l = lo;
+            r = hi - 1;
+        }
+    }
+    vector<int> res;
+    for(int i = l; i <= r; i++){
+        res.push_back(i);
+    }
+    return res;
+}
