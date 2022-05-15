@@ -99,3 +99,30 @@ int Solution::nTriang(vector<int> &A) {
     }
     return count;
 }
+
+//Method - 4
+#define mod 1000000007
+int Solution::nTriang(vector<int> &A) {
+
+    int n = A.size(), count = 0;
+    sort(A.begin(), A.end());
+
+    for(int i = 0; i < A.size() - 2; i++){
+        
+        int ptr1 = n - 2, ptr2 = n - 1;
+        
+        while(ptr1 > i){
+            if(ptr1 == ptr2){
+                ptr1--;
+            }
+            else if(A[i] + A[ptr1] > A[ptr2]){
+                count = (count + ptr2 - ptr1)%mod;
+                ptr1--;
+            }
+            else{
+                ptr2--;
+            }
+        }
+    }
+    return count%mod;
+}
