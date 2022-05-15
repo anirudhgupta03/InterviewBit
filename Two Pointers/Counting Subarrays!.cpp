@@ -61,33 +61,62 @@ int Solution::solve(vector<int> &A, int B) {
 //Method - 3
 //Very Good
 int Solution::solve(vector<int> &A, int B) {
-
-    int sum = 0;
-
-    int lo = 0, hi = 0, count = 0, n;
-
+    int sum = 0, lo = 0, hi = 0, count = 0, n;
     while(hi < A.size()){
-
         sum += A[hi];
-
         if(sum >= B){
             n = hi - lo;
             count += (n*(n+1))/2;
-
             while(lo <= hi && sum >= B){
                 sum -= A[lo];
                 lo++;
             }
-            
             if(lo < hi){
                 n = hi - lo;
                 count -= (n*(n+1))/2;
             }
-            
         }
         hi++;
     }
     n = A.size() - lo;
     count += (n*(n+1))/2;    
+    return count;
+}
+
+//Method - 4
+//Best Method
+int Solution::solve(vector<int> &A, int B) {
+    int lo = 0, hi = 0, count = 0, sum = 0;
+    while(hi < A.size()){
+        sum += A[hi];
+        while(sum >= B && lo <= hi){
+            sum -= A[lo];
+            lo++;
+        }
+        count += hi - lo + 1;
+        hi++;
+    }
+    return count;
+}
+
+//Method - 5
+int Solution::solve(vector<int> &A, int B) {
+    int lo = 0, hi = 0, count = 0, sum = 0, len;
+    while(hi < A.size()){
+        sum += A[hi];
+        if(sum >= B){
+            len = hi - lo;
+            count += (len*(len + 1))/2;
+            while(sum >= B && lo <= hi){
+                sum -= A[lo];
+                lo++;
+            }
+            len = hi - lo;
+            count -= (len*(len + 1))/2;
+        }
+        hi++;
+    }
+    len = hi - lo;
+    count += (len*(len + 1))/2;
     return count;
 }
