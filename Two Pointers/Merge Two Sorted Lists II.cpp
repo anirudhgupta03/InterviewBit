@@ -61,3 +61,39 @@ void Solution::merge(vector<int> &A, vector<int> &B) {
         A.push_back(B[i]);
     }
 }
+
+//Method - 3
+//TC - O(m + n)
+//SC - O(1)
+void Solution::merge(vector<int> &A, vector<int> &B) {
+    
+    int m = A.size(), n = B.size();
+
+    int i = m - 1, j = n - 1, k = n + m - 1;
+
+    A.resize(m + n);
+    
+    while(i >= 0 && j >= 0){
+        if(A[i] > B[j]){
+            A[k] = A[i];
+            k--;
+            i--;
+        }
+        else{
+            A[k] = B[j];
+            k--;
+            j--;
+        }
+    }
+
+    while(i >= 0){
+        A[k] = A[i];
+        k--;
+        i--;
+    }
+    while(j >= 0){
+        A[k] = B[j];
+        k--;
+        j--;
+    }
+}
