@@ -58,3 +58,22 @@ int Solution::removeDuplicates(vector<int> &A) {
     }
     return l;
 }
+
+//Method - 3
+int Solution::removeDuplicates(vector<int> &A) {
+    int ptr = 0, i = 0, count = 0;
+    while(i < A.size()){
+        int ele = A[i];
+        while(i < A.size() && A[i] == ele){
+            count++;
+            i++;
+        }
+        count = min(count, 2);
+        while(count--){
+            A[ptr] = ele;
+            ptr++;
+        }
+        count = 0;
+    }
+    return ptr;
+}
