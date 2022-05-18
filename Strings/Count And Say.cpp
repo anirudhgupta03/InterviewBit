@@ -25,6 +25,7 @@ string Solution::countAndSay(int A) {
     }
     return s;
 }
+
 //Method - 2
 //Using Two Pointer 
 string Solution::countAndSay(int A) {
@@ -58,4 +59,27 @@ string Solution::countAndSay(int A) {
         prev = res;
     }
     return prev;
+}
+
+//Method - 3
+string Solution::countAndSay(int A) {
+    string pre = "1";
+    A--;
+    while(A--){
+        string curr;
+        char ele;
+        int i = 0, count;
+        while(i < pre.size()){
+            count = 0;
+            ele = pre[i];
+            while(i < pre.size() && pre[i] == ele){
+                count++;
+                i++;
+            }
+            curr += to_string(count);
+            curr.push_back(ele);
+        }
+        pre = curr;
+    }
+    return pre;
 }
