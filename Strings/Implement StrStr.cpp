@@ -41,7 +41,7 @@ int Solution::strStr(const string A, const string B) {
 }
 
 //KMP String Matching Algo
-//TC - O(n)
+//TC - O(n + m)
 //SC - O(n)
 int Solution::strStr(const string A, const string B) {
 
@@ -52,7 +52,8 @@ int Solution::strStr(const string A, const string B) {
         return -1;
     }
     int n = B.size();
-
+    int m = A.size();
+    
     vector<int> lps(n);
 
     lps[0] = 0;
