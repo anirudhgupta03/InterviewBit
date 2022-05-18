@@ -1,3 +1,4 @@
+//Method - 1
 int Solution::solve(int A) {
 
     vector<int> bits;
@@ -18,4 +19,15 @@ int Solution::solve(int A) {
         i++;
     }
     return ans;
+}
+
+//Method - 2
+int Solution::solve(int A) {
+
+    int x = 1;
+    while(x <= A){
+        x <<= 1;
+    }
+    x--;
+    return (x ^ A);
 }
