@@ -83,3 +83,39 @@ string Solution::addBinary(string A, string B) {
     }
     return B;
 }
+
+//Method - 3
+string Solution::addBinary(string A, string B) {
+    if(A.size() == 0) return B;
+    if(B.size() == 0) return A;
+    int carry = 0, ptr1 = A.size() - 1, ptr2 = B.size() - 1, bit1, bit2, currbit;
+    
+    string res;
+    while(ptr1 >= 0 && ptr2 >= 0){
+        bit1 = A[ptr1] - '0', bit2 = B[ptr2] - '0';
+        currbit = carry^bit1^bit2;
+        res.push_back(currbit + '0');
+        carry = (carry & bit1) | (carry & bit2) | (bit1 && bit2); 
+        ptr1--;
+        ptr2--;
+    }
+    while(ptr1 >= 0){
+        bit1 = A[ptr1] - '0';
+        currbit = carry^bit1;
+        res.push_back(currbit + '0');
+        carry = carry & bit1;
+        ptr1--;
+    }
+    while(ptr2 >= 0){
+        bit2 = B[ptr2] - '0';
+        currbit = carry^bit2;
+        res.push_back(currbit + '0');
+        carry = carry & bit2;
+        ptr2--;
+    }
+    if(carry){
+        res.push_back(carry + '0');
+    }
+    reverse(res.begin(), res.end());
+    return res;
+}
