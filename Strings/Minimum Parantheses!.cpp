@@ -1,3 +1,4 @@
+//Method - 1
 int Solution::solve(string A) {
     
     stack<char> s;
@@ -17,4 +18,23 @@ int Solution::solve(string A) {
     }
     
     return s.size() + count;
+}
+
+//Method - 2
+int Solution::solve(string A) {
+    stack<char> st;
+    for(int i = 0; i < A.size(); i++){
+        if(A[i] == '('){
+            st.push('(');
+        }
+        else{
+            if(!st.empty() && st.top() == '('){
+                st.pop();
+            }
+            else{
+                st.push(')');
+            }
+        }
+    }
+    return st.size();
 }
