@@ -90,3 +90,35 @@ int Solution::compareVersion(string A, string B) {
     }
     return 0;
 }
+
+//Method - 3
+int Solution::compareVersion(string A, string B) {
+
+    if(A == B){
+        return 0;
+    }
+
+    int ptr1 = 0, ptr2 = 0;
+
+    while(ptr1 < A.size() || ptr2 < B.size()){
+
+        double val1 = 0, val2 = 0;
+
+        while(ptr1 < A.size() && A[ptr1] != '.'){
+            val1 = 10*val1 + A[ptr1] - '0';
+            ptr1++;
+        }
+
+        while(ptr2 < B.size() && B[ptr2] != '.'){
+            val2 = 10*val2 + B[ptr2] - '0';
+            ptr2++;
+        }
+        
+        if(val1 > val2) return 1;
+        else if(val1 < val2) return -1;
+
+        ptr1++;
+        ptr2++;
+    }
+    return 0;
+}
