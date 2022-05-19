@@ -72,3 +72,41 @@ string Solution::longestPalindrome(string A) {
     }
     return A.substr(l,max_len);
 }
+
+//Method - 3
+string Solution::longestPalindrome(string A) {
+    int n = A.size();
+    if(n == 1) return A;
+
+    bool dp[n][n];      //int dp[n][n] gives MLE
+    
+    memset(dp,0,sizeof(dp));
+
+    string res;
+    res.push_back(A[0]);
+    int maxLen = 1;
+    for(int i = 0; i < n; i++) dp[i][i] = 1;
+
+    for(int i = n - 2; i >= 0; i--){
+        if(A[i] == A[i + 1]){
+            maxLen = 2;
+            res = A.substr(i,2);
+            dp[i][i + 1] = 1;
+        }
+    }
+
+    for(int i = n - 3; i >= 0; i--){
+        for(int j = i + 2; j < n; j++){
+            if(A[i] == A[j]){
+                dp[i][j] = dp[i + 1][j - 1];
+                if(dp[i][j]){
+                    if(j - i + 1 >= maxLen){
+                        maxLen = j - i + 1;
+                        res = A.substr(i, maxLen);
+                    }
+                }
+            }
+        }
+    }
+    return res;
+}
