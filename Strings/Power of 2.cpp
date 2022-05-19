@@ -104,3 +104,26 @@ int Solution::power(string A) {
     }
     return 0;
 }
+
+//Method - 4
+int Solution::power(string A) {
+    
+    string B;
+    while(1){
+        int i = 0, carry = 0, temp;
+        bool flag = false;
+        
+        while(i < A.size()){
+            temp = 10*carry + A[i] - '0';
+            int curr = temp/2;
+            if(curr) flag = true;
+            if(flag) B.push_back(temp/2 + '0');
+            carry = temp % 2;
+            i++;
+        }
+        if(carry) return 0;
+        if(B == "1") return 1;
+        A = B;
+        B = "";
+    }
+}
