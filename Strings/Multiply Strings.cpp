@@ -1,3 +1,4 @@
+//Method - 1
 //Brute Force Approach
 string Solution::multiply(string A, string B) {
     
@@ -59,6 +60,84 @@ string Solution::multiply(string A, string B) {
     return res.substr(i,res.size()-i);
 }
 
+//Method - 2
+string Solution::multiply(string A, string B) {
+
+    int len1 = A.size(), len2 = B.size();
+
+    vector<int> res(len1 + len2, 0);
+
+    for(int i = len2 - 1; i >= 0; i--){
+        int ind = res.size() - (len2 - i), carry1 = 0, carry2 = 0;
+        for(int j = len1 - 1; j >= 0; j--){
+            int curr1 = (B[i] - '0')*(A[j] - '0') + carry1;
+            int curr2 = res[ind] + curr1 % 10 + carry2;
+            res[ind] = curr2 % 10;
+            carry2 = curr2 / 10;
+            carry1 = curr1 / 10;
+            ind--;
+        }
+        if(carry1){
+            int curr1 = carry1;
+            int curr2 = res[ind] + curr1 % 10 + carry2;
+            res[ind] = curr2 % 10;
+            carry2 = curr2 / 10;
+            carry1 = curr1 / 10;
+            ind--;
+        }
+        while(carry2){
+            res[ind] = carry2 % 10;
+            carry2 /= 10;
+            ind--;
+        }
+    }
+    string ans;
+    int ptr = 0;
+    while(ptr < res.size() - 1 && res[ptr] == 0) ptr++;
+    
+    while(ptr < res.size()){
+        ans.push_back(res[ptr] + '0');
+        ptr++;
+    }
+    return ans;
+}
+
+//Method - 3
+//Optimised Method - 2
+//Ref: https://www.youtube.com/watch?v=5NdhK3tZViQ
+string Solution::multiply(string A, string B) {
+
+    int len1 = A.size(), len2 = B.size();
+
+    vector<int> res(len1 + len2, 0);
+
+    for(int i = len2 - 1; i >= 0; i--){
+        int ind = res.size() - (len2 - i), carry = 0;
+        for(int j = len1 - 1; j >= 0; j--){
+            int curr = (B[i] - '0')*(A[j] - '0') + carry + res[ind];
+            res[ind] = curr % 10;
+            carry = curr / 10;
+            ind--;
+        }
+        while(carry){
+            int curr = res[ind] + carry;
+            res[ind] = curr % 10;
+            carry = curr / 10;
+            ind--;
+        }
+    }
+    string ans;
+    int ptr = 0;
+    while(ptr < res.size() - 1 && res[ptr] == 0) ptr++;
+    
+    while(ptr < res.size()){
+        ans.push_back(res[ptr] + '0');
+        ptr++;
+    }
+    return ans;
+}
+
+//Method - 4
 //Optimal Approach
 //Ref: https://www.youtube.com/watch?v=CnEFY5Y3Z68
 //Time Complexity - O(M*N)
@@ -98,6 +177,8 @@ string Solution::multiply(string A, string B) {
     
 }
 
+//Method - 5
+//Best Method
 string Solution::multiply(string A, string B) {
     
     int m = A.size(), n = B.size();
