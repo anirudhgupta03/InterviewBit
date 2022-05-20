@@ -1,3 +1,4 @@
+//Method - 1
 string Solution::convert(string A, int B) {
     
     if(B == 1){
@@ -72,6 +73,38 @@ string Solution::convert(string A, int B) {
         }
     }
     
+    string res;
+    for(int i = 0; i < B; i++){
+        res += v[i];
+    }
+    return res;
+}
+
+//Method - 3
+string Solution::convert(string A, int B) {
+    
+    if(B >= A.size() || B == 1) return A;
+    vector<string> v(B);
+
+    int i = 0, ind = 0;
+    while(i < A.size()){
+        while(ind < B && i < A.size()){
+            v[ind].push_back(A[i]);
+            ind++;
+            i++;
+        }
+        if(ind == B){
+            ind -= 2;
+            while(ind >= 0 && i < A.size()){
+                v[ind].push_back(A[i]);
+                i++;
+                ind--;
+            }
+        }
+        if(ind == -1){
+            ind += 2;
+        }
+    }
     string res;
     for(int i = 0; i < B; i++){
         res += v[i];
