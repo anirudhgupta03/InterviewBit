@@ -1,4 +1,5 @@
 //Method - 1
+//Optimal Approach
 double Solution::findMedianSortedArrays(const vector<int> &A, const vector<int> &B) {
     
     if(A.size() > B.size()){
