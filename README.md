@@ -7,5 +7,5 @@ Algo - KMP
 
 Q - Find Nth Fibonacci<br/>
 Ref: https://www.youtube.com/watch?v=oBH9dH6KGLM<br/>
-Algo - Matrix Exponentiation
-![alt text](https://github.com/anirudhgupta03/InterviewBit/blob/main/Matrix%20Exponentiation.jpg)
+Algo - Matrix Exponentiation<br/>
+![Matrix Exponentiation](https://github.com/anirudhgupta03/InterviewBit/blob/main/Matrix%20Exponentiation.jpg)
