@@ -8,4 +8,4 @@ Algo - KMP
 Q - Find Nth Fibonacci<br/>
 Ref: https://www.youtube.com/watch?v=oBH9dH6KGLM<br/>
 Algo - Matrix Exponentiation
-![alt text]([http://url/to/img.png](https://github.com/anirudhgupta03/InterviewBit/blob/main/Matrix%20Exponentiation.jpg))
+![alt text](https://github.com/anirudhgupta03/InterviewBit/blob/main/Matrix%20Exponentiation.jpg)
