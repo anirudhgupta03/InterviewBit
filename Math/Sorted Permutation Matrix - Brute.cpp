@@ -1,32 +1,26 @@
-int fact(int n){
-    
-    if(n == 0){
-        return 1;
-    }
-    return (n * fact(n-1))%1000003;
-}
-
+//TC - O(n*n)
+//SC - O(n)
+#define ll long long
 int Solution::findRank(string A) {
-    
-    string s = A;
-    sort(s.begin(),s.end());
-    map<char,int> m;
-    
-    for(int i = 0; i < s.size(); i++){
-        m[s[i]] = i;
+
+    int n = A.size();
+
+    vector<ll> fact(n + 1);
+
+    ll ans = 0, mod = 1000003, k = n - 1;
+    fact[0] = 1;
+    fact[1] = 1;
+
+    for(int i = 2; i <= n; i++){
+        fact[i] = (fact[i - 1] * i)%mod;
     }
-    int ans = 0;
-    
-    for(int i = 0; i < A.size(); i++){
-        for(int j = 0; j < s.size(); j++){
-            if(A[i] < s[j]){
-                m[s[j]]--;
-            }
+
+    for(int i = 0; i < n; i++){
+        int count = 0;
+        for(int j = i + 1; j < n; j++){
+            if(A[j] < A[i]) count++;
         }
-        if(A[i] == s[0]){
-            continue;
-        }
-        ans = (ans + (fact(A.size()-i-1)*m[A[i]]))%1000003;
+        ans = (ans + (count*fact[n - i - 1])%mod)%mod;
     }
-    return ans+1;
+    return (ans + 1)%mod;
 }
