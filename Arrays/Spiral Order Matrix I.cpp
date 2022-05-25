@@ -123,3 +123,102 @@ vector<int> Solution::spiralOrder(const vector<vector<int> > &A) {
     
     return res;
 }
+
+//Method - 3
+//Better Method
+vector<int> Solution::spiralOrder(const vector<vector<int> > &A) {
+
+    int m = A.size(), n = A[0].size();
+    vector<int> res;
+
+    int left = 0, right = n - 1, up = 0, down = m - 1;
+    bool flag;
+    
+    while(left <= right && up <= down){
+
+        int i = left;
+        flag = false;
+
+        while(i <= right){
+            flag = true;
+            res.push_back(A[up][i]);
+            i++;
+        }
+        if(!flag) break;
+        up++;
+
+        i = up;
+        flag = false;
+        while(i <= down){
+            flag = true;
+            res.push_back(A[i][right]);
+            i++;
+        }
+        if(!flag) break;
+        right--;
+
+        i = right;
+        flag = false;
+        while(i >= left){
+            flag = true;
+            res.push_back(A[down][i]);
+            i--;
+        }
+        if(!flag) break;
+        down--;
+
+        i = down;
+
+        flag = false;
+        while(i >= up){
+            flag = true;
+            res.push_back(A[i][left]);
+            i--;
+        }
+        if(!flag) break;
+        left++;
+    }
+    return res;
+}
+
+//Method - 4
+//Ref: https://www.youtube.com/watch?v=1ZGJzvkcLsA
+//Optimal 
+vector<int> Solution::spiralOrder(const vector<vector<int> > &A) {
+
+    int m = A.size(), n = A[0].size();
+    vector<int> res;
+
+    int left = 0, right = n - 1, up = 0, down = m - 1, dir = 0;
+    bool flag;
+    
+    while(left <= right && up <= down){
+
+        if(dir == 0){
+            for(int i = left; i <= right; i++){
+                res.push_back(A[up][i]);
+            }
+            up++;
+        }
+        else if(dir == 1){
+            for(int i = up; i <= down; i++){
+                res.push_back(A[i][right]);
+            }
+            right--;
+        }
+        else if(dir == 2){
+            for(int i = right; i >= left; i--){
+                res.push_back(A[down][i]);
+            }
+            down--;
+        }
+        else if(dir == 3){
+            for(int i = down; i >= up; i--){
+                res.push_back(A[i][left]);
+            }
+            left++;
+        }
+        dir = (dir + 1) % 4;
+    }
+    return res;
+}
