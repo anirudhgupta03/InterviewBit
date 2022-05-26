@@ -1,3 +1,4 @@
+//Method - 1
 //Time Complexity - O(NlogN) 
 //If strings are large then Time Complexity - O(len(longest String)*NlogN)
 //Space Complexity - O(N)
@@ -25,4 +26,25 @@ string Solution::largestNumber(const vector<int> &A) {
     }
     if(s[0]=='0') return "0";
     return s;
+}
+
+//Method - 2
+bool cmp(string &s1, string &s2){
+    return (s1 + s2) > (s2 + s1);
+}
+string Solution::largestNumber(const vector<int> &A) {
+    vector<string> v;
+    for(int i = 0; i < A.size(); i++){
+        v.push_back(to_string(A[i]));
+    }
+    sort(v.begin(), v.end(), cmp);
+
+    string res;
+
+    for(int i = 0; i < v.size(); i++){
+        res += v[i];
+    }
+    int i = 0;
+    while(i < res.size() - 1 && res[i] == '0') i++;
+    return res.substr(i);
 }
