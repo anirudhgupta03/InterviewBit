@@ -111,3 +111,32 @@ int Solution::solve(vector<int> &A) {
     }
     return count;
 }
+
+//Method - 4
+int Solution::solve(vector<int> &A) {
+
+    int evenSum = 0, oddSum = 0;
+
+    for(int i = 0; i < A.size(); i++){
+        if(i % 2 == 0) evenSum += A[i];
+        else oddSum += A[i];
+    }
+
+    int currEvenSum = 0, currOddSum = 0, remEvenSum, remOddSum, count = 0;
+
+    for(int i = 0; i < A.size(); i++){
+
+        if(i % 2 == 0){
+            remEvenSum = oddSum - currOddSum + currEvenSum;
+            remOddSum = evenSum - currEvenSum - A[i] + currOddSum;
+            currEvenSum += A[i];
+        }
+        else{
+            remOddSum = evenSum - currEvenSum + currOddSum;
+            remEvenSum = oddSum - currOddSum  - A[i] + currEvenSum;
+            currOddSum += A[i];
+        }
+        if(remEvenSum == remOddSum) count++;
+    }
+    return count;
+}
