@@ -20,6 +20,7 @@ Then, for above 2 cases, we find the maximum value possible. For that, we just h
 //Ref: https://www.youtube.com/watch?v=Ov4weYCIipg
 //Time Complexity - O(N)
 //Space Complexity - O(N)
+//Method - 1
 int Solution::maxArr(vector<int> &A) {
     
     int n=A.size();
@@ -54,4 +55,28 @@ int Solution::maxArr(vector<int> &A) {
         }
     }
     return max(max1-min1,max2-min2);
+}
+
+//Method - 2
+int Solution::maxArr(vector<int> &A) {
+
+    int n = A.size();
+
+    int maxVal = INT_MIN, minVal = INT_MAX, ans;
+
+    for(int i = 0; i < n; i++){
+        maxVal = max(maxVal, A[i] + i);
+        minVal = min(minVal, A[i] + i);
+    }
+
+    ans = maxVal - minVal;
+
+    minVal = INT_MAX, maxVal = INT_MIN;
+
+    for(int i = 0; i < n; i++){
+        maxVal = max(maxVal, A[i] - i);
+        minVal = min(minVal, A[i] - i);
+    }
+    ans = max(ans, maxVal - minVal);
+    return ans;
 }
