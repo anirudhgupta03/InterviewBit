@@ -55,10 +55,10 @@ vector<int> Solution::plusOne(vector<int> &A) {
         A.insert(A.begin(),carry);
     }
 
-    while(A[0] == 0){
-        A.erase(A.begin());
+    reverse(A.begin(), A.end());
+    while(A.back() == 0){
+        A.pop_back();
     }
-    
+    reverse(A.begin(), A.end());
     return A;
 }
-
