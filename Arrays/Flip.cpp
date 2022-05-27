@@ -1,3 +1,34 @@
+//Method - 1
+//Method - 2
+vector<int> Solution::flip(string A) {
+
+    int l = -1, r = -1, currsum = 0, maxsum = 0, tl = 0;
+
+    for(int i = 0; i < A.size(); i++){
+
+        if(A[i] == '0') currsum++;
+        else currsum--;
+
+        if(currsum > maxsum){
+            maxsum = currsum;
+            l = tl;
+            r = i;
+        }
+
+        if(currsum < 0){
+            currsum = 0;
+            tl = i + 1;
+        }
+    }
+    vector<int> res;
+    if(l != -1 && r != -1){
+        res.push_back(l + 1);
+        res.push_back(r + 1);
+    }
+    return res;
+}
+
+//Method - 2
 //Ref: https://www.youtube.com/watch?v=cLVpE5q_-DE
 //Time Complexity - O(N)
 //Space Complexity - O(1)
