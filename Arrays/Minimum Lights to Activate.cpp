@@ -65,3 +65,36 @@ int Solution::solve(vector<int> &A, int B) {
     }
     return count;
 }
+
+//Method - 3
+//Ref: https://www.youtube.com/watch?v=CQ0Tlu3o7Yg
+int Solution::solve(vector<int> &A, int B) {
+
+    int n = A.size();
+
+    int count = 0, curr = 0;
+
+    while(curr < n){
+
+        int pre = max(0, curr - B + 1);
+        int next = min(n - 1,curr + B - 1);
+
+        bool flag = false;
+
+        while(next >= pre){
+            if(A[next]){
+                flag = true;
+                break;
+            }
+            next--;
+        }
+        if(flag){
+            count++;
+            curr = next + B;
+        }
+        else{
+            return -1;
+        }
+    }
+    return count;
+}
