@@ -80,3 +80,33 @@ int Solution::solve(vector<int> &A) {
     }
     return ans;
 }
+
+//Method - 3
+int Solution::solve(vector<int> &A) {
+
+    int n = A.size();
+
+    vector<int> maxRight(n);
+    maxRight[n - 1] = A[n - 1];
+
+    for(int i = n - 2; i >= 0; i--){
+        maxRight[i] = max(maxRight[i + 1], A[i]);
+    }
+
+    int maxSum = 0;
+    set<int> st;
+    st.insert(A[0]);
+
+    for(int i = 1; i < n - 1; i++){
+        if(A[i] < maxRight[i + 1]){
+            int lo = 0, hi = i - 1, ans = -1;
+            auto it = st.lower_bound(A[i]);
+            if(it != st.begin()){ 
+                it--;
+                maxSum = max(maxSum, *it + A[i] + maxRight[i + 1]);
+            }
+        }
+        st.insert(A[i]);
+    }
+    return maxSum;
+}
