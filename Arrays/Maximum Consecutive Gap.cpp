@@ -105,3 +105,37 @@ int Solution::maximumGap(const vector<int> &A) {
     max_gap = max(max_gap,maxe - prev);
     return max_gap;
 }
+
+//
+int Solution::maximumGap(const vector<int> &A) {
+
+    int n = A.size();
+
+    int maxEle = *max_element(A.begin(), A.end());
+    int minEle = *min_element(A.begin(), A.end());
+
+    int gap = (int)ceil(1.0*(maxEle - minEle)/(n - 1));
+
+    vector<pair<int,int>> bucket(n - 1, {INT_MAX, INT_MIN});
+
+    for(int i = 0; i < n; i++){
+        if(A[i] == maxEle || A[i] == minEle){
+            continue;
+        }
+        int bucketInd = (A[i] - minEle)/gap;
+
+        bucket[bucketInd].first = min(bucket[bucketInd].first, A[i]);
+        bucket[bucketInd].second = max(bucket[bucketInd].second, A[i]);
+    } 
+
+    int maxDiff = 0;
+
+    for(int i = 0; i < n - 1; i++){
+        if(bucket[i].first == INT_MAX) continue;
+        maxDiff = max(maxDiff, bucket[i].first - minEle);
+        minEle = bucket[i].second;
+    }   
+    maxDiff = max(maxDiff, maxEle - minEle);
+    
+    return maxDiff;
+}
