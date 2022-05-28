@@ -20,6 +20,32 @@ int Solution::maximumGap(const vector<int> &A) {
 }
 
 //Method - 2
+//Time Complexity - O(NlogN)
+//Space Complexity - O(N)
+int Solution::maximumGap(const vector<int> &A) {
+
+    int n = A.size();
+
+    vector<pair<int,int>> v(n);
+
+    for(int i = 0; i < n; i++){
+        v[i] = {A[i], i};
+    }
+
+    sort(v.begin(), v.end());
+
+    int ind = INT_MAX, maxDist = 0;
+
+    for(int i = 0; i < v.size(); i++){
+        if(v[i].second < ind){
+            ind = v[i].second;
+        }
+        maxDist = max(maxDist, v[i].second - ind);
+    }
+    return maxDist;
+}
+
+//Method - 3
 //Time Complexity - O(N)
 //Space Complexity - O(N)
 int Solution::maximumGap(const vector<int> &A) {
@@ -41,6 +67,36 @@ int Solution::maximumGap(const vector<int> &A) {
             j++;
         }
         ans = max(ans,j-i-1);
+    }
+    return ans;
+}
+
+//Method - 4
+//Time Complexity - O(N)
+//Space Complexity - O(N)
+//Ref: https://www.youtube.com/watch?v=NBJiITBj52M
+int Solution::maximumGap(const vector<int> &A) {
+
+    int n = A.size();
+
+    vector<int> suffix(n);
+    suffix[n - 1] = A[n - 1];
+
+    for(int i = n - 2; i >= 0; i--){
+        suffix[i] = max(suffix[i + 1], A[i]);
+    }
+
+    int i = 0, j = 0, ans = 0;
+
+    while(i < n && j < n){
+
+        if(A[i] <= suffix[j]){
+            ans = max(ans, j - i);
+            j++;
+        }
+        else{
+            i++;
+        }
     }
     return ans;
 }
