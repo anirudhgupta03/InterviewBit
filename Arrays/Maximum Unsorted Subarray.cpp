@@ -1,3 +1,4 @@
+//Method - 1
 vector<int> Solution::subUnsort(vector<int> &A) {
     
     int start, end, flag = 1;
@@ -48,4 +49,42 @@ vector<int> Solution::subUnsort(vector<int> &A) {
     v.push_back(start);
     v.push_back(end);
     return v;
+}
+
+//Method - 2
+//Optimal Approach
+vector<int> Solution::subUnsort(vector<int> &A) {
+
+    int n = A.size();
+
+    int end = -1, maxLeft = A[0];
+
+    for(int i = 1; i < n; i++){
+        if(A[i] < maxLeft){
+            end = i;
+        }
+        else{
+            maxLeft = A[i];
+        }
+    }
+
+    int start = -1, minRight = A[n - 1];
+
+    for(int i = n - 2; i >= 0; i--){
+        if(A[i] > minRight){
+            start = i;
+        }
+        else{
+            minRight = A[i];
+        }
+    }
+    vector<int> res;
+    if(start == -1 || end == -1){
+        res.push_back(-1);
+    }
+    else{
+        res.push_back(start);
+        res.push_back(end);
+    }
+    return res;
 }
