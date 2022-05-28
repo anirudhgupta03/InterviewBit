@@ -96,3 +96,36 @@ vector<int> Solution::repeatedNumber(const vector<int> &A) {
     return v;
     
 }   
+
+//Optimal Approach 2
+#define ll long long
+vector<int> Solution::repeatedNumber(const vector<int> &A) {
+
+    ll n = A.size();
+    ll sumofn1 = 0, sumofn2 = 0;
+    ll sumofsquares1 = 0, sumofsquares2 = 0;
+    
+    for(ll i = 1; i <= n; i++){
+        sumofn1 += i;
+        sumofsquares1 += i*i;
+    }
+
+    for(ll x: A){
+        sumofn2 += x;
+        sumofsquares2 += x*x;
+    }
+    vector<int> res;
+    
+    ll diff = sumofn1 - sumofn2;
+
+    ll temp = sumofsquares1 - sumofsquares2;
+
+    ll summation = temp/diff;
+
+    ll repeat = (summation - diff)/2;
+    ll miss = (summation + diff)/2;
+    res.push_back(repeat);
+    res.push_back(miss);
+
+    return res;
+}
