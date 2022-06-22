@@ -31,3 +31,19 @@ int Solution::solve(int A) {
     x--;
     return (x ^ A);
 }
+
+//Method - 3
+int Solution::solve(int A) {
+    
+    int i = 0, ans = 0;
+    
+    while(A){
+        int bit = (A % 2);
+        if(bit == 0){
+            ans += (1 << i);
+        }
+        i++;
+        A /= 2;
+    }
+    return ans;
+}
