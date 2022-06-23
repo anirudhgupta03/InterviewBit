@@ -1,6 +1,7 @@
 //Ref: https://www.youtube.com/watch?v=SK2ypa7poKg
 //Time Complexity - O(N)
 //Space Complexity - O(N)
+//Method - 1
 int Solution::seats(string A) {
     
     int n = 0;
@@ -35,6 +36,7 @@ int Solution::seats(string A) {
     return jumps%10000003;
 }
 
+//Method - 2
 int Solution::seats(string A) {
 
     vector<int> pos;
@@ -48,12 +50,11 @@ int Solution::seats(string A) {
     if(pos.size() <= 1){
         return 0;
     }
-    int mid = pos.size()/2;
+    int mid = pos.size()/2;         //We can also take (pos.size() - 1)/2
 
     int jumps = 0, mod = 10000003;
 
     int p1 = pos[mid], p2 = mid;
-    
     while(p1 >= 0 && p2 >= 0){
         jumps = (jumps + (p1 - pos[p2]))%mod;
         p1--;
@@ -61,12 +62,10 @@ int Solution::seats(string A) {
     }
 
     p1 = pos[mid] + 1, p2 = mid + 1;
-
     while(p1 < A.size() && p2 < pos.size()){
         jumps = (jumps + (pos[p2] - p1))%mod;
         p2++;
         p1++;
     }
-
     return jumps;
 }
