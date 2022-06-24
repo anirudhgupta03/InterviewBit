@@ -1,3 +1,4 @@
+//Method - 1
 /**
  * Definition for binary tree
  * struct TreeNode {
@@ -60,5 +61,59 @@ vector<int> Solution::distanceK(TreeNode* A, int B, int C) {
         }
         res = temp;
     }
+    return res;
+}
+
+//Method - 2
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+void solve(TreeNode* curr, TreeNode* parent, int B, unordered_map<TreeNode*, TreeNode*> &par, TreeNode* &start){
+    
+    if(curr == NULL){
+        return;
+    }
+    par[curr] = parent;
+    
+    if(curr -> val == B){
+        start = curr;
+    }
+    solve(curr -> left, curr, B, par, start);
+    solve(curr -> right, curr, B, par, start);
+}
+void dfs(TreeNode* curr, TreeNode* parent, int C, unordered_map<TreeNode*,TreeNode*> &par, vector<int> &res){
+
+    if(curr == NULL){
+        return;
+    }
+    if(C == 0){
+        res.push_back(curr -> val);
+        return;
+    }
+    if(par[curr] != parent){
+        dfs(par[curr], curr, C - 1, par, res);
+    }
+    if(curr -> left != parent){
+        dfs(curr -> left, curr, C - 1, par, res);
+    }
+    if(curr -> right != parent){
+        dfs(curr -> right, curr, C - 1, par, res);
+    }
+}
+vector<int> Solution::distanceK(TreeNode* A, int B, int C) {
+    
+    unordered_map<TreeNode*, TreeNode*> par;
+    TreeNode* start;
+    
+    solve(A, NULL, B, par, start);
+    
+    vector<int> res;
+    dfs(start, NULL, C, par, res);
     return res;
 }
