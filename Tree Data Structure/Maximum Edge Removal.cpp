@@ -1,3 +1,4 @@
+//Method - 1
 int rec(int node, vector<int> al[], vector<int> &subSize, vector<int> &vis){
 
     vis[node] = 1;
@@ -23,6 +24,39 @@ int Solution::solve(int A, vector<vector<int> > &B) {
     
     rec(1, al, subSize, vis);
 
+    int count = 0;
+    for(int i = 2; i <= A; i++){
+        if(subSize[i] % 2 == 0){
+            count++;
+        }
+    }
+    return count;
+}
+
+//Method - 2
+//Without using visited array
+int rec(int node, int par, vector<int> &subSize, vector<int> al[]){
+    
+    int count = 1;
+    for(auto &x: al[node]){
+        if(x == par) continue;
+        count += rec(x, node, subSize, al);
+    }
+    return subSize[node] = count;
+}
+int Solution::solve(int A, vector<vector<int> > &B) {
+    
+    vector<int> al[A + 1];
+    
+    for(auto &x: B){
+        al[x[0]].push_back(x[1]);
+        al[x[1]].push_back(x[0]);
+    }
+    
+    vector<int> subSize(A + 1,0);
+    
+    rec(1, -1, subSize, al);
+    
     int count = 0;
     for(int i = 2; i <= A; i++){
         if(subSize[i] % 2 == 0){
