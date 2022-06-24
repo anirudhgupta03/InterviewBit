@@ -51,3 +51,25 @@ int Solution::solve(vector<int> &A) {
     }
     return 1;
 }
+
+//Method - 3(Question Updated)
+int Solution::solve(vector<int> &A) {
+    
+    int root = INT_MIN;
+    unordered_map<int,int> umap;
+    stack<int> st;
+    
+    for(int i = 0; i < A.size(); i++){
+        if(umap[A[i]]) return 0;
+        umap[A[i]] = 1;
+        while(!st.empty() && st.top() < A[i]){
+            root = st.top();
+            st.pop();
+        }
+        st.push(A[i]);
+        if(A[i] < root){
+            return 0;
+        }
+    }
+    return 1;
+}
