@@ -7,40 +7,35 @@
  *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
  * };
  */
-void solve(TreeNode* root,map<int,vector<int>> &mymap){
-    
-    queue<pair<TreeNode*,int>> q;
-    
-    q.push({root,0});
-    
-    while(!q.empty()){
-        
-        TreeNode* curr = q.front().first;
-        int currd = q.front().second;
-        
-        q.pop();
-        
-        mymap[currd].push_back(curr->val);
-        
-        if(curr -> left != NULL){
-            q.push({curr->left,currd-1});
-        }
-        if(curr->right != NULL){
-            q.push({curr->right,currd+1});
-        }
-    }
-}
+#define pti pair<TreeNode*,int>
 vector<vector<int> > Solution::verticalOrderTraversal(TreeNode* A) {
     
-    map<int,vector<int>> mymap;
     vector<vector<int>> res;
     
     if(A == NULL){
         return res;
     }
-    solve(A,mymap);
     
-    for(auto x: mymap){
+    queue<pti> q;
+    q.push({A, 0});
+    
+    map<int,vector<int>> mp;
+    
+    while(!q.empty()){
+        int sz = q.size();
+        while(sz--){
+            TreeNode* curr = q.front().first;
+            int level = q.front().second;
+            q.pop();
+            
+            mp[level].push_back(curr -> val);
+            
+            if(curr -> left) q.push({curr -> left, level - 1});
+            if(curr -> right) q.push({curr -> right, level + 1});
+        }
+    }
+    
+    for(auto &x: mp){
         res.push_back(x.second);
     }
     return res;
