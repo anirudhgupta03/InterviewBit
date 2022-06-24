@@ -86,3 +86,41 @@ vector<int> Solution::recoverTree(TreeNode* A) {
     
     return res;
 }
+
+//Method - 3
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+void solve(TreeNode* A, int &pre, int &flag, int &val1, int &val2){
+    
+    if(A == NULL){
+        return;
+    }
+    solve(A -> left, pre, flag, val1, val2);
+    if(A -> val < pre){
+        if(flag == 0){
+            val1 = pre;
+            val2 = A -> val;
+            flag = 1;
+        }
+        else{
+            val2 = A -> val;
+        }
+    }
+    pre = A -> val;
+    solve(A -> right, pre, flag, val1, val2);
+}
+vector<int> Solution::recoverTree(TreeNode* A) {
+    
+    int val1, val2, flag = 0, pre = INT_MIN;
+    solve(A, pre, flag, val1, val2);
+    vector<int> res = {val1, val2};
+    sort(res.begin(), res.end());
+    return res;
+}
