@@ -190,3 +190,55 @@ int Solution::solve(TreeNode* A, int B) {
     }
     return steps - 1;
 }
+
+//Method - 4
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+void dfs(TreeNode* curr, TreeNode* parent, unordered_map<TreeNode*, TreeNode*> &par, TreeNode* &start, int B){
+    if(curr == NULL){
+        return;
+    }
+    if(curr -> val == B){
+        start = curr;
+    }
+    par[curr] = parent;
+    dfs(curr -> left, curr, par, start, B);
+    dfs(curr -> right, curr, par, start, B);
+}
+int Solution::solve(TreeNode* A, int B) {
+    
+    unordered_map<TreeNode*, TreeNode*> par;
+    TreeNode* start;
+    dfs(A, NULL, par, start, B);
+    
+    queue<pair<TreeNode*, TreeNode*>> q;
+    q.push({start, NULL});
+    
+    int minTime = 0;
+    while(!q.empty()){
+        int sz = q.size();
+        while(sz--){
+            TreeNode* curr = q.front().first, *parent = q.front().second;
+            q.pop();
+            
+            if(curr -> left && curr -> left != parent){
+                q.push({curr -> left, curr});
+            }
+            if(curr -> right && curr -> right != parent){
+                q.push({curr -> right, curr});
+            }
+            if(par[curr] && par[curr] != parent){
+                q.push({par[curr], curr});
+            }
+        }
+        minTime++;
+    }
+    return minTime - 1;
+}
