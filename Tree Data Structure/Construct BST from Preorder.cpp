@@ -35,6 +35,52 @@ TreeNode* Solution::constructBST(vector<int> &A) {
 }
 
 //Method - 2
+//Using Binary Search
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+TreeNode* buildBST(int &ind, int lo, int hi, vector<int> &A, vector<int> &B){
+    
+    if(lo > hi){
+        return NULL;
+    }
+    TreeNode* root = new TreeNode(A[ind]);
+    
+    int low = lo, high = hi, i;
+    
+    while(low <= high){
+        int mid =(low + high)/2;
+        if(B[mid] == A[ind]){
+            i = mid;
+            break;
+        }
+        else if(B[mid] > A[ind]){
+            high = mid - 1;
+        }
+        else{
+            low = mid + 1;
+        }
+    }
+    ind++;
+    root -> left = buildBST(ind, lo, i - 1, A, B);
+    root -> right = buildBST(ind, i + 1, hi, A, B);
+    return root;
+}
+TreeNode* Solution::constructBST(vector<int> &A) {
+    vector<int> B;
+    B = A;
+    sort(B.begin(), B.end());
+    int ind = 0;
+    return buildBST(ind, 0, B.size() - 1, A, B);
+}
+
+//Method - 3
 //TC - O(N)
 //SC - O(1)
 //Ref: https://www.youtube.com/watch?v=Bexswo4pqZQ
