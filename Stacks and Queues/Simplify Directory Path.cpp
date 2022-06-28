@@ -185,3 +185,65 @@ string Solution::simplifyPath(string A) {
     if(res.size() != 1 && res[res.size() - 1] == '/') res.pop_back();
     return res;
 }
+
+//Method - 4
+string Solution::simplifyPath(string A) {
+    
+    stack<string> st;
+    st.push("/");
+    
+    string temp;
+    for(int i = 0; i < A.size(); i++){
+        if(A[i] == '/'){
+            if(temp == "."){
+                st.pop();
+                st.push("/");
+            }
+            else if(temp == ".."){
+                st.pop();
+                if(st.size()){
+                    st.pop();
+                }
+                if(st.size() == 0)
+                st.push("/");
+            }
+            else if(temp.size()){
+                st.push(temp);   
+                st.push("/");             
+            }
+            temp = "";
+        }
+        else{
+            temp.push_back(A[i]);
+        }
+    }
+    if(temp.size()){
+        if(temp == "."){
+            st.pop();
+            st.push("/");
+        }
+        else if(temp == ".."){
+            st.pop();
+            if(st.size()){
+                st.pop();
+            }
+            if(st.size() == 0){
+                st.push("/");
+            }
+        }
+        else if(temp.size()){
+            st.push(temp);               
+        }
+    }
+    vector<string> v;
+    while(!st.empty()){
+        v.push_back(st.top());
+        st.pop();
+    }
+    string res;
+    for(int i = v.size() - 1; i >= 0; i--){
+        res += v[i];
+    }
+    if(res != "/" && res[res.size() - 1] == '/') res.pop_back();
+    return res;
+}
