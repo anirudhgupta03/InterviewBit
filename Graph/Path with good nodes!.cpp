@@ -115,3 +115,27 @@ int Solution::solve(vector<int> &A, vector<vector<int> > &B, int C) {
     rec(1, 0, al, paths, A, C, vis);
     return paths;
 }
+
+//Method - 4
+void dfs(int node, int par, int C, int &count, vector<int> al[], vector<int> &A){
+    bool flag = false;
+    for(auto &child: al[node]){
+        if(child == par) continue;
+        flag = true;
+        dfs(child, node, C - A[child - 1], count, al, A);
+    }
+    if(flag == false){
+        if(C >= 0) count++;
+    }
+}
+int Solution::solve(vector<int> &A, vector<vector<int> > &B, int C) {
+    int n = A.size();
+    int count = 0;
+    vector<int> al[n + 1];
+    for(auto &x: B){
+        al[x[0]].push_back(x[1]);
+        al[x[1]].push_back(x[0]);
+    }
+    dfs(1, -1, C - A[0], count, al, A);
+    return count;
+}
