@@ -1,4 +1,5 @@
 //Ref: https://www.youtube.com/watch?v=19tY6Y90TP0
+//Method - 1
 int bfs(vector<int> &game){
     
     vector<int> vis(100,0);
@@ -39,4 +40,49 @@ int Solution::snakeLadder(vector<vector<int> > &A, vector<vector<int> > &B) {
     }
     
     return bfs(game);
+}
+
+//Method - 2
+int Solution::snakeLadder(vector<vector<int> > &A, vector<vector<int> > &B) {
+    
+    vector<int> game(101);
+    
+    for(int i = 1; i <= 100; i++){
+        game[i] = i;
+    }
+    
+    for(auto &x: A){
+        game[x[0]] = x[1];
+    }
+    for(auto &x: B){
+        game[x[0]] = x[1];
+    }
+    
+    queue<int> q;
+    vector<int> vis(101, 0);
+    
+    q.push(1);
+    int steps = 0;
+    
+    while(!q.empty()){
+        int sz = q.size();
+        while(sz--){
+            int curr = q.front();
+            q.pop();
+            
+            if(curr == 100){
+                return steps;
+            }
+            if(vis[curr]) continue;
+            vis[curr] = 1;
+            
+            for(int i = curr + 1; i <= min(100, curr + 6); i++){
+                if(vis[game[i]] == 0){
+                    q.push(game[i]);
+                }
+            }
+        }
+        steps++;
+    }
+    return -1;
 }
