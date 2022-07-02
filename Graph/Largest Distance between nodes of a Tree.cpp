@@ -1,3 +1,4 @@
+//Method - 1
 void dfs(int node, vector<int> &dist, int n, vector<int> al[], vector<int> &vis){
     
     vis[node] = 1;
@@ -63,4 +64,39 @@ int Solution::solve(vector<int> &A) {
     }
     
     return tempd;
+}
+
+//Method - 2
+void dfs(int curr, int par, int dist, int &farDist, int &farNode, vector<int> al[]){
+    if(dist > farDist){
+        farDist = dist;
+        farNode = curr;
+    }
+    for(auto &child: al[curr]){
+        if(child == par) continue;
+        dfs(child, curr, dist + 1, farDist, farNode, al);
+    }
+}
+int Solution::solve(vector<int> &A) {
+    
+    int root, n = A.size();
+    
+    vector<int> al[n];
+    
+    for(int i = 0; i < n; i++){
+        if(A[i] == -1){
+            root = i;
+        }
+        else{
+            al[i].push_back(A[i]);
+            al[A[i]].push_back(i);
+        }
+    }
+    
+    int farDist = 0, farNode = root;
+    dfs(root, -1, 0, farDist, farNode, al);
+    farDist = 0;
+    root = farNode;
+    dfs(root, -1, 0, farDist, farNode, al);
+    return farDist;
 }
