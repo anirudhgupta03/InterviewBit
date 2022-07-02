@@ -98,3 +98,45 @@ string Solution::solve(int A, int B, int C, int D, vector<int> &E, vector<int> &
     if(flag) return "YES";
     return "NO";
 }
+
+//Using BFS
+int dx[8] = {-1,1,0,0,-1,-1,1,1};
+int dy[8] = {0,0,-1,1,-1,1,-1,1};
+string Solution::solve(int A, int B, int C, int D, vector<int> &E, vector<int> &F) {
+    
+    vector<vector<int>> grid(A + 1, vector<int>(B + 1, 1));
+    
+    for(int i = 0; i <= A; i++){
+        for(int j = 0; j <= B; j++){
+            for(int k = 0; k < E.size(); k++){
+                int dist = (E[k] - i)*(E[k] - i) + (F[k] - j)*(F[k] - j);
+                if(dist <= D*D){
+                    grid[i][j] = 0;
+                    break;
+                }
+            }
+        }
+    }
+    if(grid[0][0] == 0 || grid[A][B] == 0){
+        return "NO";
+    } 
+    queue<pair<int,int>> q;
+    q.push({0,0});
+    
+    while(!q.empty()){
+        int x = q.front().first, y = q.front().second;
+        q.pop();
+        if(x == A && y == B){
+            return "YES";
+        }
+        if(grid[x][y] == 0) continue;
+        grid[x][y] = 0;
+        for(int i = 0; i < 8; i++){
+            int xo = x + dx[i], yo = y + dy[i];
+            if(xo >= 0 && yo >= 0 && xo <= A && yo <= B && grid[xo][yo]){
+                q.push({xo, yo});
+            }
+        }
+    }
+    return "NO";
+}
