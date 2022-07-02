@@ -87,3 +87,44 @@ int Solution::solve(vector<int> &A, vector<int> &B, vector<vector<int> > &C) {
     }
     return 1;
 }
+
+//Method - 3
+void dfs(int curr, int parent, vector<int> &par, vector<int> &A, unordered_map<int,unordered_map<int,int>> &umap, vector<int> al[]){
+    par[curr] = parent;
+    umap[parent][A[curr - 1]]++;
+    for(auto &child: al[curr]){
+        if(par[child] == -1){
+            dfs(child, parent,  par, A, umap, al);
+        }
+    }
+}
+int Solution::solve(vector<int> &A, vector<int> &B, vector<vector<int> > &C) {
+    
+    int n = A.size();
+    
+    vector<int> al[n + 1];
+    
+    for(auto &x: C){
+        al[x[0]].push_back(x[1]);
+        al[x[1]].push_back(x[0]);
+    }
+    
+    vector<int> par(n + 1, -1);
+    unordered_map<int,unordered_map<int,int>> umap;
+    
+    for(int i = 1; i <= n; i++){
+        if(par[i] == -1){
+            dfs(i, i, par, A, umap, al);
+        }
+    }
+    for(int i = 1; i <= n; i++){
+        int pari = par[i];
+        if(umap[pari][B[i - 1]] == 0){
+            return 0;
+        }
+        else{
+            umap[pari][B[i - 1]]--;
+        }
+    }
+    return 1;
+}
