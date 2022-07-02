@@ -6,7 +6,8 @@ and have height >= height of current cell. Mark the cell blue. Do similar with c
 Count the cells with both red and blue visited.
 Ref: https://www.youtube.com/watch?v=krL3r7MY7Dc
 */
-
+//Method - 1
+//Using DFS
 int dx[4] = {-1,1,0,0};
 int dy[4] = {0,0,-1,1};
 
@@ -70,4 +71,67 @@ int Solution::solve(vector<vector<int> > &A) {
         }
     }
     return ans;
+}
+
+//Method - 2
+//Using BFS
+int dx[4] = {-1,1,0,0};
+int dy[4] = {0,0,-1,1};
+int Solution::solve(vector<vector<int> > &A) {
+    
+    int n = A.size(), m = A[0].size();
+    vector<vector<int>> redLake(n, vector<int>(m,0)), blueLake(n, vector<int>(m, 0));
+    queue<pair<int,int>> q;
+    
+    for(int i = 0; i < n; i++){
+        q.push({i, 0});
+    }
+    for(int j = 1; j < m; j++){
+        q.push({0, j});
+    }
+    
+    while(!q.empty()){
+        int x = q.front().first, y = q.front().second;
+        q.pop();
+        if(redLake[x][y]) continue;
+        redLake[x][y] = 1;
+        
+        for(int i = 0; i < 4; i++){
+            int xo = x + dx[i], yo = y + dy[i];
+            if(xo >= 0 && yo >= 0 && xo < n && yo < m && A[xo][yo] >= A[x][y] && redLake[xo][yo] == 0){
+                q.push({xo, yo});
+            }
+        }
+    }
+    
+    for(int i = 0; i < n; i++){
+        q.push({i, m - 1});
+    }
+    for(int j = 0; j < m - 1; j++){
+        q.push({n - 1, j});
+    }
+    
+    while(!q.empty()){
+        int x = q.front().first, y = q.front().second;
+        q.pop();
+        if(blueLake[x][y]) continue;
+        blueLake[x][y] = 1;
+        
+        for(int i = 0; i < 4; i++){
+            int xo = x + dx[i], yo = y + dy[i];
+            if(xo >= 0 && yo >= 0 && xo < n && yo < m && A[xo][yo] >= A[x][y] && blueLake[xo][yo] == 0){
+                q.push({xo, yo});
+            }
+        }
+    }
+    
+    int count = 0;
+    for(int i = 0; i < n; i++){
+        for(int j = 0; j < m; j++){
+            if(redLake[i][j] && blueLake[i][j]){
+                count++;
+            }
+        }
+    }
+    return count;
 }
