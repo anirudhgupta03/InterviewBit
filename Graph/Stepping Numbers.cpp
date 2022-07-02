@@ -1,3 +1,4 @@
+//Method - 1
 vector<int> Solution::stepnum(int A, int B) {
     
     map<int,vector<string>> m;
@@ -65,7 +66,7 @@ vector<int> Solution::stepnum(int A, int B) {
     return res;
 }
 
-//Alter
+//Method - 2
 vector<int> res;
 void solve(int val, int A, int B){
 
@@ -94,5 +95,42 @@ vector<int> Solution::stepnum(int A, int B) {
         res.push_back(0);
     }
     sort(res.begin(),res.end());
+    return res;
+}
+
+//Method - 3
+vector<int> Solution::stepnum(int A, int B) {
+    
+    queue<int> q;
+    
+    for(int i = 1; i <= 9; i++){
+        q.push(i);
+    }
+    vector<int> res;
+    if(A == 0) res.push_back(0);
+    while(!q.empty()){
+        
+        int curr = q.front();
+        q.pop();
+        
+        if(curr > B){
+            continue;
+        }
+        if(curr >= A && curr <= B){
+            res.push_back(curr);
+        }
+        
+        int lastdigit = curr % 10;
+        if(lastdigit == 0){
+            q.push(10*curr + 1);
+        }
+        else if(lastdigit == 9){
+            q.push(10*curr + 8);
+        }
+        else{
+            q.push(10*curr + lastdigit - 1);
+            q.push(10*curr + lastdigit + 1);
+        }
+    }
     return res;
 }
