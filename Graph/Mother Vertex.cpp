@@ -1,4 +1,5 @@
 //https://www.youtube.com/watch?v=iYUil_m64Xg
+//Method - 1
 void dfs(int node, vector<int> al[], vector<int> &vis){
 
     vis[node] = 1;
@@ -37,6 +38,26 @@ int Solution::motherVertex(int A, vector<vector<int> > &B) {
         if(vis[i] == 0){
             return 0;
         }
+    }
+    return 1;
+}
+
+//Method - 2
+int Solution::motherVertex(int A, vector<vector<int> > &B) {
+    
+    vector<int> indegree(A + 1, 0);
+    
+    for(auto &x: B){
+        if(x[0] == x[1]) continue;
+        indegree[x[1]]++;
+    }
+    
+    int count = 0;
+    for(int i = 1; i <= A; i++){
+        if(indegree[i] == 0){
+            count++;
+        }
+        if(count > 1) return 0;
     }
     return 1;
 }
