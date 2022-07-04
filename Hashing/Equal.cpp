@@ -1,3 +1,4 @@
+//Method - 1
 vector<int> Solution::equal(vector<int> &A) {
     
     int n = A.size();
@@ -37,4 +38,40 @@ vector<int> Solution::equal(vector<int> &A) {
     }
     ans = res[0];
     return ans;
+}
+
+//Method - 2
+vector<int> Solution::equal(vector<int> &A) {
+    
+    int a1 = INT_MAX, b1 = INT_MAX, c1 = INT_MAX, d1 = INT_MAX;
+    
+    unordered_map<int,vector<int>> umap;
+    
+    for(int i = 0; i < A.size(); i++){
+        for(int j = i + 1; j < A.size(); j++){
+            int sum = A[i] + A[j];
+            if(umap.find(sum) != umap.end()){
+                
+                int A1 = umap[sum][0], B1 = umap[sum][1], C1 = i, D1 = j;
+                
+                if(A1 < a1 || A1 == a1 && B1 < b1 || A1 == a1 && B1 == b1 && C1 < c1 || A1 == a1 && B1 == b1 && C1 == c1 && D1 < d1){
+                    
+                    if(A1 < C1 && B1 != D1 && B1 != C1){
+                        a1 = A1;
+                        b1 = B1;
+                        c1 = C1;
+                        d1 = D1;
+                    }
+                }
+            }
+            else{
+                umap[sum] = {i,j};
+            }
+        }
+    }
+    if(a1 != INT_MAX){
+        vector<int> res = {a1, b1, c1, d1};
+        return res;
+    }
+    return {};
 }
