@@ -141,3 +141,46 @@ double Solution::findMedianSortedArrays(const vector<int> &A, const vector<int> 
         }
     }
 }
+
+//Method - 3
+//Short and Concise
+double Solution::findMedianSortedArrays(const vector<int> &A, const vector<int> &B) {
+    
+    if(A.size() > B.size()){
+        return findMedianSortedArrays(B, A);
+    }
+    
+    int m = A.size(), n = B.size();
+
+    int lo = 0, hi = m, median = (m + n + 1)/2;
+    
+    while(lo <= hi){
+        
+        int cut1 = (lo + hi)/2;
+        int cut2 = median - cut1;
+        
+        int ul, ur, bl, br;
+        
+        ul = (cut1 == 0) ? INT_MIN : A[cut1 - 1];
+        ur = (cut1 == m) ? INT_MAX : A[cut1];
+        bl = (cut2 == 0) ? INT_MIN : B[cut2 - 1];
+        br = (cut2 == n) ? INT_MAX : B[cut2];
+        
+        if(ul <= br && bl <= ur){
+            if((m + n) % 2 != 0){
+                return max(ul, bl);
+            }
+            else{
+                double val1 = max(ul, bl);
+                double val2 = min(ur, br);
+                return (double)(val1 + val2)/2;
+            }
+        }
+        else if(ul > br){
+            hi = cut1 - 1;
+        }
+        else{
+            lo = cut1 + 1;
+        }
+    }
+}
