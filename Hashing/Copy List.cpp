@@ -93,3 +93,47 @@ RandomListNode* Solution::copyRandomList(RandomListNode* A) {
     }
     return root;
 }
+
+//Method - 3
+/**
+ * Definition for singly-linked list.
+ * struct RandomListNode {
+ *     int label;
+ *     RandomListNode *next, *random;
+ *     RandomListNode(int x) : label(x), next(NULL), random(NULL) {}
+ * };
+ */
+RandomListNode* Solution::copyRandomList(RandomListNode* A) {
+    
+    if(A == NULL){
+        return NULL;
+    }
+    
+    RandomListNode* B = A;
+    
+    while(B){
+        RandomListNode* newNode = new RandomListNode(B -> label);
+        RandomListNode* nextNode = B -> next;
+        B -> next = newNode;
+        newNode -> next = nextNode;
+        B = nextNode;
+    }
+    
+    B = A;
+    while(B){
+        RandomListNode* nextNode = B -> next;
+        RandomListNode* randomNode = B -> random;
+        
+        if(randomNode != NULL){
+            nextNode -> random = randomNode -> next;
+        }
+        B = nextNode -> next;
+    }
+    
+    B = A -> next;
+    while(B -> next){
+        B -> next = B -> next -> next;
+        B = B -> next;
+    }
+    return A -> next;
+}
