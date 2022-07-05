@@ -99,8 +99,8 @@ int Solution::lPalin(ListNode* A) {
         slow = slow -> next;
         fast = fast -> next -> next;
     }
-    ListNode* B = reverse(slow);
     pre -> next = NULL;
+    ListNode* B = reverse(slow);
 
     while(A && B){
         if(A -> val != B -> val){
