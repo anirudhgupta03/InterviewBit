@@ -38,21 +38,19 @@ vector<int> Solution::solve(vector<int> &A) {
 }
 
 //Method - 2
-//Optimal
 vector<int> Solution::solve(vector<int> &A) {
     
-    unordered_map<int,int> umap;
+    unordered_map<int,priority_queue<int, vector<int>, greater<int>>> umap;
     vector<int> res(A.size());
     
     for(int i = 0; i < A.size(); i++){
         if(umap.find(A[i]) != umap.end()){
-            int ind = umap[A[i]];
+            int ind = umap[A[i]].top();
+            umap[A[i]].pop();
             res[ind]++;
-            if(umap.find(res[ind]) == umap.end() || ind < umap[res[ind]]){
-                umap[res[ind]] = ind;
-            }
+            umap[res[ind]].push(ind);
         }
-        umap[A[i]] = i;
+        umap[A[i]].push(i);
         res[i] = A[i];
     }
     return res;
