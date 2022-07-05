@@ -154,3 +154,23 @@ int Solution::solve(vector<int> &A, int B) {
     }
     return count;
 }
+
+//Method - 4
+int Solution::solve(vector<int> &A, int B) {
+    
+    int sum = 0;
+    unordered_map<int,int> umap;
+    umap[0] = 1;
+    int count = 0;
+    for(int i = 0; i < A.size(); i++){
+        if(A[i] % 2 != 0){
+            sum++;
+        }
+        
+        if(umap.find(sum - B) != umap.end()){
+            count += umap[sum - B];
+        }
+        umap[sum]++;
+    }
+    return count;
+}
