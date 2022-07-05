@@ -40,23 +40,20 @@ vector<int> Solution::solve(vector<int> &A) {
 //Method - 2
 //Optimal
 vector<int> Solution::solve(vector<int> &A) {
-
+    
     unordered_map<int,int> umap;
-    int n = A.size();
-    vector<int> res(n);
-
-    for(int i = 0; i < n; i++){
-        if(umap.find(A[i]) == umap.end()){
-            umap[A[i]] = i;
-            res[i] = A[i];
-        }
-        else{
+    vector<int> res(A.size());
+    
+    for(int i = 0; i < A.size(); i++){
+        if(umap.find(A[i]) != umap.end()){
             int ind = umap[A[i]];
             res[ind]++;
-            res[i] = A[i];
-            umap[A[i] + 1] = ind;
-            umap[A[i]] = i; 
+            if(umap.find(res[ind]) == umap.end() || ind < umap[res[ind]]){
+                umap[res[ind]] = ind;
+            }
         }
-    }  
+        umap[A[i]] = i;
+        res[i] = A[i];
+    }
     return res;
-}   
+}
