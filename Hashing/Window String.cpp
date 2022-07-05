@@ -1,3 +1,4 @@
+//Method - 1
 string Solution::minWindow(string A, string B) {
     
     unordered_map<char,int> pat,txt;
@@ -53,4 +54,47 @@ string Solution::minWindow(string A, string B) {
         r++;
     }
     return ans;
+}
+
+//Method - 2
+//Short and Concise
+string Solution::minWindow(string A, string B) {
+ 
+    unordered_map<char,int> umap;
+    
+    for(auto &x: B){
+        umap[x]++;
+    }
+    int count = umap.size();
+    
+    int lo = 0, hi = 0, minLen = INT_MAX, start = -1, tcount = 0;
+    
+    unordered_map<char,int> tumap;
+    
+    while(hi < A.size()){
+        
+        tumap[A[hi]]++;
+        if(tumap[A[hi]] == umap[A[hi]]){
+            tcount++;
+        }
+        
+        if(tcount == count){
+            while(lo <= hi){
+                if(hi - lo + 1 < minLen){
+                    start = lo;
+                    minLen = hi - lo + 1;
+                }
+                tumap[A[lo]]--;
+                if(tumap[A[lo]] < umap[A[lo]]){
+                    tcount--;
+                    lo++;
+                    break;
+                }
+                lo++;
+            }
+        }
+        hi++;
+    }
+    if(start == -1) return "";
+    return A.substr(start, minLen);
 }
