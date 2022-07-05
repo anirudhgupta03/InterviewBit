@@ -80,3 +80,27 @@ int Solution::lengthOfLongestSubstring(string A) {
     }
     return maxLen;
 }
+
+//Method - 4
+int Solution::lengthOfLongestSubstring(string A) {
+    
+    unordered_map<char,int> umap;
+    
+    int maxLen = 0, lo = 0, hi = 0;
+    
+    while(hi < A.size()){
+        if(umap[A[hi]]){
+            while(lo < hi && A[lo] != A[hi]){
+                umap[A[lo]] = 0;
+                lo++;
+            }
+            lo++;
+        }
+        else{
+            maxLen = max(maxLen, hi - lo + 1);
+            umap[A[hi]] = 1;
+        }
+        hi++;
+    }
+    return maxLen;
+}
