@@ -131,3 +131,41 @@ ListNode* Solution::reverseBetween(ListNode* A, int B, int C) {
     }
     return dummy -> next;
 }
+
+//Method - 4
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+ListNode* Solution::reverseBetween(ListNode* A, int B, int C) {
+    
+    ListNode* dummy = new ListNode(-1);
+    dummy -> next = A;
+    ListNode* pre = dummy;
+    
+    int count = 0;
+    
+    while(count != B - 1){
+        pre = A;
+        A = A -> next;
+        count++;
+    }
+    
+    ListNode* t1 = NULL, *t2 = A, *t3 = A -> next;
+    
+    while(count != C - 1){
+        t2 -> next = t1;
+        t1 = t2;
+        t2 = t3;
+        t3 = t3 -> next;
+        count++;
+    }
+    t2 -> next = t1;
+    pre -> next = t2;
+    A -> next = t3;
+    return dummy -> next;
+}
