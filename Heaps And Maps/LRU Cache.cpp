@@ -1,5 +1,115 @@
-//Ref: https://www.youtube.com/watch?v=Xc4sICC8m4M&list=PLgUwDviBIf0p4ozDR_kJJkONnb1wdx2Ma&t=0s
 //Method - 1
+struct listNode{
+    int key;
+    listNode *next, *pre;
+    listNode(){
+        key = -1;
+        next = NULL;
+        pre = NULL;
+    }
+};
+
+listNode* start, *curr;
+int cap;
+unordered_map<int,int> keyValue;
+unordered_map<int,listNode*> keyNode;
+
+LRUCache::LRUCache(int capacity) {
+    listNode* dummy = new listNode();
+    keyValue.clear();
+    keyNode.clear();
+    
+    dummy -> key = -1;
+    start = dummy;
+    curr = dummy;
+    cap = capacity;
+}
+
+int LRUCache::get(int key) {
+    
+    if(curr == start) return -1;
+        
+    if(curr -> key == key){
+        return keyValue[key];
+    }
+
+    if(keyValue.find(key) != keyValue.end()){
+        listNode *tcurr = keyNode[key];
+        listNode* tpre = tcurr -> pre;
+        listNode* tnext = tcurr -> next;
+        tpre -> next = tnext;
+        tnext -> pre = tpre;
+        
+        tcurr -> next = NULL;
+        curr -> next = tcurr;
+        tcurr -> pre = curr;
+        
+        curr = tcurr; 
+        return keyValue[key];
+    }
+    else{
+        return -1;
+    }
+}
+
+void LRUCache::set(int key, int value) {
+    
+    if(curr != start){
+        if(curr -> key == key){
+            keyValue[key] = value;
+            return;
+        }
+    }
+    
+    if(curr == start){
+        listNode* node = new listNode();
+        node -> key = key;
+        curr -> next = node;
+        node -> pre = curr;
+        curr = node;
+        keyValue[key] = value;
+        keyNode[key] = curr;
+        cap--;
+        return;
+    }
+
+    if(keyValue.find(key) != keyValue.end()){
+        listNode *tcurr = keyNode[key];
+        listNode* tpre = tcurr -> pre;
+        listNode* tnext = tcurr -> next;
+        tpre -> next = tnext;
+        tnext -> pre = tpre;
+        
+        tcurr -> next = NULL;
+        curr -> next = tcurr;
+        tcurr -> pre = curr;
+        
+        curr = tcurr; 
+    }
+    else{
+        if(cap == 0){
+            listNode* nextToNext = start -> next -> next;
+            listNode* nextNode = start -> next;
+            keyValue.erase(nextNode -> key);
+            keyNode.erase(nextNode -> key);
+            start -> next = nextToNext;
+            if(nextToNext) nextToNext -> pre = start;
+            cap++;
+        }
+        if(start -> next == NULL) curr = start;
+        listNode* node = new listNode();
+        node -> key = key;
+        curr -> next = node;
+        node -> pre = curr;
+        curr = node;
+        keyNode[key] = curr;
+        cap--;
+    }
+    keyValue[key] = value;
+}
+
+//Ref: https://www.youtube.com/watch?v=Xc4sICC8m4M&list=PLgUwDviBIf0p4ozDR_kJJkONnb1wdx2Ma&t=0s
+//Method - 2
 struct node{
     int mykey;
     int myval;
@@ -67,7 +177,7 @@ void LRUCache::set(int key, int value) {
     mymap[key] = head -> next;
 }
 
-//Method - 2
+//Method - 3
 //Ref: https://www.youtube.com/watch?v=JxtmaAFfVBo
 struct Node{
     int key, value;
