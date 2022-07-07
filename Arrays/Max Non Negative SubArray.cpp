@@ -86,3 +86,32 @@ vector<int> Solution::maxset(vector<int> &A) {
     
     return res;
 }
+
+//Method - 3
+#define ll long long
+vector<int> Solution::maxset(vector<int> &A) {
+    
+    ll maxSum = 0, ansStart = -1, ansLen = 0;
+    
+    ll start = 0, sum = 0;
+    
+    for(int i = 0; i < A.size(); i++){
+        if(A[i] < 0){
+            sum = 0;
+            start = i + 1;
+            continue;
+        }
+        sum += A[i];
+        if(sum > maxSum || (sum == maxSum && (i - start + 1 > ansLen))){
+            maxSum = sum;
+            ansStart = start;
+            ansLen = i - start + 1;
+        }
+    }
+    vector<int> res;
+    if(ansStart == -1) return res;
+    for(int i = ansStart; i < ansStart + ansLen; i++){
+        res.push_back(A[i]);
+    }
+    return res;
+}
