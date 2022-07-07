@@ -41,3 +41,28 @@ int Solution::solve(vector<int> &A, int B) {
     }
     return maxSum;
 }
+
+//Method - 3
+int Solution::solve(vector<int> &A, int B) {
+    
+    int totalSum = 0;
+    
+    for(auto &x: A){
+        totalSum += x;
+    }
+    
+    int minSum = INT_MAX, n = A.size();
+    
+    int len = n - B, currSum = 0;
+    
+    for(int i = 0; i < len - 1; i++){
+        currSum += A[i];
+    }
+    
+    for(int i = len - 1; i < n; i++){
+        currSum += A[i];
+        minSum = min(minSum, currSum);
+        currSum -= A[i - len + 1];
+    }
+    return totalSum - minSum;
+}
