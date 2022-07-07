@@ -110,3 +110,35 @@ int Solution::solve(vector<int> &A) {
     }
     return maxSum;
 }
+
+//Method - 4
+int Solution::solve(vector<int> &A) {
+    
+    int n = A.size();
+    
+    vector<int> rightMax(n);
+    rightMax[n - 1] = A[n - 1];
+    
+    for(int i = n - 2; i >= 0; i--){
+        rightMax[i] = max(rightMax[i + 1], A[i]);
+    }
+    
+    set<int> s;
+    s.insert(A[0]);
+    
+    int maxSum = 0;
+    
+    for(int i = 1; i < n - 1; i++){
+        s.insert(A[i]);
+        auto it = s.lower_bound(A[i]);
+        if(it == s.begin()) continue;
+        
+        it--;
+        int l = *it, r = rightMax[i + 1];
+        
+        if(A[i] < r){
+            maxSum = max(maxSum, l + A[i] + r);
+        }
+    }
+    return maxSum;
+}
