@@ -67,6 +67,82 @@ int Solution::solve(vector<int> &A, int B) {
 }
 
 //Method - 3
+int Solution::solve(vector<int> &A, int B) {
+    
+    if(B == 1){
+        for(int i = 0; i < A.size(); i++){
+            if(A[i] == 0){
+                return -1;
+            }
+        }
+        return 1;
+    }
+    int n = A.size(), ind = -1;
+    
+    for(int i = n - 1; i >= max(n - B, 0); i--){
+        if(A[i]){
+            ind = i;
+        }
+    }
+    
+    if(ind == -1) return -1;
+    int count = 1;
+    
+    while(ind >= 0){
+     
+        int tind = -1;
+        for(int i = ind - 1; i >= max(ind - B + 1, 0); i--){
+            if(A[i]){
+                tind = i;
+            }
+        }
+        ind = ind - B + 1;
+        ind--;
+        
+        if(ind < 0) break;
+        
+        for(int i = ind; i >= max(ind - B + 1, 0); i--){
+            if(A[i]){
+                tind = i;
+            }
+        }
+        if(tind == -1) return -1;
+        count++;
+        
+        ind = tind;
+    }
+    return count;
+}
+
+//Method - 4
+int Solution::solve(vector<int> &A, int B) {
+    
+    vector<pair<int,int>> v;
+    
+    for(int i = 0; i < A.size(); i++){
+        if(A[i]){
+            int lr = max(0, i - B + 1);
+            int rr = min((int)A.size() - 1, i + B - 1);
+            v.push_back({lr, rr});
+        }
+    }
+    
+    int pos = 0, ind = 0, minLights = 0;
+    
+    while(pos < A.size()){
+        int end = -1;
+        while(ind < v.size() && v[ind].first <= pos){
+            end = v[ind].second;
+            ind++;
+        }
+        if(end < pos) return -1;
+        pos = end + 1;
+        minLights++;
+    }
+    return minLights;
+}
+
+//Method - 5
 //Ref: https://www.youtube.com/watch?v=CQ0Tlu3o7Yg
 int Solution::solve(vector<int> &A, int B) {
 
