@@ -129,3 +129,27 @@ vector<int> Solution::repeatedNumber(const vector<int> &A) {
 
     return res;
 }
+
+//Optimal Approach 3
+#define ll long long
+vector<int> Solution::repeatedNumber(const vector<int> &A) {
+    
+    ll diff1 = 0;
+    
+    for(ll i = 0; i < A.size(); i++){
+        diff1 += (i + 1 - A[i]);
+    }
+    
+    ll diff2 = 0;
+    
+    for(ll i = 0; i < A.size(); i++){
+        diff2 += ((i + 1)*(i + 1) - (ll)A[i]*A[i]);
+    }
+    
+    ll sum = diff2/diff1;
+    
+    ll repeat = (sum - diff1)/2;
+    ll miss = sum - repeat;
+    vector<int> res = {repeat, miss};
+    return res; 
+}
