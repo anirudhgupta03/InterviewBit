@@ -102,3 +102,51 @@ string Solution::longestCommonPrefix(vector<string> &A) {
     int ans = 0;
     return A[0].substr(0,findLCP(root,A[0],0,n));
 }
+
+//Method - 4
+//Using Trie
+struct TrieNode{
+    int freq;
+    TrieNode* child[26];
+    TrieNode(){
+        freq = 0;
+        for(int i = 0; i < 26; i++){
+            child[i] = NULL;
+        }
+    }  
+};
+void insert(TrieNode* root, string &s){
+    
+    for(int i = 0; i < s.size(); i++){
+        if(root -> child[s[i] - 'a'] == NULL){
+            root -> child[s[i] - 'a'] = new TrieNode();
+        }
+        root = root -> child[s[i] - 'a'];
+        root -> freq++;
+    }
+}
+string searchLCP(TrieNode* root, string &s, int n){
+    
+    string lcp;
+    for(int i = 0; i < s.size(); i++){
+        if(root -> child[s[i] - 'a'] == NULL){
+            return lcp;
+        }
+        root = root -> child[s[i] - 'a'];
+        if(root -> freq == n){
+            lcp.push_back(s[i]);
+        }
+        else{
+            return lcp;
+        }
+    }
+    return lcp;
+}
+string Solution::longestCommonPrefix(vector<string> &A) {
+    
+    TrieNode* root = new TrieNode();
+    for(int i = 0; i < A.size(); i++){
+        insert(root, A[i]);
+    }
+    return searchLCP(root, A[0], A.size());
+}
