@@ -77,3 +77,38 @@ int Solution::atoi(const string A) {
     if(res < INT_MIN) return INT_MIN;
     return res;
 }
+
+//Method - 3
+#define ld long double
+int Solution::atoi(const string A) {
+    
+    ld val = 0;
+    
+    int i = 0;
+    
+    while(i < A.size() && A[i] == ' '){
+        i++;
+    }
+    int sign = 1;
+    if(A[i] == '-'){
+        sign = -1;
+        i++;
+    }
+    else if(A[i] == '+'){
+        i++;
+    }
+    
+    while(i < A.size() && isdigit(A[i])){
+        val = 10*val + (ld)(A[i] - '0');
+        i++;
+    
+    val *= sign;
+    
+    if(val >= INT_MAX){
+       return INT_MAX; 
+    }
+    if(val < INT_MIN){
+        return INT_MIN;
+    }
+    return val;
+}
