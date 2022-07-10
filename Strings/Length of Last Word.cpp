@@ -56,3 +56,21 @@ int Solution::lengthOfLastWord(const string A) {
     
     return ans;
 }
+
+//Method - 4
+int Solution::lengthOfLastWord(const string A) {
+    
+    int plen = 0, len = 0;
+    for(int i = 0; i < A.size(); i++){
+        if(A[i] == ' '){
+            if(len)
+            plen = len;
+            len = 0;
+        }
+        else{
+            len++;
+        }
+    }
+    if(len) plen = len;
+    return plen;
+}
