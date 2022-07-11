@@ -47,3 +47,25 @@ int Solution::isPalindrome(int A) {
     }
     return 0;
 }
+
+//Method - 3
+int Solution::isPalindrome(int A) {
+    
+    if(A < 0) return 0;
+    
+    int len = log10(A);
+    int temp = pow(10, len);
+    while(A){
+        
+        int firstDigit = A / temp, lastDigit = A % 10;
+        
+        if(firstDigit != lastDigit){
+            return 0;
+        }
+        
+        A = A % temp;
+        A /= 10;
+        temp /= 100;
+    }
+    return 1;
+}
