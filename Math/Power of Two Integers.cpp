@@ -1,24 +1,4 @@
 //Method - 1
-int Solution::isPower(int A) {
-
-    if(A == 1) return 1;
-
-    for(int i = 2; i * i <= A; i++){
-
-        if(A % i == 0){
-            int B = A;
-            while(B % i == 0){
-                B /= i;
-            }
-            if(B == 1){
-                return 1;
-            }
-        }
-    }
-    return 0;
-}
-
-//Method - 2
 int pw(int base, int exponent){
     
     if(exponent == 0){
@@ -52,7 +32,7 @@ int Solution::isPower(int A) {
     return 0;
 }
 
-//Method - 3
+//Method - 2
 int Solution::isPower(int A) {
     if(A == 1) return 1;
     int gcd = 0;
