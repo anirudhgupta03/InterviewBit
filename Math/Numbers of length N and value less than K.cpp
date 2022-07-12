@@ -1,3 +1,70 @@
+//Method - 1
+int myPower(int base, int exponent){
+    
+    if(exponent == 0) return 1;
+    if(exponent == 1) return base;
+    
+    int temp = myPower(base, exponent/2);
+    if(exponent % 2 == 0){
+        return temp*temp;
+    }
+    else{
+        return base*temp*temp;
+    }
+}
+int Solution::solve(vector<int> &A, int B, int C) {
+
+    if(A.size() == 0){
+        return 0;
+    }
+    int len = log10(C);
+    
+    if(B > len + 1){
+        return 0;
+    }
+    else if(B < len + 1){
+        int i = 0;
+        while(i < A.size() && A[i] == 0){
+            i++;
+        }
+        int ans = (A.size() - i)*myPower(A.size(), B - 1);
+        if(B == 1 && A[0] == 0) ans++;
+        return ans;
+    }
+    
+    int val = pow(10, len), ans = 0, ind = 0;
+    bool flag = false;
+    
+    if(B == 1 && A[0] == 0){
+        ans++;
+    }
+    
+    while(ind != B){
+        
+        int firstDigit = C/val, count = 0;
+        bool exist = false;
+        
+        for(int i = 0; i < A.size(); i++){
+            if(A[i] == firstDigit) exist = true;
+            
+            if(A[i] < firstDigit){
+                if(A[i] || A[i] == 0 && flag){
+                    count++;
+                }
+            }
+        }
+        ans += count*myPower(A.size(), B - ind - 1);
+        
+        C %= val;
+        val /= 10;
+        flag = true;
+        if(exist == false) break;
+        ind++;
+    }   
+    return ans;
+}
+
+//Method - 2
 //Ref: https://www.interviewbit.com/problems/numbers-of-length-n-and-value-less-than-k/
 int Solution::solve(vector<int> &A, int B, int C) {
 
