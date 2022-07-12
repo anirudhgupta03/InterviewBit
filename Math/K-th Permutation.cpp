@@ -1,3 +1,4 @@
+//Method - 1
 #define ll long long
 vector<int> Solution::findPerm(int A, long B) {
 
@@ -42,5 +43,47 @@ vector<int> Solution::findPerm(int A, long B) {
     for(int i = v.size() - 1; i >= 0; i--){
         res.push_back(v[i]);
     }
+    return res;
+}
+
+//Method - 2
+#define ll long long
+vector<int> Solution::findPerm(int A, long B) {
+    
+    vector<ll> fact(A,LLONG_MAX);
+    fact[0] = 1;
+    
+    for(ll i = 1; i < A; i++){
+        if(i > 20) break;
+        fact[i] = i*fact[i - 1];
+    }
+    
+    vector<ll> temp;
+    
+    vector<int> res;
+    int ind = A - 1, i = 0;
+    
+    while(ind >= 0 && fact[ind] > B){
+        res.push_back(i + 1);
+        i++;
+        ind--;
+    }
+    
+    while(i < A){
+        temp.push_back(i + 1);
+        i++;
+    }
+    
+    while(ind){
+        int tind = B/fact[ind];
+        if(B % fact[ind] == 0){
+            tind--;
+        }
+        res.push_back(temp[tind]);
+        temp.erase(temp.begin() + tind);
+        B -= tind*fact[ind];
+        ind--;
+    }
+    res.push_back(temp[0]);
     return res;
 }
