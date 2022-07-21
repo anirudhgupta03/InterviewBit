@@ -102,3 +102,37 @@ int Solution::isInterleave(string A, string B, string C) {
     memset(dp,-1,sizeof(dp));
     return solve(0,0,0);
 }
+
+//Method - 3
+//Top-Down
+int solve(int ptr1, int ptr2, int ptr3, string &A, string &B, string &C, vector<vector<int>> &dp){
+    
+    if(ptr3 == C.size()){
+        return 1;
+    }
+    
+    if(dp[ptr1][ptr2] != -1){
+        return dp[ptr1][ptr2];
+    }
+    if(ptr1 < A.size() && A[ptr1] == C[ptr3]){
+        if(solve(ptr1 + 1, ptr2, ptr3 + 1, A, B, C, dp)){
+            return 1;
+        }
+    }
+    if(ptr2 < B.size() && B[ptr2] == C[ptr3]){
+        if(solve(ptr1, ptr2 + 1, ptr3 + 1, A, B, C, dp)){
+            return 1;
+        }
+    }
+    return 0;
+}
+int Solution::isInterleave(string A, string B, string C) {
+    
+    int len1 = A.size(), len2 = B.size(), len3 = C.size();
+    
+    if(len1 + len2 != len3){
+        return 0;
+    }
+    vector<vector<int>> dp(len1 + 1, vector<int>(len2 + 1, -1));
+    return solve(0, 0, 0, A, B, C, dp);
+}
