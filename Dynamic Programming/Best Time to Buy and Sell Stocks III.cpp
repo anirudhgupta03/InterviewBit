@@ -72,3 +72,36 @@ int Solution::maxProfit(const vector<int> &A) {
     }
     return maxProfit;
 }
+
+//Top-Down
+//LC
+//MLE on IB
+class Solution {
+public:
+    int dp[2][100001][2];
+    int solve(int count, int ind, int flag, vector<int> &A){
+
+        if(ind == A.size() || count == 2){
+            return 0;
+        }
+
+        if(dp[count][ind][flag] != -1){
+            return dp[count][ind][flag];
+        }
+        int profit = 0;
+
+        if(flag == 0){
+            profit = max(solve(count, ind + 1, 1, A) - A[ind],  solve(count, ind + 1, 0, A));
+        }
+        else{
+            profit = max(solve(count + 1, ind + 1, 0, A) + A[ind], solve(count, ind + 1, 1, A));
+        }
+        return dp[count][ind][flag] = profit;
+    }
+    int maxProfit(vector<int>& A) {
+        
+        memset(dp,-1,sizeof(dp));
+        int res = solve(0, 0, 0, A);
+        return res == INT_MIN ? 0: res;
+    }
+};
