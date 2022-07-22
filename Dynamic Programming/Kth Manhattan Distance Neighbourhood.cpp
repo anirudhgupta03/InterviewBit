@@ -32,3 +32,38 @@ vector<vector<int> > Solution::solve(int A, vector<vector<int> > &B) {
     }
     return currDistMatrix;
 }
+
+//Top-Down Approach
+int dx[4] = {-1,1,0,0};
+int dy[4] = {0,0,-1,1};
+int rec(int A, int x, int y, vector<vector<int>> &B, vector<vector<vector<int>>> &dp){
+    
+    if(A == 0){
+        return dp[A][x][y] = B[x][y];       
+    }
+    if(dp[A][x][y] != -1){
+        return dp[A][x][y];
+    }
+    
+    int val = B[x][y];
+    for(int i = 0; i < 4; i++){
+        int xo = x + dx[i], yo = y + dy[i];
+        if(xo >= 0 && yo >= 0 && xo < B.size() && yo < B[0].size()){
+            val = max(val, rec(A - 1, xo, yo, B, dp));
+        }
+    }
+    return dp[A][x][y] = val;
+}
+vector<vector<int> > Solution::solve(int A, vector<vector<int> > &B) {
+    
+    int n = B.size(), m = B[0].size();
+    
+    vector<vector<vector<int>>> dp(A + 1, vector<vector<int>>(n, vector<int>(m, -1)));
+    
+    for(int i = 0; i < n; i++){
+        for(int j = 0; j < m; j++){
+            rec(A, i, j, B, dp);        
+        }
+    }
+    return dp[A];
+}
