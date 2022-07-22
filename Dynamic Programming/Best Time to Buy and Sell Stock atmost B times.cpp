@@ -98,3 +98,60 @@ int Solution::solve(vector<int> &A, int B) {
     }
     return prev[A.size() - 1];
 }
+
+//Top-Down
+//TLE
+int dp[501][501][2];
+int rec(int count, int B, int ind, int flag, vector<int> A){
+    
+    if(ind == A.size() || count == B){
+        return 0;
+    }
+    
+    if(dp[count][ind][flag] != -1){
+        return dp[count][ind][flag];
+    }
+    int profit = 0;
+    
+    if(flag == 0){
+        profit = max(rec(count, B, ind + 1, 1, A) - A[ind],  rec(count, B, ind + 1, 0, A));
+    }
+    else{
+        profit = max(rec(count + 1, B, ind + 1, 0, A) + A[ind], rec(count, B, ind + 1, 1, A));
+    }
+    return dp[count][ind][flag] = profit;
+}
+int Solution::solve(vector<int> &A, int B) {
+    
+    if(B > A.size()){
+        B = A.size();
+    }
+    memset(dp,-1,sizeof(dp));
+    return rec(0, B, 0, 0, A);
+}
+
+//Bottom-Up
+int Solution::solve(vector<int> &A, int B) {
+    
+    int n = A.size();
+    
+    if(B > n){
+        B = n;
+    }
+    int dp[B + 1][n + 1][2];
+    memset(dp, 0, sizeof(dp));
+    
+    for(int i = B - 1; i >= 0; i--){
+        for(int j = n - 1; j >= 0; j--){
+            for(int k = 0; k <= 1; k++){
+                if(k == 0){
+                    dp[i][j][k] = max(dp[i][j + 1][1] - A[j],  dp[i][j + 1][k]);
+                }
+                else{
+                    dp[i][j][k] = max(dp[i + 1][j + 1][0] + A[j], dp[i][j+ 1][1]);
+                }
+            }
+        }
+    }
+    return dp[0][0][0];
+}
