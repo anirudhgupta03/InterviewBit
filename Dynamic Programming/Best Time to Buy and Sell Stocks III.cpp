@@ -105,3 +105,46 @@ public:
         return res == INT_MIN ? 0: res;
     }
 };
+
+//Bottom-Up
+int dp[2][700001][2];
+int solve(int count, int ind, int flag, vector<int> A){
+    
+    if(ind == A.size() || count == 2){
+        return 0;
+    }
+    
+    if(dp[count][ind][flag] != -1){
+        return dp[count][ind][flag];
+    }
+    int profit = 0;
+    
+    if(flag == 0){
+        profit = max(solve(count, ind + 1, 1, A) - A[ind],  solve(count, ind + 1, 0, A));
+    }
+    else{
+        profit = max(solve(count + 1, ind + 1, 0, A) + A[ind], solve(count, ind + 1, 1, A));
+    }
+    return dp[count][ind][flag] = profit;
+}
+int Solution::maxProfit(const vector<int> &A) {
+    
+    int n = A.size();
+    
+    int dp[3][n + 1][2];
+    memset(dp, 0, sizeof(dp));
+    
+    for(int i = 1; i >= 0; i--){
+        for(int j = n - 1; j >= 0; j--){
+            for(int k = 0; k <= 1; k++){
+                if(k == 0){
+                    dp[i][j][k] = max(dp[i][j + 1][1] - A[j],  dp[i][j + 1][k]);
+                }
+                else{
+                    dp[i][j][k] = max(dp[i + 1][j + 1][0] + A[j], dp[i][j+ 1][1]);
+                }
+            }
+        }
+    }
+    return dp[0][0][0];
+}
