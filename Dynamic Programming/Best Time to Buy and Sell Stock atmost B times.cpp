@@ -73,3 +73,28 @@ int Solution::solve(vector<int> &A, int B) {
 
     return dp[B][n-1]; 
 }
+
+//Bottom-Up
+//TC - O(B*n)
+//SC - O(n)
+int Solution::solve(vector<int> &A, int B) {
+    
+    if(B > A.size()){
+        B = A.size();
+    }
+    
+    vector<int> prev(A.size(),0);
+    
+    for(int i = 1; i <= B; i++){
+        int maxEle = prev[0] - A[0];
+        vector<int> curr(A.size(),0); 
+        
+        for(int j = 1; j < A.size(); j++){
+            curr[j] = curr[j - 1];
+            curr[j] = max(curr[j], maxEle + A[j]);
+            maxEle = max(maxEle, prev[j] - A[j]);
+        }
+        prev = curr;
+    }
+    return prev[A.size() - 1];
+}
