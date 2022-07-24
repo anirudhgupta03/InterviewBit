@@ -113,3 +113,41 @@ int Solution::calculateMinimumHP(vector<vector<int> > &A) {
         return temp - A[0][0];      
     }
 }
+
+//Method - 4
+int dx[2] = {0,1};
+int dy[2] = {1,0};
+int solve(int x, int y, int m, int n, vector<vector<int>> &A, vector<vector<int>> &dp){
+    
+    if(x == m - 1 && y == n - 1){
+        if(A[x][y] < 0){
+            return 1 - A[x][y];
+        }
+        else{
+            return 1;
+        }
+    }
+    
+    if(dp[x][y] != -1){
+        return dp[x][y];
+    }
+    int mh = INT_MAX;
+    for(int i = 0; i < 2; i++){
+        int xo = x + dx[i], yo = y + dy[i];
+        if(xo >= 0 && yo >= 0 && xo < m && yo < n){
+            int hr = solve(xo, yo, m, n, A, dp);
+            if(hr - A[x][y] <= 0){
+                mh = 1;
+            }
+            else{
+                mh = min(mh, hr - A[x][y]);
+            }
+        }
+    }
+    return dp[x][y] = mh;
+}
+int Solution::calculateMinimumHP(vector<vector<int> > &A) {
+    int m = A.size(), n = A[0].size();
+    vector<vector<int>> dp(m, vector<int>(n, -1));
+    return solve(0, 0, m, n, A, dp);
+}
