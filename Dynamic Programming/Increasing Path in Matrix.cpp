@@ -72,3 +72,42 @@ int Solution::solve(vector<vector<int> > &A) {
     memset(dp,-1,sizeof(dp));
     return rec(0,0,n,m,A);
 }
+
+//Using Priority Queue
+#define pipii pair<int,pair<int,int>>
+int dx[2] = {1,0};
+int dy[2] = {0,1};
+struct cmp{
+  bool operator()(pipii &p1, pipii &p2){
+      return p1.first < p2.first;
+  }  
+};
+int Solution::solve(vector<vector<int> > &A) {
+    
+    int n = A.size(), m = A[0].size();
+    
+    vector<vector<int>> vis(n, vector<int>(m, 0));
+    
+    priority_queue<pipii,vector<pipii>,cmp> pq;
+    
+    pq.push({0,{0,0}});
+    
+    while(!pq.empty()){
+        int dist = pq.top().first, x = pq.top().second.first, y = pq.top().second.second;
+        pq.pop();
+        
+        if(x == n - 1 && y == m - 1){
+            return dist + 1;
+        }
+        if(vis[x][y]) continue;
+        vis[x][y] = 1;
+        
+        for(int i = 0; i < 2; i++){
+            int xo = x + dx[i], yo = y + dy[i];
+            if(xo >= 0 && yo >= 0 && xo < n && yo < m && vis[xo][yo] == 0 && A[xo][yo] > A[x][y]){
+                pq.push({dist + 1,{xo, yo}});
+            }
+        }
+    }
+    return -1;
+}
