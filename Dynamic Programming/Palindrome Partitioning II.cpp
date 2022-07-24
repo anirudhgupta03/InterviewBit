@@ -139,3 +139,41 @@ int Solution::minCut(string s) {
         }
         return solve(0,s,isPalindrome);
 }
+
+//Method - 4
+//Bottom-Up
+int Solution::minCut(string A) {
+    
+    int len = A.size();
+    
+    vector<vector<bool>> isPalindrome(len, vector<bool>(len, false));
+    
+    for(int i = 0; i < len; i++){
+        isPalindrome[i][i] = true;
+    }
+    for(int i = 0; i < len - 1; i++){
+        if(A[i] == A[i + 1]){
+            isPalindrome[i][i + 1] = true;
+        }
+    }
+    
+    for(int i = len - 3; i >= 0; i--){
+        for(int j = i + 2; j < len; j++){
+            if(A[i] == A[j] && isPalindrome[i + 1][j - 1]){
+                isPalindrome[i][j] = true;
+            }
+        }
+    }
+    vector<int> dp(len + 1, 0);
+    
+    for(int ind = len - 1; ind >= 0; ind--){
+        int minCuts = INT_MAX;
+        for(int i = ind; i < len; i++){
+            if(isPalindrome[ind][i]){
+                minCuts = min(minCuts, dp[i + 1] + 1);
+            }
+        }
+        dp[ind] = minCuts;
+    }
+    return dp[0] - 1;
+}
