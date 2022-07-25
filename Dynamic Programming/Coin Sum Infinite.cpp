@@ -52,3 +52,28 @@ int Solution::coinchange2(vector<int> &A, int B) {
     }
     return dp[0][B];
 }
+
+//
+#define mod 1000007
+int Solution::coinchange2(vector<int> &A, int B) {
+    
+    int n = A.size();
+    
+    vector<int> prev(B + 1,0);
+    prev[0] = 1;
+    
+    for(int i = 1; i <= n; i++){
+        vector<int> curr(B + 1, 0);
+        curr[0] = 1;
+        for(int j = 1; j <= B; j++){
+            if(A[i - 1] <= j){
+                curr[j] = (curr[j - A[i - 1]] + prev[j])%mod;
+            }
+            else{
+                curr[j] = prev[j];
+            }
+        }
+        prev = curr;
+    }
+    return prev[B] % mod;
+}
