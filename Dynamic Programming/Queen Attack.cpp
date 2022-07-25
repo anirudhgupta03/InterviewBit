@@ -1,5 +1,5 @@
 //Time Complexity - O(8*n*m)
-
+//Method - 1
 int dx[8] = {-1,1,-1,-1,1,1,0,0};
 int dy[8] = {0,0,-1,1,-1,1,-1,1};
 
@@ -46,4 +46,37 @@ vector<vector<int> > Solution::queenAttack(vector<string> &A) {
         }
     }
     return res;
+}
+
+//Method - 2
+int dx[8] = {-1,1,0,0,1,1,-1,-1};
+int dy[8] = {0,0,-1,1,1,-1,1,-1};
+int solve(int i, int j, vector<vector<int>> &dp, vector<string> &A, int dirx, int diry){
+    
+    if(i < 0 || j < 0 || i >= A.size() || j >= A[0].size()){
+        return 0;
+    }
+    
+    if(dp[i][j] != -1) return dp[i][j];
+    if(A[i][j] == '1') return 1;
+    
+    return dp[i][j] = solve(i + dirx,j + diry, dp, A, dirx, diry);
+}
+vector<vector<int> > Solution::queenAttack(vector<string> &A) {
+    
+    int n = A.size(), m = A[0].size();
+    
+    vector<vector<int>> ans(n, vector<int>(m, 0));
+    vector<vector<vector<int>>> dir(8, vector<vector<int>>(n, vector<int>(m, -1)));
+    
+    for(int i = 0; i < n; i++){
+        for(int j = 0; j < m; j++){
+            for(int k = 0; k < 8; k++){
+                
+                int x = i + dx[k], y = j + dy[k];
+                ans[i][j] += solve(x, y, dir[k], A, dx[k], dy[k]);
+            }
+        }
+    }
+    return ans;
 }
