@@ -55,21 +55,28 @@ int Solution::solve(vector<int> &A) {
 //Method - 3(Question Updated)
 int Solution::solve(vector<int> &A) {
     
-    int root = INT_MIN;
-    unordered_map<int,int> umap;
+    int n = A.size();
+    
     stack<int> st;
     
+    int topEle = INT_MIN;
+    
+    unordered_set<int> us;
+    
     for(int i = 0; i < A.size(); i++){
-        if(umap[A[i]]) return 0;
-        umap[A[i]] = 1;
-        while(!st.empty() && st.top() < A[i]){
-            root = st.top();
+        
+        if(us.find(A[i]) != us.end()) return 0;
+        
+        us.insert(A[i]);
+        
+        if(A[i] < topEle){
+            return 0;
+        }
+        while(!st.empty() && A[i] > st.top()){
+            topEle = st.top();
             st.pop();
         }
         st.push(A[i]);
-        if(A[i] < root){
-            return 0;
-        }
     }
     return 1;
 }
