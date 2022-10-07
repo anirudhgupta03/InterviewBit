@@ -1,3 +1,4 @@
+//Method - 1
 /**
  * Definition for binary tree
  * struct TreeNode {
@@ -47,4 +48,36 @@ long Solution::coveredNodes(TreeNode* A) {
     }
     ll coveredSum = sum - boundarySum;
     return abs(boundarySum - coveredSum);
+}
+
+//Method - 2
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+long Solution::coveredNodes(TreeNode* A) {
+    long totalSum = 0, uncoveredSum = 0;
+    queue<TreeNode*> q;
+    q.push(A);
+    while(!q.empty()){
+        int sz = q.size();
+        int tsz = sz;
+        while(tsz--){
+            if(tsz == sz - 1 || tsz == 0){
+                uncoveredSum += q.front() -> val;
+            }
+            TreeNode* curr = q.front();
+            totalSum += curr -> val;
+            q.pop();
+            if(curr -> left) q.push(curr -> left);
+            if(curr -> right) q.push(curr -> right);
+        }
+    }
+    long coveredSum = totalSum - uncoveredSum;
+    return abs(coveredSum - uncoveredSum);
 }
