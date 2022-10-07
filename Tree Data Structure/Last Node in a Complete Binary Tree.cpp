@@ -60,3 +60,69 @@ int Solution::lastNode(TreeNode* A) {
     rec(A);
     return ans;
 }
+
+//Method - 3
+//TC: O(NlogN)
+//SC: O(1)
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+int height(TreeNode* A){
+    if(A == NULL){
+        return 0;
+    }
+    return 1 + max(height(A -> left), height(A -> right)); //Not required as in a complete binary tree we can find height just by keep going left
+}
+int Solution::lastNode(TreeNode* A) {
+    
+    int lht = height(A -> left);
+    int rht = height(A -> right);
+    
+    if(lht == 0){
+        return A -> val;
+    }
+    else if(lht == rht){
+        return lastNode(A -> right);
+    }
+    else{
+        return lastNode(A -> left);
+    }
+}
+
+//Method - 4
+//TC: O(logN*logN)
+//SC: O(1)
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+int height(TreeNode* A){
+    if(A == NULL){
+        return 0;
+    }
+    return 1 + height(A -> left);
+}
+int Solution::lastNode(TreeNode* A) {
+    int lht = height(A -> left);
+    int rht = height(A -> right);
+    if(lht == 0){
+        return A -> val;
+    }
+    else if(lht == rht){
+        return lastNode(A -> right);
+    }
+    else{
+        return lastNode(A -> left);
+    }
+}
