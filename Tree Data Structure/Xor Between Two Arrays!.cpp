@@ -191,3 +191,49 @@ int Solution::solve(vector<int> &A, vector<int> &B) {
     }
     return maxXOR;
 }
+
+//Neat and Clean Code
+struct TrieNode{
+    TrieNode* child[2];
+    TrieNode(){
+        child[0] = child[1] = NULL;
+    }  
+};
+void insert(TrieNode* root, int val){
+    for(int i = 31; i >= 0; i--){
+        int bit = (val & (1 << i)) == 0 ? 0 : 1;
+        if(root -> child[bit] == NULL){
+            root -> child[bit] = new TrieNode();
+        }
+        root = root -> child[bit];
+    }   
+}
+int findMaxXOR(TrieNode* root, int val){
+    
+    int maxXOR = 0;
+    for(int i = 31; i >= 0; i--){
+        int bit = (val & (1 << i)) == 0 ? 0 : 1;
+        if(root -> child[1 - bit]){
+            maxXOR |= (1 << i);
+            root = root -> child[1 - bit];
+        }
+        else{
+            root = root -> child[bit];
+        }
+    }   
+    return maxXOR;
+}
+int Solution::solve(vector<int> &A, vector<int> &B) {
+    
+    TrieNode* root = new TrieNode();
+    
+    for(int i = 0; i < A.size(); i++){
+        insert(root, A[i]);
+    }
+    
+    int maxXOR = 0;
+    for(int i = 0; i < B.size(); i++){
+        maxXOR = max(maxXOR, findMaxXOR(root, B[i]));
+    }
+    return maxXOR;
+}
