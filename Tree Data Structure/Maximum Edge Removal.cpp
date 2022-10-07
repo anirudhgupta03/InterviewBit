@@ -65,3 +65,35 @@ int Solution::solve(int A, vector<vector<int> > &B) {
     }
     return count;
 }
+
+//Method - 3
+int findSubSize(int node, vector<int> al[], vector<int> &subSize){
+    subSize[node] = 1;
+    for(int i = 0; i < al[node].size(); i++){
+        int child = al[node][i];
+        subSize[node] += findSubSize(child, al, subSize);
+    }
+    return subSize[node];
+}
+int Solution::solve(int A, vector<vector<int> > &B) {
+    
+    vector<int> al[A + 1];
+    
+    for(auto &x: B){
+        al[x[0]].push_back(x[1]);
+    }
+    
+    vector<int> subSize(A + 1, 0);
+    for(int i = 1; i <= A; i++){
+        if(subSize[i] == 0){
+            findSubSize(i, al, subSize);
+        }
+    }
+    int count = 0;
+    for(int i = 1; i <= A; i++){
+        if(subSize[i] % 2 == 0){
+            count++;
+        }
+    }
+    return count - 1;
+}
