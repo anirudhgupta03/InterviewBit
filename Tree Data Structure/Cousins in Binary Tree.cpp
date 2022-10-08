@@ -225,3 +225,46 @@ vector<int> Solution::solve(TreeNode* A, int B) {
      }
      return cousins;
 }
+
+//Method - 5
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+vector<int> Solution::solve(TreeNode* A, int B) {
+    
+    vector<int> res;
+    if(A -> val == B){
+        return res;
+    }
+    
+    queue<TreeNode*> q;
+    q.push(A);
+    
+    while(!q.empty()){
+        int sz = q.size();
+        bool flag = false;
+        while(sz--){
+            TreeNode* curr = q.front();
+            q.pop();
+            
+            if(curr -> left && curr -> left -> val == B || curr -> right && curr -> right -> val == B){
+                flag = true;
+            }
+            else{
+                if(curr -> left) res.push_back(curr -> left -> val);
+                if(curr -> right) res.push_back(curr -> right -> val);
+            }
+            if(curr -> left) q.push(curr -> left);
+            if(curr -> right) q.push(curr -> right);
+        }
+        if(flag) break;
+        res.clear();
+    }
+    return res;
+}
