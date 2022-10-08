@@ -1,4 +1,3 @@
-//Using Backtracking
 /**
  * Definition for binary tree
  * struct TreeNode {
@@ -8,34 +7,26 @@
  *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
  * };
  */
-void solve(TreeNode* root, vector<vector<int>> &res, vector<int> &temp, int B){
-    
-    if(root == NULL){
+void solve(TreeNode* A, int B, vector<int> &res, vector<vector<int>> &ans){
+    if(A == NULL){
         return;
     }
-    
-    if(root -> left == NULL && root -> right == NULL){
-        
-        temp.push_back(root->val);
-        B -= root->val;
-        if(B == 0){
-            res.push_back(temp);
+    if(A -> left == NULL && A -> right == NULL){
+        if(B == A -> val){
+            res.push_back(A -> val);
+            ans.push_back(res);
+            res.pop_back();
         }
-        temp.pop_back();
         return;
     }
-    B -= root->val;
-    temp.push_back(root->val);
-    solve(root->left,res,temp,B);
-    solve(root->right,res,temp,B);
-    temp.pop_back();
+    res.push_back(A -> val);
+    solve(A -> left, B - A -> val, res, ans);
+    solve(A -> right, B - A -> val, res, ans);
+    res.pop_back();
 }
 vector<vector<int> > Solution::pathSum(TreeNode* A, int B) {
-    
-    vector<vector<int>> res;
-    vector<int> temp;
-    
-    solve(A,res,temp,B);
-    
-    return res;
+    vector<int> res;
+    vector<vector<int>> ans;
+    solve(A, B, res, ans);
+    return ans;
 }
