@@ -1,3 +1,4 @@
+//Method - 1
 /**
  * Definition for binary tree
  * struct TreeNode {
@@ -29,7 +30,7 @@ int Solution::hasPathSum(TreeNode* A, int B) {
     return 0;
 }
 
-//Alter
+//Method - 2
 /**
  * Definition for binary tree
  * struct TreeNode {
@@ -41,16 +42,13 @@ int Solution::hasPathSum(TreeNode* A, int B) {
  */
 int Solution::hasPathSum(TreeNode* A, int B) {
     if(A == NULL){
-        return 0;
+        return false;
     }
     if(A -> left == NULL && A -> right == NULL){
-        if(B - A -> val == 0){
-            return 1;
+        if(B == A -> val){
+            return true;
         }
-        return 0;
+        return false;
     }
-    int flag = hasPathSum(A -> left, B - A -> val);
-    if(flag) return 1;
-    flag = hasPathSum(A -> right, B - A -> val);
-    return flag;
+    return hasPathSum(A -> left, B - A -> val) || hasPathSum(A -> right, B - A -> val);
 }
