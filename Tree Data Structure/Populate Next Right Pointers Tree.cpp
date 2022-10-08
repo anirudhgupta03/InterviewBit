@@ -202,3 +202,39 @@ void Solution::connect(TreeLinkNode* A) {
         leftmost = NULL;
     }
 }
+
+//Method - 6
+/**
+ * Definition for binary tree with next pointer.
+ * struct TreeLinkNode {
+ *  int val;
+ *  TreeLinkNode *left, *right, *next;
+ *  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
+ * };
+ */
+void Solution::connect(TreeLinkNode* A) {
+    
+    if(A == NULL){
+        return;
+    }
+    queue<TreeLinkNode*> q;
+    q.push(A);
+    
+    while(!q.empty()){
+        int sz = q.size();
+        TreeLinkNode* pre = q.front();
+        q.pop();
+        if(pre -> left) q.push(pre -> left);
+        if(pre -> right) q.push(pre -> right);
+        
+        sz--;
+        while(sz--){
+            TreeLinkNode* curr = q.front();
+            q.pop();
+            pre -> next = curr;
+            pre = curr;
+            if(curr -> left) q.push(curr -> left);
+            if(curr -> right) q.push(curr -> right);
+        }
+    }
+}
