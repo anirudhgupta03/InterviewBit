@@ -1,4 +1,3 @@
-//Method - 1
 #define ll long long
 bool isPossibleToCut(int h, vector<int> &A, int B){
     
